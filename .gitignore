@@ -1,0 +1,23 @@
+# Python / Entornos
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.env
+
+# Datos y bases locales
+data/raw/*
+data/processed/*
+*.db
+*.sqlite
+chroma_db/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

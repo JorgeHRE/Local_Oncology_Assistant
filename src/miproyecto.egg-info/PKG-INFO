@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: miproyecto
+Version: 0.1.0
+Summary: Pipeline RAG biomédico y cohorte OMOP para oncología gástrica
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: chromadb>=0.4.0
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: pydantic>=2.0.0

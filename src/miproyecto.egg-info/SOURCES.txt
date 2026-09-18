@@ -1,0 +1,6 @@
+pyproject.toml
+src/miproyecto.egg-info/PKG-INFO
+src/miproyecto.egg-info/SOURCES.txt
+src/miproyecto.egg-info/dependency_links.txt
+src/miproyecto.egg-info/requires.txt
+src/miproyecto.egg-info/top_level.txt
