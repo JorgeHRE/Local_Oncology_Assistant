@@ -1,0 +1,21 @@
+{
+  "name": "keep_breast_cancer",
+  "remarks": ["Keep only patients with an active breast cancer diagnosis (spike for ADR-0001)."],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "conditional_transition": [
+        {
+          "condition": {
+            "condition_type": "Active Condition",
+            "codes": [{"system": "SNOMED-CT", "code": "254837009", "display": "Malignant neoplasm of breast (disorder)"}]
+          },
+          "transition": "Keep"
+        },
+        {"transition": "Terminal"}
+      ]
+    },
+    "Keep": {"type": "Terminal"},
+    "Terminal": {"type": "Terminal"}
+  }
+}

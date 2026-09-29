@@ -120,6 +120,7 @@ Local_Oncology_Assistant/
 │   └── 03_features.sql       # ⚠️ no existe aún
 ├── src/oncology_assistant/  # ⚠️ solo __init__.py, falta código real
 ├── tests/                  # ⚠️ no existe aún
+├── synthea/                 # ✅ configuración de Synthea (keep modules; módulo gástrico pendiente)
 ├── notebooks/               # exploración únicamente, nunca lógica de producción
 ├── docs/
 │   ├── protocolo.md         # ✅ existe (subido para hito de Sesión 10)

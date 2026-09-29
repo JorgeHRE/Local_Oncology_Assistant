@@ -72,29 +72,39 @@ un orden temporal coherente, antes de invertir en el módulo gástrico.
 ```bash
 java -jar synthea-with-dependencies.jar \
   -s 42 -cs 42 -r 20260901 -p 200 -g F -a 40-85 \
-  -k keep_breast_cancer.json \
+  -k synthea/keep/keep_breast_cancer.json \
+  --generate.thread_pool_size=1 \
   --exporter.csv.export=true --exporter.fhir.export=false \
   --exporter.years_of_history=0 \
   Massachusetts
 ```
 
 - Jar de la versión v3.3.0, SHA-256 `8ba04f7d73abadd5a377e41edf24c5c83935a1cb07c6d982cd5db731ef1cf445`.
-- `-k keep_breast_cancer.json` es un *keep module* que conserva solo pacientes con el diagnóstico
+- `-k synthea/keep/keep_breast_cancer.json` es un *keep module* que conserva solo pacientes con el diagnóstico
   SNOMED 254837009.
 - `--exporter.years_of_history=0` exporta el historial completo. Por defecto Synthea exporta solo
   10 años y cortaría diagnósticos antiguos.
+- `--generate.thread_pool_size=1` es **obligatorio para la reproducibilidad** (ver abajo).
+
+**Reproducibilidad: la semilla no basta.** Con la configuración por defecto (`thread_pool_size = -1`,
+un hilo por núcleo), dos corridas con la misma semilla dieron resultados distintos (263 vs. 264
+registros y CSV con distinto hash). La causa es que los pacientes comparten estado (proveedores,
+aseguradoras), y con varios hilos el orden de acceso depende de la planificación del sistema
+operativo. Con un solo hilo, dos corridas independientes produjeron los **18 CSV idénticos byte a
+byte**. Costo: unos 10 min en lugar de 1 min 41 s para esta población. Los hashes de la salida de
+referencia se guardan en `data/raw/synthea/output/SHA256SUMS`.
 
 **Resultados de la Fase 1 (CSV de Synthea):**
-263 registros (200 vivas, 63 fallecidas), generados en 1 min 41 s.
+264 registros (200 vivas, 64 fallecidas), corrida de un solo hilo.
 
 | Verificación | Resultado |
 |---|---|
-| Pacientes con el diagnóstico (SNOMED 254837009) | 263 / 263 |
-| Medicamentos con `ENCOUNTER` existente en `encounters.csv` | 45,465 / 45,465 |
+| Pacientes con el diagnóstico (SNOMED 254837009) | 264 / 264 |
+| Medicamentos con `ENCOUNTER` existente en `encounters.csv` | 44,718 / 44,718 |
 | Trastuzumab (RxNorm 2119714) con fecha dentro de la ventana de su visita | 42 / 42 |
 | Trastuzumab solo en pacientes HER2+ (LOINC 85319-2) | 42 / 42 |
 | Orden diagnóstico ≤ HER2 ≤ trastuzumab | 42 / 42 |
-| HER2 positivo / negativo | 53 / 210 |
+| HER2 positivo / negativo | 53 / 211 |
 | HER2+ sin trastuzumab | 11 |
 
 **Conclusión de la Fase 1:** Synthea resuelve de forma nativa la integridad visita ↔ fármaco, que era
@@ -106,8 +116,11 @@ condicional. Los fármacos dirigidos están en `breast_cancer/hormonetherapy_bre
 
 ## Validación pendiente para aceptar este ADR (Fase 2)
 
-1. Cargar los vocabularios de Athena (SNOMED, LOINC, RxNorm, RxNorm Extension, CVX; verificar si UCUM
-   viene incluido) en PostgreSQL y registrar la versión y la fecha de descarga.
+1. Cargar los vocabularios de Athena en PostgreSQL. Descargados el 2026-09-28; versión global
+   "v5.0 29-AUG-26". Incluye SNOMED (2026-02-01 Intl / 2026-03-01 US), LOINC 2.82, RxNorm 20260601,
+   RxNorm Extension 2026-06-05, CVX 20260409 y UCUM 1.8.2 (este último lo agrega Athena
+   automáticamente). SHA-256 del zip:
+   `3526fdf41614844c6c62aaad1dbb12a65eb322337e8a0466887c074f6130ff78`.
 2. Correr ETL-Synthea v2.1.1 con `syntheaVersion = "3.3.0"` sobre los CSV del spike.
 3. Confirmar en OMOP que:
    - HER2 (LOINC 85319-2) queda en `measurement` u `observation`, con su `value_as_concept_id`;
