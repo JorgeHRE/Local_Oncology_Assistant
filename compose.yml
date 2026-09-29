@@ -1,0 +1,53 @@
+# Local OMOP CDM v5.4 environment.
+#   docker compose up -d db                  -> start PostgreSQL
+#   docker compose run --rm etl              -> build OMOP from Synthea CSVs (see etl/README.md)
+# Credentials come from .env (copy .env.example; .env is gitignored).
+
+services:
+  db:
+    image: postgres:16.15
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    # Only reachable from this machine.
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    # Settings sized for bulk-loading the vocabulary (~3 GB of CSV) on a 48 GB machine.
+    command:
+      - postgres
+      - -c
+      - shared_buffers=4GB
+      - -c
+      - maintenance_work_mem=2GB
+      - -c
+      - max_wal_size=8GB
+    shm_size: 1gb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  etl:
+    build: ./etl
+    profiles: ["etl"]
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DB_HOST: db
+      SYNTHEA_CSV_DIR: /data/raw/synthea/output/csv
+      VOCAB_DIR: /data/raw/vocab/extracted
+    volumes:
+      - ./data/raw:/data/raw:ro
+      - ./etl:/etl:ro
+
+volumes:
+  pgdata:
