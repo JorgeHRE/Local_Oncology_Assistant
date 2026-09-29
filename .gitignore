@@ -6,6 +6,9 @@ __pycache__/
 venv/
 env/
 .env
+*.egg-info/
+build/
+dist/
 
 # Datos y bases locales
 data/raw/*

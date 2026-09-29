@@ -118,7 +118,7 @@ Local_Oncology_Assistant/
 │   ├── 01_concept_sets.sql   # ⚠️ no existe aún
 │   ├── 02_cohorte.sql        # ⚠️ no existe aún
 │   └── 03_features.sql       # ⚠️ no existe aún
-├── src/miproyecto/         # ⚠️ solo existe el .egg-info autogenerado, falta código real
+├── src/oncology_assistant/  # ⚠️ solo __init__.py, falta código real
 ├── tests/                  # ⚠️ no existe aún
 ├── notebooks/               # exploración únicamente, nunca lógica de producción
 ├── docs/
@@ -202,7 +202,7 @@ No avances la implementación de estas piezas sin haber cerrado el ADR correspon
 - **Commits pequeños y semánticos.** Prefiere convención tipo `feat:`, `fix:`, `docs:`, `test:`,
   `chore:` — es común en equipos de industria y facilita el historial que pide el curso.
 - **Tests antes o junto con el código**, no después. Cada script de `sql/` o módulo de
-  `src/miproyecto/` debería tener su prueba correspondiente en `tests/`.
+  `src/oncology_assistant/` debería tener su prueba correspondiente en `tests/`.
 - **Type hints y docstrings** en todo código Python — no opcional.
 - **Logging, nunca `print()`**, para cualquier código que no sea un notebook exploratorio.
 - **Reproducibilidad:** dependencias fijadas (versión exacta o rango acotado en `pyproject.toml`),
@@ -252,7 +252,7 @@ pytest
 docker compose up -d
 
 # Correr suite de evaluación (pendiente de implementar)
-# python -m miproyecto.eval --ground-truth docs/ground_truth_v1.json
+# python -m oncology_assistant.eval --ground-truth docs/ground_truth_v1.json
 ```
 
 ---
@@ -274,7 +274,7 @@ docker compose up -d
 - **Decisiones pendientes para la próxima sesión (en orden):**
   1. ADR-0001: datos sintéticos gástricos — (a) módulo GMF propio de Synthea vs.
      (b) Synthea estándar + inyección de pacientes vía script con semilla fija.
-  2. ¿Renombrar el paquete `miproyecto` (p. ej. `oncology_assistant`) antes de escribir código?
+  2. ~~Renombrar el paquete `miproyecto`~~ → ✅ renombrado a `oncology_assistant` (2026-09-28).
   3. Esqueleto de CI desde ya (ruff + test de humo + GitHub Actions).
   4. Acotar versiones de dependencias en `pyproject.toml`.
   5. ADRs del profesor (LLM, motor, ground truth, evaluación).
