@@ -127,7 +127,7 @@ Local_Oncology_Assistant/
 │   ├── MODEL_CARD.md         # ⚠️ no existe aún
 │   ├── LIMITACIONES.md       # ⚠️ no existe aún
 │   ├── USO_DE_IA.md           # ⚠️ no existe aún — declarar uso de Gemini y Claude
-│   └── adr/                  # ⚠️ no existe aún — ver sección 6
+│   └── adr/                  # ✅ existe — 0001 en borrador; ver sección 6
 └── figuras/                 # ⚠️ no existe aún
 ```
 
@@ -272,7 +272,8 @@ docker compose up -d
   gástrico ni biomarcadores (HER2, CLDN18.2, MSI-H) → sin resolver esto, la cohorte de la
   Sesión 18 podría quedar vacía. Requiere ADR-0001 de estrategia de datos sintéticos.
 - **Decisiones pendientes para la próxima sesión (en orden):**
-  1. ADR-0001: datos sintéticos gástricos — (a) módulo GMF propio de Synthea vs.
+  1. ADR-0001 (`docs/adr/0001-...md`, borrador): se propone (a) módulo GMF propio; falta la Fase 2
+     del spike (vocab Athena + ETL-Synthea). Antes: (a) módulo GMF propio de Synthea vs.
      (b) Synthea estándar + inyección de pacientes vía script con semilla fija.
   2. ~~Renombrar el paquete `miproyecto`~~ → ✅ renombrado a `oncology_assistant` (2026-09-28).
   3. Esqueleto de CI desde ya (ruff + test de humo + GitHub Actions).
