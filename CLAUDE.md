@@ -264,22 +264,33 @@ docker compose --profile etl run --rm etl   # Synthea CSV + vocab -> OMOP (~28 m
 
 *(actualizar después de cada sesión de trabajo)*
 
-- **Última actualización:** 2026-09-28 — `CLAUDE.md` movido a la raíz del repo y versionado.
+- **Última actualización:** 2026-09-28 — spike de datos sintéticos (ADR-0001), fases 1, 2 y 2b.
 - **Hito actual del curso:** Sesión 10 completada (protocolo subido) → trabajando hacia Sesión 18
   (cohorte definida, implementada, con tabla de atrición).
-- **Completado:** estructura básica de carpetas, config inicial (`pyproject.toml`, `.gitignore`),
-  `docs/protocolo.md` inicial.
-- **Entorno:** Docker 29.8.1 + Compose v5.5.1 instalados (2026-09-28, repo oficial de Docker).
-- **En progreso:** ADRs de la sección 6 (LLM, motor de inferencia, ground truth, evaluación).
-- **Bloqueadores / riesgo principal:** Synthea no trae (hasta donde sabemos) un módulo de cáncer
-  gástrico ni biomarcadores (HER2, CLDN18.2, MSI-H) → sin resolver esto, la cohorte de la
-  Sesión 18 podría quedar vacía. Requiere ADR-0001 de estrategia de datos sintéticos.
+- **Completado:**
+  - Estructura básica, `pyproject.toml`, `.gitignore`, `docs/protocolo.md`.
+  - Paquete renombrado a `oncology_assistant`.
+  - `synthea/` (config versionada; Synthea v3.3.0 con **un solo hilo**, porque con varios hilos la
+    semilla no es reproducible).
+  - Base OMOP local: `compose.yml` (Postgres 16.15) + `etl/` (ETL-Synthea v2.1.1). Vocabularios de
+    Athena descargados (v5.0 29-AUG-26) en `data/raw/vocab/`.
+  - ADR-0001 (Propuesto): opción (a), módulo GMF propio, con la evidencia de las fases 1, 2 y 2b.
+- **Entorno:** Docker 29.8.1 + Compose v5.5.1. La base actual (volumen `pgdata`) contiene la salida
+  `data/raw/synthea/output_stdcodes` (spike con códigos estándar).
+- **Hallazgos clave del spike (detalle en ADR-0001):**
+  - ETL-Synthea **descarta en silencio** los códigos no estándar → todo código del módulo gástrico
+    debe ser estándar o tener "Maps to" (verificar con un test antes de generar).
+  - HER2 → LOINC 18474-7; estadio → LOINC 42100-8 con valores Stage 1–4 (sin subestadios).
+  - ETL-Synthea **nunca llena `value_as_concept_id`**: el valor queda solo como texto en
+    `value_source_value`.
 - **Decisiones pendientes para la próxima sesión (en orden):**
-  1. ADR-0001 (`docs/adr/0001-...md`, borrador): se propone (a) módulo GMF propio; falta la Fase 2
-     del spike (vocab Athena + ETL-Synthea). Antes: (a) módulo GMF propio de Synthea vs.
-     (b) Synthea estándar + inyección de pacientes vía script con semilla fija.
-  2. ~~Renombrar el paquete `miproyecto`~~ → ✅ renombrado a `oncology_assistant` (2026-09-28).
-  3. Esqueleto de CI desde ya (ruff + test de humo + GitHub Actions).
+  1. Cómo recuperar `value_as_concept_id`: (1) paso SQL versionado después del ETL con una tabla
+     curada texto → SNOMED → concepto estándar (**recomendado**), (2) consultar el texto de
+     `value_source_value`, o (3) fork de ETL-Synthea.
+  2. Cerrar ADR-0001: CLDN18.2 (¿existe un concepto estándar? Un código sin mapeo NO sirve con este
+     ETL), zolbetuximab/nivolumab en RxNorm, código SNOMED del diagnóstico y alcance clínico del
+     módulo (líneas de tratamiento).
+  3. Esqueleto de CI (ruff + test de humo + GitHub Actions).
   4. Acotar versiones de dependencias en `pyproject.toml`.
   5. ADRs del profesor (LLM, motor, ground truth, evaluación).
   6. Menor: el repo está anidado en una carpeta padre vacía — ¿aplanar?
