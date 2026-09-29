@@ -110,7 +110,8 @@ se trabaja en la industria. Por lo tanto:
 Local_Oncology_Assistant/
 ├── CLAUDE.md              # ✅ contexto del proyecto para Claude Code (versionado)
 ├── README.md              # ⚠️ solo tiene el título — pendiente, ver sección 5
-├── Dockerfile / compose.yml   # ⚠️ no existe aún
+├── compose.yml             # ✅ PostgreSQL 16 (OMOP) + servicio etl
+├── etl/                    # ✅ ETL-Synthea en R (Dockerfile + run_etl_synthea.R)
 ├── pyproject.toml         # ✅ existe
 ├── .gitignore              # ✅ existe
 ├── .github/workflows/ci.yml  # ⚠️ no existe aún
@@ -249,8 +250,9 @@ pip install -e .
 # Tests
 pytest
 
-# Levantar entorno (pendiente Dockerfile/compose.yml)
-docker compose up -d
+# Base OMOP local (requiere .env; ver etl/README.md)
+docker compose up -d db
+docker compose --profile etl run --rm etl   # Synthea CSV + vocab -> OMOP (~28 min)
 
 # Correr suite de evaluación (pendiente de implementar)
 # python -m oncology_assistant.eval --ground-truth docs/ground_truth_v1.json

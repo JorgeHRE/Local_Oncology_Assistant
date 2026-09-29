@@ -1,6 +1,7 @@
 # ADR-0001: Estrategia de datos sintéticos para cáncer gástrico
 
-- **Estado:** Propuesto (borrador). Pasa a *Aceptado* cuando se complete la Fase 2 del spike (ver "Validación").
+- **Estado:** Propuesto. La Fase 2 del spike está completa (ver abajo); pasa a *Aceptado* cuando se
+  cierren las preguntas abiertas de estadio y CLDN18.2.
 - **Fecha:** 2026-09-28
 - **Decisores:** Jorge (autor), con asistencia de Claude Code
 - **Relacionado:** `docs/protocolo.md`, hito de la Sesión 18 (cohorte + tabla de atrición)
@@ -114,18 +115,65 @@ el riesgo principal de la opción (b).
 de prueba, luego una `Observation` con un `value_code` Positivo o Negativo, y después una transición
 condicional. Los fármacos dirigidos están en `breast_cancer/hormonetherapy_breast`.
 
-## Validación pendiente para aceptar este ADR (Fase 2)
+## Fase 2: ETL a OMOP (2026-09-28)
 
-1. Cargar los vocabularios de Athena en PostgreSQL. Descargados el 2026-09-28; versión global
-   "v5.0 29-AUG-26". Incluye SNOMED (2026-02-01 Intl / 2026-03-01 US), LOINC 2.82, RxNorm 20260601,
-   RxNorm Extension 2026-06-05, CVX 20260409 y UCUM 1.8.2 (este último lo agrega Athena
-   automáticamente). SHA-256 del zip:
-   `3526fdf41614844c6c62aaad1dbb12a65eb322337e8a0466887c074f6130ff78`.
-2. Correr ETL-Synthea v2.1.1 con `syntheaVersion = "3.3.0"` sobre los CSV del spike.
-3. Confirmar en OMOP que:
-   - HER2 (LOINC 85319-2) queda en `measurement` u `observation`, con su `value_as_concept_id`;
-   - el trastuzumab queda en `drug_exposure` con un `visit_occurrence_id` no nulo;
-   - los conteos coinciden con la tabla de la Fase 1.
+**Configuración:** `compose.yml` (PostgreSQL 16.15) + `etl/` (ETL-Synthea v2.1.1, CommonDataModel
+v5.4.3, R 4.5.3), con `syntheaVersion = "3.3.0"` y `bulkLoad = TRUE`. Ver `etl/README.md`.
+
+**Vocabularios de Athena:** descargados el 2026-09-28; versión global "v5.0 29-AUG-26". Incluyen
+SNOMED (2026-02-01 Intl / 2026-03-01 US), LOINC 2.82, RxNorm 20260601, RxNorm Extension 2026-06-05,
+CVX 20260409 y UCUM 1.8.2 (este último lo agrega Athena automáticamente). SHA-256 del zip:
+`3526fdf41614844c6c62aaad1dbb12a65eb322337e8a0466887c074f6130ff78`.
+
+**Tiempo:** 27.6 min en total. El vocabulario tarda 5.2 min y las tablas de eventos 21.2 min; casi
+todo ese tiempo es la tabla `cost`, que el proyecto no usa.
+
+**Resultados:**
+
+| Verificación | Resultado |
+|---|---|
+| `person` | 264 ✅ |
+| Diagnóstico → concepto estándar 4112853 (*Malignant neoplasm of breast*) | 264 personas ✅ |
+| Trastuzumab en `drug_exposure` (concepto 1366764) | 42 personas, 42 filas ✅ |
+| … con `visit_occurrence_id` no nulo y fecha dentro de la visita | 42 / 42 ✅ |
+| **HER2 (LOINC 85319-2) en `measurement` u `observation`** | **0 ❌** |
+| **Estadio clínico (LOINC 21908-9)** | **0 ❌** (515 registros de origen) |
+| `death` | 62 de 64 ⚠️ |
+
+**Hallazgo crítico: ETL-Synthea descarta en silencio los códigos sin mapeo estándar.** Las
+consultas de inserción (p. ej., `insert_measurement.sql`) hacen un `JOIN` interno contra
+`source_to_standard_vocab_map` con `target_standard_concept = 'S'`. Un código de origen que no es
+estándar y no tiene relación "Maps to" **no produce error ni fila con `concept_id = 0`: desaparece.**
+El chequeo "0 filas con `concept_id = 0`" da una falsa sensación de completitud.
+
+- LOINC 85319-2 (HER2 en espécimen de mama) y los *stage group* 21908-9, 21902-2 y 21914-7 existen
+  en el vocabulario, pero no son estándar y no tienen "Maps to". Las 264 filas de HER2 (53+ / 211−)
+  están en `native.observations` y no llegaron al CDM.
+- Pérdida total en esta corrida: 1,147 condiciones (181 códigos), 52,163 observaciones (23 códigos;
+  casi todas son QALY/DALY/QOLS, pseudo-códigos de Synthea) y 15,257 procedimientos (312 códigos;
+  sobre todo dentales CDT, vocabulario no descargado). Ningún medicamento se perdió.
+- Los valores Positivo/Negativo (SNOMED 10828004 / 260385009) sí mapean como *Meas Value*
+  (9191 / 9189).
+- Las 2 defunciones faltantes corresponden a pacientes con visitas registradas después de la fecha
+  de muerte (incoherencia de Synthea); el ETL no les crea fila en `death`. Impacto menor, pero se
+  documenta.
+- 6,335 filas de `drug_exposure` no tienen visita. Son fármacos crónicos (insulina, lisinopril) y
+  vacunas; ninguna es de trastuzumab.
+
+**Qué implica para la decisión:** no invalida la opción (a). La integridad visita ↔ fármaco se
+confirma en OMOP. Pero agrega una **regla obligatoria para el módulo gástrico**: *todo código que
+emita el módulo debe ser un concepto estándar, o tener "Maps to" hacia uno, en la versión de
+vocabulario cargada.* Se verificará con un test automático que lea el JSON del módulo y consulte el
+vocabulario, antes de generar datos.
+
+Conceptos estándar encontrados para reemplazar a los que se pierden:
+
+- **HER2:** LOINC 18474-7 (*HER2 Ag [Presence] in Tissue by Immune stain*, concepto 3019066) o
+  48676-1 (*HER2 Ag [Interpretation] in Tissue*, 3048223). Ninguno es específico de mama, así que
+  sirven para tejido gástrico. Para FISH: 31150-6 (*ERBB2 gene duplication [Presence] in Tissue*).
+- **Estadio:** LOINC 42100-8 (*Derived AJCC stage group*, 3031548) es estándar. La alternativa
+  alineada con OMOP Oncology sería el vocabulario **Cancer Modifier**, que no está en la descarga
+  actual (ver preguntas abiertas).
 
 ## Consecuencias
 
@@ -147,11 +195,13 @@ condicional. Los fármacos dirigidos están en `breast_cancer/hormonetherapy_bre
 
 ## Preguntas abiertas (a resolver antes o durante la construcción del módulo)
 
-- [ ] **CLDN18.2:** ¿existe un código LOINC específico? Si no, decidir la alternativa (código local
-      con `concept_id = 0` más `source_value`, o un concepto de OMOP Oncology/Genomic) y cómo lo
-      consulta el SQL.
-- [ ] **HER2 gástrico:** el LOINC 85319-2 es específico de espécimen de mama. Buscar un código de
-      HER2 que no sea específico de mama o que aplique a tejido gástrico.
+- [ ] **CLDN18.2:** ¿existe un concepto estándar? Ojo: la opción de un "código local con
+      `concept_id = 0`" **no sirve**, porque ETL-Synthea descarta los códigos sin mapeo (ver Fase 2).
+      Si no existe un concepto estándar, habrá que insertar un concepto propio (`concept_id` >
+      2,000,000,000, la convención de OHDSI) más su mapeo, o hacer un paso posterior al ETL.
+- [x] **HER2 gástrico:** usar LOINC 18474-7 o 48676-1 (estándar, tejido genérico). Ver Fase 2.
+- [ ] **Estadio:** LOINC 42100-8 (ya disponible) vs. descargar el vocabulario Cancer Modifier
+      (convención de OMOP Oncology; otra descarga lenta de Athena).
 - [ ] **Zolbetuximab y nivolumab:** confirmar que existen en la versión descargada de RxNorm / RxNorm
       Extension.
 - [ ] **Diagnóstico:** elegir el código SNOMED de adenocarcinoma gástrico y confirmar que es concepto
