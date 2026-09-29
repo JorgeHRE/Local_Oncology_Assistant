@@ -266,8 +266,19 @@ docker compose up -d
   (cohorte definida, implementada, con tabla de atrición).
 - **Completado:** estructura básica de carpetas, config inicial (`pyproject.toml`, `.gitignore`),
   `docs/protocolo.md` inicial.
+- **Entorno:** Docker 29.8.1 + Compose v5.5.1 instalados (2026-09-28, repo oficial de Docker).
 - **En progreso:** ADRs de la sección 6 (LLM, motor de inferencia, ground truth, evaluación).
-- **Bloqueadores:** ninguno reportado.
+- **Bloqueadores / riesgo principal:** Synthea no trae (hasta donde sabemos) un módulo de cáncer
+  gástrico ni biomarcadores (HER2, CLDN18.2, MSI-H) → sin resolver esto, la cohorte de la
+  Sesión 18 podría quedar vacía. Requiere ADR-0001 de estrategia de datos sintéticos.
+- **Decisiones pendientes para la próxima sesión (en orden):**
+  1. ADR-0001: datos sintéticos gástricos — (a) módulo GMF propio de Synthea vs.
+     (b) Synthea estándar + inyección de pacientes vía script con semilla fija.
+  2. ¿Renombrar el paquete `miproyecto` (p. ej. `oncology_assistant`) antes de escribir código?
+  3. Esqueleto de CI desde ya (ruff + test de humo + GitHub Actions).
+  4. Acotar versiones de dependencias en `pyproject.toml`.
+  5. ADRs del profesor (LLM, motor, ground truth, evaluación).
+  6. Menor: el repo está anidado en una carpeta padre vacía — ¿aplanar?
 
 ---
 
