@@ -175,6 +175,37 @@ Conceptos estándar encontrados para reemplazar a los que se pierden:
   alineada con OMOP Oncology sería el vocabulario **Cancer Modifier**, que no está en la descarga
   actual (ver preguntas abiertas).
 
+### Fase 2b: códigos estándar (2026-09-28)
+
+**Prueba:** `synthea/spike/patch_breast_cancer_codes.py` crea una copia del jar en la que el módulo
+`breast_cancer` usa 42100-8 en lugar de 21908-9 (estadio) y 18474-7 en lugar de 85319-2 (HER2). El
+cambio se aplica a todo el JSON: son 18 referencias, porque las condiciones y guardas del módulo
+también consultan esos códigos. Si solo se cambiaran las observaciones, la lógica clínica se
+alteraría sin ningún error visible. Después se regeneró con la misma semilla y se corrió el ETL
+completo.
+
+**Resultados:**
+
+- 262 de 264 pacientes son idénticas byte a byte a las de la corrida original. 2 plazas generaron
+  otra paciente (misma fecha de nacimiento, otro ID); la causa probable son los reintentos del
+  *keep module*, no está confirmada. **Consecuencia: cualquier cambio en el módulo puede mover
+  pacientes, así que el ground truth debe recalcularse desde los datos en cada regeneración.**
+- ✅ HER2 (18474-7 → concepto 3019066): 264 filas en `measurement`, todas con visita.
+- ✅ Estadio (42100-8 → concepto 3031548): 515 filas en `measurement`, todas con visita.
+- ❌ **`value_as_concept_id = 0` en todas las filas**, no solo en estas: 0 de 599,763 mediciones
+  tienen un valor codificado. El valor sobrevive solo como texto en `value_source_value`
+  (p. ej., "Positive (qualifier value)", "Stage 4 (qualifier value)").
+
+**Causa (dos defectos que se suman en ETL-Synthea v2.1.1, `insert_measurement.sql`):**
+
+1. El CSV de Synthea trae en `VALUE` el *display* del valor codificado, no el código SNOMED; el ETL
+   lo cruza contra `source_code`.
+2. El filtro usa `target_domain_id = 'Meas value'`, pero el vocabulario usa `'Meas Value'`, y en
+   PostgreSQL la comparación distingue mayúsculas.
+
+**Valores de estadio:** Stage 1, 2, 3 y 4 son conceptos estándar (Stage 4 → 4123017). Los
+subestadios (1A, 2B, 3C…) no lo son y no tienen "Maps to".
+
 ## Consecuencias
 
 **Positivas**
