@@ -36,3 +36,5 @@ step("create extra indices", ETLSyntheaBuilder::CreateExtraIndices(
   cd, cdmSchema, syntheaSchema, syntheaVersion))
 step("load event tables", ETLSyntheaBuilder::LoadEventTables(
   cd, cdmSchema, syntheaSchema, cdmVersion, syntheaVersion))
+# Official CDM indices, after the load (see the header of create_indices.R).
+source("/etl/create_indices.R")

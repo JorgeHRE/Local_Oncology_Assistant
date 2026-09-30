@@ -37,6 +37,17 @@ usados como tablas intermedias).
 
 Para empezar de cero, se borra el volumen: `docker compose down -v`. **Esto destruye la base.**
 
+## Índices del CDM
+
+Al final, `run_etl_synthea.R` ejecuta `etl/create_indices.R`: los índices oficiales de
+CommonDataModel v5.4.3, creados **después** de la carga y seguidos de `ANALYZE`. Sin ellos,
+`concept_relationship` (~34M filas) y `concept_ancestor` (~29M) se recorren completas en cada
+consulta. El script es idempotente; para aplicarlo a una base ya cargada (~1.5 min):
+
+```bash
+docker compose --profile etl run --rm etl Rscript /etl/create_indices.R
+```
+
 ## Pasos después del ETL
 
 ETL-Synthea v2.1.1 no llena `measurement.value_as_concept_id` (ver ADR-0001, Fase 2b). Después de
