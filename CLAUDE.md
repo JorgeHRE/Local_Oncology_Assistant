@@ -119,8 +119,8 @@ Local_Oncology_Assistant/
 │   ├── 01_concept_sets.sql   # ⚠️ no existe aún
 │   ├── 02_cohorte.sql        # ⚠️ no existe aún
 │   └── 03_features.sql       # ⚠️ no existe aún
-├── src/oncology_assistant/  # ⚠️ solo __init__.py, falta código real
-├── tests/                  # ⚠️ no existe aún
+├── src/oncology_assistant/  # ✅ db.py, synthea_codes.py (verificador de códigos GMF)
+├── tests/                  # ✅ pytest; marca `db` para tests contra la base OMOP
 ├── synthea/                 # ✅ configuración de Synthea (keep modules; módulo gástrico pendiente)
 ├── notebooks/               # exploración únicamente, nunca lógica de producción
 ├── docs/
@@ -247,8 +247,12 @@ profundizar en algo, yo pregunto.
 # Instalación
 pip install -e .
 
-# Tests
+# Tests (los de marca `db` se saltan si la base no está arriba)
+pip install -e ".[db]"
 pytest
+
+# Verificar códigos de un módulo GMF antes de generar datos
+python -m oncology_assistant.synthea_codes synthea/modules/*.json
 
 # Base OMOP local (requiere .env; ver etl/README.md)
 docker compose up -d db
@@ -264,7 +268,8 @@ docker compose --profile etl run --rm etl   # Synthea CSV + vocab -> OMOP (~28 m
 
 *(actualizar después de cada sesión de trabajo)*
 
-- **Última actualización:** 2026-09-29 — borrador del alcance clínico y paso post-ETL de `value_as_concept_id`.
+- **Última actualización:** 2026-09-29 — borrador del alcance clínico, paso post-ETL de
+  `value_as_concept_id` y verificador de códigos estándar de módulos GMF.
 - **Hito actual del curso:** Sesión 10 completada (protocolo subido) → trabajando hacia Sesión 18
   (cohorte definida, implementada, con tabla de atrición).
 - **Completado:**
@@ -279,6 +284,9 @@ docker compose --profile etl run --rm etl   # Synthea CSV + vocab -> OMOP (~28 m
     (edad 30–85; biomarcadores independientes, sin ligar CLDN18.2 a edad/sexo/Lauren).
   - Paso post-ETL `etl/post_etl/01_value_as_concept.sql` + `tests/test_post_etl_value_as_concept.py`
     (marca `db`; extra `pip install -e ".[db]"`).
+  - Verificador de códigos de módulos GMF: `src/oncology_assistant/synthea_codes.py` (CLI +
+    `tests/test_synthea_codes.py`, que aplica la regla a cada JSON de `synthea/modules/`). Sobre
+    el módulo de mama original detecta HER2 85319-2 y estadio 21908-9 (los que perdió la Fase 2).
 - **Entorno:** Docker 29.8.1 + Compose v5.5.1. La base actual (volumen `pgdata`) contiene la salida
   `data/raw/synthea/output_stdcodes` (spike con códigos estándar).
 - **Hallazgos clave del spike (detalle en ADR-0001):**
@@ -290,12 +298,14 @@ docker compose --profile etl run --rm etl   # Synthea CSV + vocab -> OMOP (~28 m
 - **Decisiones pendientes para la próxima sesión (en orden):**
   1. Revisar con el profesor las 7 preguntas de `docs/alcance-clinico-modulo-gastrico.md` §7
      (alcance, UGE, Cancer Modifier, metástasis, CLDN18 vs 18.2, Lauren, tamaño).
-  2. Test de códigos estándar del módulo (JSON del módulo → vocabulario) y luego escribir
-     `gastric_cancer.json`.
+  2. Escribir `synthea/modules/gastric_cancer.json` (el verificador de códigos ya está listo).
   3. Esqueleto de CI (ruff + tests; los de marca `db` se saltan sin base).
   4. Acotar versiones de dependencias en `pyproject.toml`.
   5. ADRs del profesor (LLM, motor, ground truth, evaluación).
   6. Menor: el repo está anidado en una carpeta padre vacía — ¿aplanar?
+  7. **Índices del vocabulario:** la base no tiene índices secundarios en `concept`,
+     `concept_relationship` (34M filas) ni `concept_ancestor`. Antes de las consultas de cohorte,
+     crear los índices estándar del CDM (`OMOPCDM_postgresql_5.4_indices.sql`) como paso del ETL.
 
 ---
 
