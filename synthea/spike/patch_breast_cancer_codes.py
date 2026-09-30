@@ -45,7 +45,10 @@ def patch_module(node: object) -> int:
 
 def build_patched_jar(original: Path, patched: Path) -> None:
     """Copy every jar entry, replacing the breast cancer module files with patched versions."""
-    with zipfile.ZipFile(original) as src, zipfile.ZipFile(patched, "w", zipfile.ZIP_DEFLATED) as dst:
+    with (
+        zipfile.ZipFile(original) as src,
+        zipfile.ZipFile(patched, "w", zipfile.ZIP_DEFLATED) as dst,
+    ):
         for item in src.infolist():
             data = src.read(item.filename)
             if item.filename.startswith(MODULE_PREFIX) and item.filename.endswith(".json"):
