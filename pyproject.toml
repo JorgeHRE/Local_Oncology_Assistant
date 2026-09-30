@@ -14,7 +14,17 @@ dependencies = [
     "pydantic>=2.0.0",
 ]
 
+[project.optional-dependencies]
+# Access to the local OMOP database (post-ETL steps and their tests).
+db = [
+    "psycopg[binary]>=3.2,<3.4",
+    "python-dotenv>=1.0,<2",
+]
+
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -q"
 testpaths = ["tests"]
+markers = [
+    "db: requires the local OMOP Postgres (docker compose up -d db); skipped if unreachable",
+]

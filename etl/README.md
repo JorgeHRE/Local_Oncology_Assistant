@@ -36,3 +36,25 @@ Esquemas resultantes: `cdm` (tablas OMOP y vocabulario) y `native` (CSV de Synth
 usados como tablas intermedias).
 
 Para empezar de cero, se borra el volumen: `docker compose down -v`. **Esto destruye la base.**
+
+## Pasos después del ETL
+
+ETL-Synthea v2.1.1 no llena `measurement.value_as_concept_id` (ver ADR-0001, Fase 2b). Después de
+cada corrida del ETL:
+
+```bash
+docker compose exec -T db sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1' \
+  < etl/post_etl/01_value_as_concept.sql
+```
+
+El script mapea el texto del valor (p. ej., "Positive (qualifier value)") a su código SNOMED y de
+ahí, vía "Maps to", al concepto estándar de dominio `Meas Value`. Es idempotente y aborta sin cambios
+si algún código no llega a exactamente un concepto estándar. Los subestadios (1A, 2B…) y las
+categorías TNM quedan en 0 porque no tienen concepto estándar en SNOMED.
+
+Test (necesita la base arriba; se salta si no hay conexión):
+
+```bash
+pip install -e ".[db]"
+pytest -m db
+```
