@@ -7,16 +7,13 @@ vocabulary (Athena v5.0 29-AUG-26) so the tests do not reuse the script's own re
 
 from __future__ import annotations
 
-import os
 import re
-from collections.abc import Iterator
-from pathlib import Path
 
 import psycopg
 import pytest
-from dotenv import dotenv_values
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+from oncology_assistant.db import REPO_ROOT
+
 SCRIPT = REPO_ROOT / "etl" / "post_etl" / "01_value_as_concept.sql"
 
 EXPECTED_VALUE_CONCEPTS: dict[str, int] = {
@@ -41,18 +38,6 @@ KNOWN_UNMAPPED = re.compile(r"^Stage [1-4][A-C] \(qualifier value\)$")
 pytestmark = pytest.mark.db
 
 
-def _conninfo() -> dict[str, str]:
-    """Build connection parameters from .env, overridable by environment variables."""
-    env = {**dotenv_values(REPO_ROOT / ".env"), **os.environ}
-    return {
-        "host": env.get("POSTGRES_HOST", "127.0.0.1"),
-        "port": env.get("POSTGRES_PORT", "5432"),
-        "user": env.get("POSTGRES_USER", ""),
-        "password": env.get("POSTGRES_PASSWORD", ""),
-        "dbname": env.get("POSTGRES_DB", ""),
-    }
-
-
 def _run_script(conn: psycopg.Connection) -> None:
     """Execute the post-ETL script exactly as psql would (it manages its own transaction)."""
     conn.execute(SCRIPT.read_text(encoding="utf-8"))
@@ -69,15 +54,10 @@ def _value_concept_fingerprint(conn: psycopg.Connection) -> tuple[int, int]:
 
 
 @pytest.fixture(scope="module")
-def conn() -> Iterator[psycopg.Connection]:
-    """Autocommit connection to the local OMOP database with the script already applied."""
-    try:
-        connection = psycopg.connect(**_conninfo(), autocommit=True, connect_timeout=3)
-    except psycopg.OperationalError as exc:
-        pytest.skip(f"OMOP database not reachable: {exc}")
-    with connection:
-        _run_script(connection)
-        yield connection
+def conn(omop_conn: psycopg.Connection) -> psycopg.Connection:
+    """OMOP connection with the post-ETL script already applied."""
+    _run_script(omop_conn)
+    return omop_conn
 
 
 def test_mapped_texts_get_expected_standard_concept(conn: psycopg.Connection) -> None:

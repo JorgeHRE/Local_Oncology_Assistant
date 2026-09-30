@@ -28,3 +28,6 @@ testpaths = ["tests"]
 markers = [
     "db: requires the local OMOP Postgres (docker compose up -d db); skipped if unreachable",
 ]
+
+[tool.ruff]
+line-length = 100
