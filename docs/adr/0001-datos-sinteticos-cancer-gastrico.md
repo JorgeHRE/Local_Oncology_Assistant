@@ -206,6 +206,14 @@ completo.
 **Valores de estadio:** Stage 1, 2, 3 y 4 son conceptos estándar (Stage 4 → 4123017). Los
 subestadios (1A, 2B, 3C…) no lo son y no tienen "Maps to".
 
+**Solución adoptada (2026-09-29):** paso SQL versionado después del ETL,
+`etl/post_etl/01_value_as_concept.sql`, con una tabla curada texto → código SNOMED que se resuelve al
+concepto estándar vía "Maps to". Cubre solo los valores que usa la cohorte (Positive/Negative,
+Detected/Not detected, Stage 1–4). En la base del spike llenó 1,052 filas (p. ej., las 54 HER2+
+quedan en 9191). Lo verifica `tests/test_post_etl_value_as_concept.py`, con los `concept_id`
+esperados escritos a mano y los subestadios declarados como brecha conocida. Para el módulo
+gástrico, CPS y ECOG se emiten como valores numéricos (`value_as_number`) y no dependen de este paso.
+
 ## Consecuencias
 
 **Positivas**
@@ -230,14 +238,16 @@ subestadios (1A, 2B, 3C…) no lo son y no tienen "Maps to".
       `concept_id = 0`" **no sirve**, porque ETL-Synthea descarta los códigos sin mapeo (ver Fase 2).
       Si no existe un concepto estándar, habrá que insertar un concepto propio (`concept_id` >
       2,000,000,000, la convención de OHDSI) más su mapeo, o hacer un paso posterior al ETL.
+      **Avance (2026-09-29):** existe LOINC 105011-1 *Claudin 18 Ag [Interpretation] in Tissue by
+      Immune stain* (1091409), estándar. Es Claudina 18, no la isoforma 18.2; falta que el profesor
+      acepte la aproximación.
 - [x] **HER2 gástrico:** usar LOINC 18474-7 o 48676-1 (estándar, tejido genérico). Ver Fase 2.
 - [ ] **Estadio:** LOINC 42100-8 (ya disponible) vs. descargar el vocabulario Cancer Modifier
       (convención de OMOP Oncology; otra descarga lenta de Athena).
-- [ ] **Zolbetuximab y nivolumab:** confirmar que existen en la versión descargada de RxNorm / RxNorm
-      Extension.
-- [ ] **Diagnóstico:** elegir el código SNOMED de adenocarcinoma gástrico y confirmar que es concepto
-      estándar en OMOP.
-- [ ] **Alcance clínico del módulo:** estados y líneas de tratamiento mínimos para cubrir los criterios
+- [x] **Zolbetuximab y nivolumab:** existen en RxNorm (no hace falta RxNorm Extension): ingredientes
+      1735539 y 45892628. Ver `docs/alcance-clinico-modulo-gastrico.md`.
+- [x] **Diagnóstico:** SNOMED 408647009 *Adenocarcinoma of stomach* (4248802), estándar.
+- [ ] **Alcance clínico del módulo** (borrador en `docs/alcance-clinico-modulo-gastrico.md`, pendiente de revisión): estados y líneas de tratamiento mínimos para cubrir los criterios
       del protocolo (p. ej., FLOT perioperatorio; primera línea con quimioterapia más trastuzumab,
       nivolumab o zolbetuximab según el biomarcador; progresión y muerte). Definirlo a partir de los
       criterios de inclusión/exclusión que el RAG debe extraer.

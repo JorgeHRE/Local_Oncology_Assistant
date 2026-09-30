@@ -264,7 +264,7 @@ docker compose --profile etl run --rm etl   # Synthea CSV + vocab -> OMOP (~28 m
 
 *(actualizar después de cada sesión de trabajo)*
 
-- **Última actualización:** 2026-09-28 — spike de datos sintéticos (ADR-0001), fases 1, 2 y 2b.
+- **Última actualización:** 2026-09-29 — borrador del alcance clínico y paso post-ETL de `value_as_concept_id`.
 - **Hito actual del curso:** Sesión 10 completada (protocolo subido) → trabajando hacia Sesión 18
   (cohorte definida, implementada, con tabla de atrición).
 - **Completado:**
@@ -275,6 +275,10 @@ docker compose --profile etl run --rm etl   # Synthea CSV + vocab -> OMOP (~28 m
   - Base OMOP local: `compose.yml` (Postgres 16.15) + `etl/` (ETL-Synthea v2.1.1). Vocabularios de
     Athena descargados (v5.0 29-AUG-26) en `data/raw/vocab/`.
   - ADR-0001 (Propuesto): opción (a), módulo GMF propio, con la evidencia de las fases 1, 2 y 2b.
+  - Borrador del alcance clínico del módulo gástrico: `docs/alcance-clinico-modulo-gastrico.md`
+    (edad 30–85; biomarcadores independientes, sin ligar CLDN18.2 a edad/sexo/Lauren).
+  - Paso post-ETL `etl/post_etl/01_value_as_concept.sql` + `tests/test_post_etl_value_as_concept.py`
+    (marca `db`; extra `pip install -e ".[db]"`).
 - **Entorno:** Docker 29.8.1 + Compose v5.5.1. La base actual (volumen `pgdata`) contiene la salida
   `data/raw/synthea/output_stdcodes` (spike con códigos estándar).
 - **Hallazgos clave del spike (detalle en ADR-0001):**
@@ -284,13 +288,11 @@ docker compose --profile etl run --rm etl   # Synthea CSV + vocab -> OMOP (~28 m
   - ETL-Synthea **nunca llena `value_as_concept_id`**: el valor queda solo como texto en
     `value_source_value`.
 - **Decisiones pendientes para la próxima sesión (en orden):**
-  1. Cómo recuperar `value_as_concept_id`: (1) paso SQL versionado después del ETL con una tabla
-     curada texto → SNOMED → concepto estándar (**recomendado**), (2) consultar el texto de
-     `value_source_value`, o (3) fork de ETL-Synthea.
-  2. Cerrar ADR-0001: CLDN18.2 (¿existe un concepto estándar? Un código sin mapeo NO sirve con este
-     ETL), zolbetuximab/nivolumab en RxNorm, código SNOMED del diagnóstico y alcance clínico del
-     módulo (líneas de tratamiento).
-  3. Esqueleto de CI (ruff + test de humo + GitHub Actions).
+  1. Revisar con el profesor las 7 preguntas de `docs/alcance-clinico-modulo-gastrico.md` §7
+     (alcance, UGE, Cancer Modifier, metástasis, CLDN18 vs 18.2, Lauren, tamaño).
+  2. Test de códigos estándar del módulo (JSON del módulo → vocabulario) y luego escribir
+     `gastric_cancer.json`.
+  3. Esqueleto de CI (ruff + tests; los de marca `db` se saltan sin base).
   4. Acotar versiones de dependencias en `pyproject.toml`.
   5. ADRs del profesor (LLM, motor, ground truth, evaluación).
   6. Menor: el repo está anidado en una carpeta padre vacía — ¿aplanar?
