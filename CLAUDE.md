@@ -114,7 +114,7 @@ Local_Oncology_Assistant/
 ├── etl/                    # ✅ ETL-Synthea en R (Dockerfile + run_etl_synthea.R)
 ├── pyproject.toml         # ✅ existe
 ├── .gitignore              # ✅ existe
-├── .github/workflows/ci.yml  # ⚠️ no existe aún
+├── .github/workflows/ci.yml  # ✅ ruff + pytest -m "not db" (Python 3.10 y 3.12)
 ├── sql/
 │   ├── 01_concept_sets.sql   # ⚠️ no existe aún
 │   ├── 02_cohorte.sql        # ⚠️ no existe aún
@@ -248,8 +248,10 @@ profundizar en algo, yo pregunto.
 pip install -e .
 
 # Tests (los de marca `db` se saltan si la base no está arriba)
-pip install -e ".[db]"
-pytest
+pip install -e ".[db,dev]"
+pytest                 # todo (los `db` se saltan si no hay base)
+pytest -m "not db"     # lo mismo que corre el CI
+ruff check . && ruff format --check .
 
 # Verificar códigos de un módulo GMF antes de generar datos
 python -m oncology_assistant.synthea_codes synthea/modules/*.json
@@ -291,6 +293,9 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
   - Índices oficiales del CDM v5.4 (`etl/create_indices.R`, al final del ETL o por separado) +
     `tests/test_cdm_indices.py`. Ya aplicados a la base actual (1.5 min); la suite pasó de 7.2 s a
     0.4 s.
+  - CI en GitHub Actions (`.github/workflows/ci.yml`): ruff check/format y `pytest -m "not db"` en
+    Python 3.10 y 3.12; acciones fijadas por SHA. Los tests `db` no corren en CI porque necesitan el
+    vocabulario de Athena (no redistribuible). Extra `dev` en `pyproject.toml`.
 - **Entorno:** Docker 29.8.1 + Compose v5.5.1. La base actual (volumen `pgdata`) contiene la salida
   `data/raw/synthea/output_stdcodes` (spike con códigos estándar).
 - **Hallazgos clave del spike (detalle en ADR-0001):**
@@ -303,10 +308,9 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
   1. Revisar con el profesor las 7 preguntas de `docs/alcance-clinico-modulo-gastrico.md` §7
      (alcance, UGE, Cancer Modifier, metástasis, CLDN18 vs 18.2, Lauren, tamaño).
   2. Escribir `synthea/modules/gastric_cancer.json` (el verificador de códigos ya está listo).
-  3. Esqueleto de CI (ruff + tests; los de marca `db` se saltan sin base).
-  4. Acotar versiones de dependencias en `pyproject.toml`.
-  5. ADRs del profesor (LLM, motor, ground truth, evaluación).
-  6. Menor: el repo está anidado en una carpeta padre vacía — ¿aplanar?
+  3. Acotar versiones de dependencias en `pyproject.toml`.
+  4. ADRs del profesor (LLM, motor, ground truth, evaluación).
+  5. Menor: el repo está anidado en una carpeta padre vacía — ¿aplanar?
 
 ---
 
