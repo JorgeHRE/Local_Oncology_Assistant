@@ -257,6 +257,7 @@ python -m oncology_assistant.synthea_codes synthea/modules/*.json
 # Base OMOP local (requiere .env; ver etl/README.md)
 docker compose up -d db
 docker compose --profile etl run --rm etl   # Synthea CSV + vocab -> OMOP (~28 min)
+docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo índices (~1.5 min)
 
 # Correr suite de evaluación (pendiente de implementar)
 # python -m oncology_assistant.eval --ground-truth docs/ground_truth_v1.json
@@ -269,7 +270,7 @@ docker compose --profile etl run --rm etl   # Synthea CSV + vocab -> OMOP (~28 m
 *(actualizar después de cada sesión de trabajo)*
 
 - **Última actualización:** 2026-09-29 — borrador del alcance clínico, paso post-ETL de
-  `value_as_concept_id` y verificador de códigos estándar de módulos GMF.
+  `value_as_concept_id`, verificador de códigos estándar de módulos GMF e índices del CDM.
 - **Hito actual del curso:** Sesión 10 completada (protocolo subido) → trabajando hacia Sesión 18
   (cohorte definida, implementada, con tabla de atrición).
 - **Completado:**
@@ -287,6 +288,9 @@ docker compose --profile etl run --rm etl   # Synthea CSV + vocab -> OMOP (~28 m
   - Verificador de códigos de módulos GMF: `src/oncology_assistant/synthea_codes.py` (CLI +
     `tests/test_synthea_codes.py`, que aplica la regla a cada JSON de `synthea/modules/`). Sobre
     el módulo de mama original detecta HER2 85319-2 y estadio 21908-9 (los que perdió la Fase 2).
+  - Índices oficiales del CDM v5.4 (`etl/create_indices.R`, al final del ETL o por separado) +
+    `tests/test_cdm_indices.py`. Ya aplicados a la base actual (1.5 min); la suite pasó de 7.2 s a
+    0.4 s.
 - **Entorno:** Docker 29.8.1 + Compose v5.5.1. La base actual (volumen `pgdata`) contiene la salida
   `data/raw/synthea/output_stdcodes` (spike con códigos estándar).
 - **Hallazgos clave del spike (detalle en ADR-0001):**
@@ -303,9 +307,6 @@ docker compose --profile etl run --rm etl   # Synthea CSV + vocab -> OMOP (~28 m
   4. Acotar versiones de dependencias en `pyproject.toml`.
   5. ADRs del profesor (LLM, motor, ground truth, evaluación).
   6. Menor: el repo está anidado en una carpeta padre vacía — ¿aplanar?
-  7. **Índices del vocabulario:** la base no tiene índices secundarios en `concept`,
-     `concept_relationship` (34M filas) ni `concept_ancestor`. Antes de las consultas de cohorte,
-     crear los índices estándar del CDM (`OMOPCDM_postgresql_5.4_indices.sql`) como paso del ETL.
 
 ---
 
