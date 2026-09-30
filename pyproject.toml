@@ -20,6 +20,11 @@ db = [
     "psycopg[binary]>=3.2,<3.4",
     "python-dotenv>=1.0,<2",
 ]
+# Lint and test tools (used by CI).
+dev = [
+    "pytest>=9,<10",
+    "ruff>=0.16,<0.17",
+]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
