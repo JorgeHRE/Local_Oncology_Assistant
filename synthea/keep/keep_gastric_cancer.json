@@ -1,0 +1,28 @@
+{
+  "name": "keep_gastric_cancer",
+  "remarks": ["Keep only patients with an active gastric cancer diagnosis (stomach or cardia)."],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "conditional_transition": [
+        {
+          "condition": {
+            "condition_type": "Active Condition",
+            "codes": [{"system": "SNOMED-CT", "code": "408647009", "display": "Adenocarcinoma of stomach"}]
+          },
+          "transition": "Keep"
+        },
+        {
+          "condition": {
+            "condition_type": "Active Condition",
+            "codes": [{"system": "SNOMED-CT", "code": "187732006", "display": "Malignant neoplasm of cardia of stomach"}]
+          },
+          "transition": "Keep"
+        },
+        {"transition": "Terminal"}
+      ]
+    },
+    "Keep": {"type": "Terminal"},
+    "Terminal": {"type": "Terminal"}
+  }
+}
