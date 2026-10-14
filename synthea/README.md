@@ -50,7 +50,9 @@ python synthea/build_gastric_cancer.py
 python -m oncology_assistant.synthea_codes synthea/modules/gastric_cancer.json
 ```
 
-Generar la población (objetivo: 1 000–1 500 pacientes con cáncer gástrico). `-p` cuenta solo a los
+Generar la población (objetivo: 1 000–1 500 pacientes con cáncer gástrico). Atajo: `make generate`
+(servicio `synthea` de `compose.yml`, con `SYNTHEA_POP` para cambiar el tamaño); lo siguiente es el
+comando equivalente a mano. `-p` cuenta solo a los
 **vivos**: los fallecidos se suman (≈ 1:1), así que `-p 650` da ≈ 1 300 registros.
 
 ```bash
