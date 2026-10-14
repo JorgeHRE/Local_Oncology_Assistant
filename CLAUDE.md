@@ -181,8 +181,11 @@ Cuando trabajemos cualquiera de estas decisiones, crea un archivo en `docs/adr/N
 3. **ADR pendiente:** metodología de construcción del ground truth (dos niveles: extracción de
    criterios y cohorte esperada; protocolo de anotación explícito; cómo se documenta que solo hay
    un anotador; separación dev/test).
-4. **ADR pendiente:** estrategia de evaluación por capas (retrieval, extracción, SQL, cohorte,
-   fidelidad RAG) y cómo se automatiza cada capa como test en CI.
+4. **ADR-0002 (Propuesto):** estrategia de evaluación por capas (retrieval, extracción, SQL, cohorte,
+   fidelidad RAG) y qué corre en CI: `docs/adr/0002-estrategia-de-evaluacion.md`.
+
+Orden acordado para decidirlos: evaluación (0002) → ground truth (0003) → motor (0004) → LLM (0005).
+La evaluación va primero porque las métricas son lo que permite comparar motor y modelo.
 
 No avances la implementación de estas piezas sin haber cerrado el ADR correspondiente conmigo.
 
