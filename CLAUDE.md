@@ -109,8 +109,10 @@ se trabaja en la industria. Por lo tanto:
 ```
 Local_Oncology_Assistant/
 ├── CLAUDE.md              # ✅ contexto del proyecto para Claude Code (versionado)
-├── README.md              # ⚠️ solo tiene el título — pendiente, ver sección 5
-├── compose.yml             # ✅ PostgreSQL 16 (OMOP) + servicio etl
+├── README.md              # ✅ pasos para reproducir (Docker + make)
+├── Makefile               # ✅ comandos de uso diario (`make help`)
+├── compose.yml             # ✅ PostgreSQL 16 (OMOP) + servicios etl, app (Python) y synthea
+├── docker/python/Dockerfile # ✅ imagen de Python para tests y herramientas
 ├── etl/                    # ✅ ETL-Synthea en R (Dockerfile + run_etl_synthea.R)
 ├── pyproject.toml         # ✅ existe
 ├── .gitignore              # ✅ existe
@@ -141,8 +143,8 @@ Cuando crees un archivo o carpeta de esta lista, actualiza este árbol quitando 
 
 - [ ] Historial de commits real (no un commit gigante al final) — **actualmente en riesgo: solo 2
       commits hasta ahora.** Insiste en commits pequeños y frecuentes desde ya.
-- [ ] `README.md` que permita a un tercero reproducir el trabajo
-- [ ] Entorno containerizado (`Dockerfile` o `compose.yml`)
+- [x] `README.md` que permita a un tercero reproducir el trabajo
+- [x] Entorno containerizado (`Dockerfile` o `compose.yml`)
 - [ ] Al menos una definición de cohorte en SQL sobre OMOP, documentada
 - [ ] Pruebas automáticas con pytest y CI en GitHub Actions
 - [ ] Diccionario de datos / documentación de variables (`docs/features.md`)
@@ -244,7 +246,9 @@ profundizar en algo, yo pregunto.
 *(completar conforme se implementen; mantener esta sección actualizada)*
 
 ```bash
-# Instalación
+# Todo corre en Docker; `make help` lista los comandos (make env, build, generate, etl, test...)
+
+# Instalación local sin Docker (opcional)
 pip install -e .
 
 # Tests (los de marca `db` se saltan si la base no está arriba)

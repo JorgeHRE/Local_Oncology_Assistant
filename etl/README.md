@@ -26,6 +26,8 @@ con el paquete oficial **ETL-Synthea** de OHDSI. Ver ADR-0001.
 
 ## Ejecución
 
+Atajo: `make etl` y `make post-etl` (el ETL exige una base vacía; `make reset-db` la vacía). A mano:
+
 ```bash
 docker compose up -d db                        # PostgreSQL; crea los esquemas cdm y native
 docker compose --profile etl build etl         # solo la primera vez
