@@ -12,8 +12,8 @@ de la máquina.
 ## Requisitos
 
 - Linux o macOS con **Docker** (con Compose v2) y **make**. No hace falta instalar Python, R ni Java.
-- ~30 GB libres en disco (medido: base OMOP 18 GB, vocabulario 3,6 GB, imágenes ~3 GB, datos de
-  Synthea). La RAM no está probada fuera de la máquina de desarrollo (48 GB): `compose.yml` fija
+- ~35 GB libres en disco (medido: base OMOP 23 GB, vocabulario 3,6 GB, datos de Synthea 3 GB,
+  imágenes ~3 GB). La RAM no está probada fuera de la máquina de desarrollo (48 GB): `compose.yml` fija
   `shared_buffers=4GB` y `maintenance_work_mem=2GB` para la carga; con menos RAM habría que bajarlos.
 - Una cuenta gratuita en [Athena (OHDSI)](https://athena.ohdsi.org) para el vocabulario (ver abajo).
 
@@ -39,7 +39,7 @@ make build          # imagen de Python para tests y herramientas
 make module         # regenera el módulo gástrico y verifica sus códigos (necesita la base cargada)
 make generate       # Synthea: ~1 300 registros (SYNTHEA_POP=650 vivos), unos 10–20 min
 make db             # PostgreSQL
-make etl            # CSV de Synthea + vocabulario -> OMOP, ~30 min; necesita base VACÍA
+make etl            # CSV de Synthea + vocabulario -> OMOP, ~50 min; necesita base VACÍA
 make post-etl       # value_as_concept_id
 make test           # todos los tests
 ```
