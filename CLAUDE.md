@@ -275,9 +275,8 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
 
 *(actualizar después de cada sesión de trabajo)*
 
-- **Última actualización:** 2026-10-14 — módulo gástrico `gastric_cancer.json` (generado por
-  `synthea/build_gastric_cancer.py`) con las respuestas del profesor; falta generar la población y
-  probar el ETL completo.
+- **Última actualización:** 2026-10-14 — módulo gástrico, población de 1 340 pacientes generada y
+  cargada en OMOP con el ETL completo; flujo reproducible con Docker y `make` (PR #1 y #2).
 - **Hito actual del curso:** Sesión 10 completada (protocolo subido) → trabajando hacia Sesión 18
   (cohorte definida, implementada, con tabla de atrición).
 - **Completado:**
@@ -305,10 +304,17 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
     `synthea/keep/keep_gastric_cancer.json` + `tests/test_gastric_module.py` (estructura y que el JSON
     coincida con el generador). Respuestas del profesor en `docs/alcance-clinico-modulo-gastrico.md`
     §8; `docs/LIMITACIONES.md` y `docs/features.md` documentan CLDN18.2 ≈ LOINC 105011-1.
-  - Corrida de prueba (60 vivos, ≈ 46 s): 69 % avanzados, FLOT previo en ~20 %, fármacos dirigidos
-    repartidos como se diseñó. **Aún no se generó la población final ni se pasó por el ETL.**
-- **Entorno:** Docker 29.8.1 + Compose v5.5.1. La base actual (volumen `pgdata`) contiene la salida
-  `data/raw/synthea/output_stdcodes` (spike con códigos estándar).
+  - Flujo reproducible: `README.md`, `Makefile`, imagen de Python y servicios `app`/`synthea` en
+    `compose.yml`. `main` protegido (PR + CI `lint-and-test` obligatorios).
+  - **Población gástrica (2026-10-14):** `make generate` (≈ 20 min) → 1 340 registros (650 vivos, 690
+    fallecidos), 70,8 % avanzados, 243 elegibles para zolbetuximab por criterios (140 lo recibieron).
+    CSV en `data/raw/synthea/output_gastric/` (SHA-256 en `SHA256SUMS`).
+  - **ETL completo validado:** `make etl` 53 min (tablas de eventos 43,9 min, índices 1,5 min) sin
+    errores; `make post-etl` (5 986 filas) y `make test` (33) pasan. Auditoría contra los CSV: personas,
+    diagnósticos (288 cardias), estadios (1 549) y filas de los 8 fármacos coinciden exactamente;
+    949 paneles de biomarcadores; 0 valores codificados sin mapear.
+- **Entorno:** Docker 29.8.1 + Compose v5.5.1. La base actual (volumen `pgdata`) contiene la población
+  gástrica (`output_gastric`); el spike de mama se borró.
 - **Hallazgos clave del spike (detalle en ADR-0001):**
   - ETL-Synthea **descarta en silencio** los códigos no estándar → todo código del módulo gástrico
     debe ser estándar o tener "Maps to" (verificar con un test antes de generar).
@@ -319,8 +325,8 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
   demografía, así que el módulo no puede reponderarlos (mediana de edad ~54 y 50 % mujeres, no ~65 ni
   2:1). Además `-a` debe ser ≥ 36 (ver `synthea/README.md`).
 - **Decisiones pendientes para la próxima sesión (en orden):**
-  1. Generar la población (`-p 650`, ≈ 1 300 registros; comando en `synthea/README.md`) y probar el
-     ETL completo desde cero, incluidos los índices dentro del ETL (~28 min; nunca se ha hecho).
+  1. Escribir la cohorte (`sql/01_concept_sets.sql`, `02_cohorte.sql`) con **fecha índice** (estadio IV
+     o recaída), sin filtrar por "vivo hoy": el 51 % de los pacientes está fallecido.
   2. Verificar con el corpus las probabilidades de biomarcadores (`PARAMS` del generador).
   3. Acotar versiones de dependencias en `pyproject.toml`.
   4. ADRs del profesor (LLM, motor, ground truth, evaluación).
