@@ -41,6 +41,8 @@ make generate       # Synthea: ~1 300 registros (SYNTHEA_POP=650 vivos), unos 10
 make db             # PostgreSQL
 make etl            # CSV de Synthea + vocabulario -> OMOP, ~50 min; necesita base VACÍA
 make post-etl       # value_as_concept_id
+make cohort         # conjuntos de conceptos y cohorte piloto de zolbetuximab
+make attrition      # tabla de atrición de la cohorte
 make test           # todos los tests
 ```
 
