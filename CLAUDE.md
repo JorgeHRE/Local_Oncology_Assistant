@@ -121,13 +121,13 @@ Local_Oncology_Assistant/
 │   └── 03_features.sql       # ⚠️ no existe aún
 ├── src/oncology_assistant/  # ✅ db.py, synthea_codes.py (verificador de códigos GMF)
 ├── tests/                  # ✅ pytest; marca `db` para tests contra la base OMOP
-├── synthea/                 # ✅ configuración de Synthea (keep modules; módulo gástrico pendiente)
+├── synthea/                 # ✅ configuración de Synthea: keep modules, módulo gástrico y su generador
 ├── notebooks/               # exploración únicamente, nunca lógica de producción
 ├── docs/
 │   ├── protocolo.md         # ✅ existe (subido para hito de Sesión 10)
-│   ├── features.md           # ⚠️ diccionario de datos — no existe aún
+│   ├── features.md           # ✅ diccionario de datos (módulo gástrico; ampliar con el resto)
 │   ├── MODEL_CARD.md         # ⚠️ no existe aún
-│   ├── LIMITACIONES.md       # ⚠️ no existe aún
+│   ├── LIMITACIONES.md       # ✅ existe; completar conforme avance el proyecto
 │   ├── USO_DE_IA.md           # ⚠️ no existe aún — declarar uso de Gemini y Claude
 │   └── adr/                  # ✅ existe — 0001 en borrador; ver sección 6
 └── figuras/                 # ⚠️ no existe aún
@@ -271,8 +271,9 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
 
 *(actualizar después de cada sesión de trabajo)*
 
-- **Última actualización:** 2026-09-29 — borrador del alcance clínico, paso post-ETL de
-  `value_as_concept_id`, verificador de códigos estándar de módulos GMF e índices del CDM.
+- **Última actualización:** 2026-10-14 — módulo gástrico `gastric_cancer.json` (generado por
+  `synthea/build_gastric_cancer.py`) con las respuestas del profesor; falta generar la población y
+  probar el ETL completo.
 - **Hito actual del curso:** Sesión 10 completada (protocolo subido) → trabajando hacia Sesión 18
   (cohorte definida, implementada, con tabla de atrición).
 - **Completado:**
@@ -296,6 +297,12 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
   - CI en GitHub Actions (`.github/workflows/ci.yml`): ruff check/format y `pytest -m "not db"` en
     Python 3.10 y 3.12; acciones fijadas por SHA. Los tests `db` no corren en CI porque necesitan el
     vocabulario de Athena (no redistribuible). Extra `dev` en `pyproject.toml`.
+  - Módulo GMF `synthea/modules/gastric_cancer.json` (100 estados, 53 códigos estándar verificados) +
+    `synthea/keep/keep_gastric_cancer.json` + `tests/test_gastric_module.py` (estructura y que el JSON
+    coincida con el generador). Respuestas del profesor en `docs/alcance-clinico-modulo-gastrico.md`
+    §8; `docs/LIMITACIONES.md` y `docs/features.md` documentan CLDN18.2 ≈ LOINC 105011-1.
+  - Corrida de prueba (60 vivos, ≈ 46 s): 69 % avanzados, FLOT previo en ~20 %, fármacos dirigidos
+    repartidos como se diseñó. **Aún no se generó la población final ni se pasó por el ETL.**
 - **Entorno:** Docker 29.8.1 + Compose v5.5.1. La base actual (volumen `pgdata`) contiene la salida
   `data/raw/synthea/output_stdcodes` (spike con códigos estándar).
 - **Hallazgos clave del spike (detalle en ADR-0001):**
@@ -304,10 +311,13 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
   - HER2 → LOINC 18474-7; estadio → LOINC 42100-8 con valores Stage 1–4 (sin subestadios).
   - ETL-Synthea **nunca llena `value_as_concept_id`**: el valor queda solo como texto en
     `value_source_value`.
+- **Hallazgo del 2026-10-14:** Synthea fija edad y sexo antes de simular y reintenta con la misma
+  demografía, así que el módulo no puede reponderarlos (mediana de edad ~54 y 50 % mujeres, no ~65 ni
+  2:1). Además `-a` debe ser ≥ 36 (ver `synthea/README.md`).
 - **Decisiones pendientes para la próxima sesión (en orden):**
-  1. Revisar con el profesor las 7 preguntas de `docs/alcance-clinico-modulo-gastrico.md` §7
-     (alcance, UGE, Cancer Modifier, metástasis, CLDN18 vs 18.2, Lauren, tamaño).
-  2. Escribir `synthea/modules/gastric_cancer.json` (el verificador de códigos ya está listo).
+  1. Generar la población (`-p 650`, ≈ 1 300 registros; comando en `synthea/README.md`) y probar el
+     ETL completo desde cero, incluidos los índices dentro del ETL (~28 min; nunca se ha hecho).
+  2. Verificar con el corpus las probabilidades de biomarcadores (`PARAMS` del generador).
   3. Acotar versiones de dependencias en `pyproject.toml`.
   4. ADRs del profesor (LLM, motor, ground truth, evaluación).
   5. Menor: el repo está anidado en una carpeta padre vacía — ¿aplanar?

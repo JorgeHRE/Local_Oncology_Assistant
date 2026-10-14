@@ -1,8 +1,9 @@
 # Alcance clínico del módulo Synthea de cáncer gástrico (borrador)
 
-- **Estado:** Borrador para revisar con el profesor. Cierra la pregunta abierta "Alcance clínico del
-  módulo" de ADR-0001.
-- **Fecha:** 2026-09-29
+- **Estado:** Revisado por el profesor (2026-10-14): respuestas a 5 de las 7 preguntas en la §8. Quedan
+  abiertas las preguntas 4 y 6 de la §7, con valor por defecto. Cierra la pregunta abierta "Alcance
+  clínico del módulo" de ADR-0001.
+- **Fecha:** 2026-09-29 (borrador); 2026-10-14 (revisión)
 - **Relacionado:** `docs/adr/0001-datos-sinteticos-cancer-gastrico.md`, `docs/protocolo.md`
 
 ## 1. Objetivo
@@ -21,9 +22,9 @@ prevalencia no es realista (ver "Consecuencias" en ADR-0001).
 
 | Parámetro | Propuesta | Comentario |
 |---|---|---|
-| Sexo | Ambos (`-g` sin fijar) | En la prueba de mama se usó solo F; el gástrico es más frecuente en hombres (~2:1). |
-| Edad al diagnóstico | 30–85 años, con más peso en edades mayores (mediana ~65) | Se incluye la cola de inicio temprano (<50 años), donde predomina el tipo difuso. Ver §4.1. |
-| Enfermedad | Adenocarcinoma gástrico | La unión gastroesofágica (UGE) queda fuera de v1 (ver §7). |
+| Sexo | Ambos (`-g` sin fijar), ~50/50 | El gástrico es más frecuente en hombres (~2:1); no se reproduce (ver §8, nota sobre demografía). |
+| Edad al diagnóstico | ~31–82 años, aprox. uniforme (mediana ~54) | Se incluye la cola de inicio temprano (<50 años). La mediana ~65 que se buscaba no se logra con una sola corrida (ver §8). |
+| Enfermedad | Adenocarcinoma gástrico (80 %) y neoplasia maligna del cardias (20 %) | Cardias como aproximación a la unión gastroesofágica (UGE), por indicación del profesor. |
 | Selección | *Keep module*: pacientes con diagnóstico de adenocarcinoma gástrico | Igual que en la prueba de mama. |
 
 ## 3. Criterios que el módulo tiene que permitir evaluar
@@ -113,6 +114,7 @@ Todos los códigos son conceptos estándar (`S`), como exige la regla de ADR-000
 | Concepto | Código | `concept_id` |
 |---|---|---|
 | Adenocarcinoma of stomach | SNOMED 408647009 | 4248802 |
+| Malignant neoplasm of cardia of stomach | SNOMED 187732006 | 4094856 |
 
 **Mediciones**
 
@@ -148,11 +150,12 @@ componen en el mismo día. La cohorte SQL los reconoce por sus ingredientes vía
 
 ## 6. Fuera de alcance en v1
 
-- Unión gastroesofágica y adenocarcinoma de esófago.
+- Adenocarcinoma de esófago y UGE más allá del cardias (la UGE entra solo como neoplasia maligna
+  del cardias, ver §8).
 - Segunda línea y posteriores (ramucirumab + paclitaxel, trifluridina/tipiracilo, trastuzumab
   deruxtecan).
 - Cirugía detallada, radioterapia, toxicidades, ajustes de dosis.
-- TNM detallado y subestadios (dependen de Cancer Modifier, ver §7).
+- TNM detallado y subestadios: solo estadio agrupado I–IV; no se descarga Cancer Modifier (§8).
 - Histología de Lauren (intestinal/difuso) y carcinoma de células en anillo de sello (candidato a
   v2, ver §7).
 
@@ -176,3 +179,40 @@ componen en el mismo día. La cohorte SQL los reconoce por sus ingredientes vía
 7. **Tamaño:** ¿cuántos pacientes gástricos se quieren en la cohorte final? Con ~70 % avanzados y
    las probabilidades de arriba, 300 pacientes dan unos 50 CLDN18.2+ elegibles para zolbetuximab
    (300 × 0.70 avanzados × 0.85 ECOG 0–1 × 0.80 HER2− × 0.38 CLDN18.2+ ≈ 54).
+
+## 8. Respuestas del profesor (2026-10-14) y cómo quedaron en el módulo
+
+La numeración es la de la reunión con el profesor (prioridad), no la de la §7.
+
+| # | Pregunta | Decisión |
+|---|---|---|
+| 1 | Alcance | Rutas terapéuticas completas solo en **primera línea de enfermedad avanzada/metastásica**. La exposición previa a FLOT o a platino adyuvante se registra como **un evento antecedente simple** (una sola visita con los fármacos, sin cirugía ni ciclos). |
+| 2 | Tamaño | **1 000–1 500 pacientes** con cáncer gástrico (≈180–270 elegibles para zolbetuximab). |
+| 3 | Estadio | Solo **estadio agrupado I–IV** en SNOMED; sin TNM ni subestadios. |
+| 4 | UGE | Se incluye con el concepto estándar de SNOMED para **neoplasia maligna del cardias** (187732006). |
+| 5 | CLDN18.2 | Se acepta LOINC 105011-1 (Claudin 18) como aproximación, **documentada en `docs/LIMITACIONES.md` y `docs/features.md`**. |
+
+Sin respuesta todavía (se usa el valor por defecto): **metástasis por sitio** (solo estadio IV) y
+**Lauren** (fuera de v1).
+
+**Cómo quedó en el módulo** (`synthea/build_gastric_cancer.py` genera `synthea/modules/gastric_cancer.json`):
+
+- Los pacientes de estadio II–III reciben, con 80 % de probabilidad, un evento antecedente: FLOT
+  (70 %) o CAPOX adyuvante (30 %). Un subconjunto recae a estadio IV y entra a la primera línea; así
+  hay pacientes avanzados **con** y **sin** exposición previa.
+- Estadio al diagnóstico: I 10 %, II 15 %, III 20 %, IV 55 %. Recaída: 15 %, 30 % y 45 % para I, II
+  y III. Resultado: ~70 % de los pacientes llegan a enfermedad avanzada.
+- Cardias: 20 % de los diagnósticos (provisional, a verificar con el corpus).
+
+**Nota sobre demografía.** Synthea fija la edad y el sexo de cada paciente antes de simular y
+reintenta con la misma demografía hasta cumplir el keep module, así que el módulo **no puede**
+reponderar edad ni sexo. Lo único que controla la demografía son `-a` y `-g`. Consecuencias: (1) la
+edad al diagnóstico queda aproximadamente uniforme (mediana ~54, no ~65), y (2) la proporción de
+mujeres es ~50 % (en la realidad ~33 %). Ninguna de las dos afecta a los criterios de elegibilidad,
+porque los biomarcadores no dependen de edad ni sexo (§4.1). Si hiciera falta mediana ~65 y 2:1, la
+alternativa es generar por estratos y unir las salidas (más trabajo; no se hace en v1).
+
+**Rango de `-a`.** El módulo dispara entre 2021-01 y 2023-12, así que la edad al diagnóstico es
+entre 2,7 y 5,7 años menor que la edad de generación. Con `-a 36-85` la edad al diagnóstico es ≥ 30
+siempre; con un mínimo menor, Synthea falla ("Failed to produce a matching patient after 1000
+attempts").

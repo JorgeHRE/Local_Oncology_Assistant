@@ -6,7 +6,8 @@ Aquí solo va configuración; los datos generados van en `data/raw/synthea/`, qu
 | Ruta | Contenido |
 |---|---|
 | `keep/` | *Keep modules*: filtros que conservan solo a los pacientes que cumplen una condición |
-| `modules/` | (pendiente) módulo GMF propio de cáncer gástrico |
+| `build_gastric_cancer.py` | Genera `modules/gastric_cancer.json` (las probabilidades están en `PARAMS`) |
+| `modules/` | Módulo GMF propio de cáncer gástrico (generado; no editar a mano) |
 
 ## Versión fijada
 
@@ -39,3 +40,34 @@ población distinta en cada corrida (ver ADR-0001). Para verificar una regenerac
 ```bash
 cd data/raw/synthea/output && sha256sum -c SHA256SUMS
 ```
+
+## Módulo `gastric_cancer`
+
+Regenerar el módulo tras cambiar `PARAMS` (un test comprueba que el JSON versionado coincide):
+
+```bash
+python synthea/build_gastric_cancer.py
+python -m oncology_assistant.synthea_codes synthea/modules/gastric_cancer.json
+```
+
+Generar la población (objetivo: 1 000–1 500 pacientes con cáncer gástrico). `-p` cuenta solo a los
+**vivos**: los fallecidos se suman (≈ 1:1), así que `-p 650` da ≈ 1 300 registros.
+
+```bash
+docker run --rm -u "$(id -u):$(id -g)" -v "$PWD":/work -w /work eclipse-temurin:17-jre \
+  java -jar data/raw/synthea/synthea-with-dependencies-v3.3.0.jar \
+  -s 42 -cs 42 -r 20260901 -p 650 -a 36-85 \
+  -d synthea/modules -k synthea/keep/keep_gastric_cancer.json \
+  --generate.thread_pool_size=1 \
+  --exporter.baseDirectory=./data/raw/synthea/output_gastric \
+  --exporter.csv.export=true --exporter.fhir.export=false \
+  --exporter.years_of_history=0 \
+  Massachusetts
+```
+
+- `-d synthea/modules` carga el módulo propio; `-k` conserva solo a quienes tienen el diagnóstico.
+- **`-a 36-85`, no `30-85`:** el módulo dispara entre 2021 y 2023 y la edad al diagnóstico es 2,7–5,7
+  años menor que la de generación. Con un mínimo bajo, Synthea reintenta 1 000 veces la misma
+  demografía y aborta.
+- Edad y sexo no se pueden reponderar desde el módulo (ver `docs/alcance-clinico-modulo-gastrico.md` §8).
+- Pruebas hechas el 2026-10-14: 60 pacientes vivos en ≈ 46 s (≈ 120 registros, 69 % avanzados).

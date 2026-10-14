@@ -1,6 +1,7 @@
 # Módulos GMF propios
 
-Aquí van los módulos de Synthea escritos para este proyecto (p. ej., `gastric_cancer.json`). Ver
+Aquí van los módulos de Synthea escritos para este proyecto. `gastric_cancer.json` está **generado** por
+`synthea/build_gastric_cancer.py`: cambia las probabilidades allí y regenera, no edites el JSON. Ver
 ADR-0001 y `docs/alcance-clinico-modulo-gastrico.md`.
 
 **Regla (ADR-0001):** todo código que emita un módulo debe ser un concepto estándar, o tener
