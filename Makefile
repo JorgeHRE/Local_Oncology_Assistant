@@ -14,7 +14,7 @@ APP := docker compose --profile dev run --rm app
 PSQL := docker compose exec -T db sh -c 'psql -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -v ON_ERROR_STOP=1'
 
 .DEFAULT_GOAL := help
-.PHONY: help env build db reset-db test test-fast lint format module synthea-jar generate etl post-etl
+.PHONY: help env build db reset-db test test-fast lint format module synthea-jar generate etl post-etl cohort attrition
 
 help: ## List the targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
@@ -61,3 +61,10 @@ etl: db ## Load Synthea CSVs + Athena vocabulary into an EMPTY database (~50 min
 
 post-etl: ## Steps after the ETL (value_as_concept_id)
 	$(PSQL) < etl/post_etl/01_value_as_concept.sql
+
+cohort: ## Build the concept sets and the zolbetuximab pilot cohort (schema `results`)
+	$(PSQL) < sql/01_concept_sets.sql
+	$(PSQL) < sql/02_cohorte.sql
+
+attrition: ## Print the attrition table of the pilot cohort
+	echo 'SELECT step, description, n_remaining, n_lost FROM results.gc_zolbetuximab_attrition' | $(PSQL)

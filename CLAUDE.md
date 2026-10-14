@@ -118,8 +118,8 @@ Local_Oncology_Assistant/
 ├── .gitignore              # ✅ existe
 ├── .github/workflows/ci.yml  # ✅ ruff + pytest -m "not db" (Python 3.10 y 3.12)
 ├── sql/
-│   ├── 01_concept_sets.sql   # ⚠️ no existe aún
-│   ├── 02_cohorte.sql        # ⚠️ no existe aún
+│   ├── 01_concept_sets.sql   # ✅ conjuntos de conceptos (esquema `results`)
+│   ├── 02_cohorte.sql        # ✅ cohorte piloto de zolbetuximab + tabla de atrición
 │   └── 03_features.sql       # ⚠️ no existe aún
 ├── src/oncology_assistant/  # ✅ db.py, synthea_codes.py (verificador de códigos GMF)
 ├── tests/                  # ✅ pytest; marca `db` para tests contra la base OMOP
@@ -145,7 +145,7 @@ Cuando crees un archivo o carpeta de esta lista, actualiza este árbol quitando 
       commits hasta ahora.** Insiste en commits pequeños y frecuentes desde ya.
 - [x] `README.md` que permita a un tercero reproducir el trabajo
 - [x] Entorno containerizado (`Dockerfile` o `compose.yml`)
-- [ ] Al menos una definición de cohorte en SQL sobre OMOP, documentada
+- [x] Al menos una definición de cohorte en SQL sobre OMOP, documentada (`docs/cohorte-zolbetuximab.md`)
 - [ ] Pruebas automáticas con pytest y CI en GitHub Actions
 - [ ] Diccionario de datos / documentación de variables (`docs/features.md`)
 - [ ] Sección de limitaciones escrita honestamente (`docs/LIMITACIONES.md`)
@@ -313,6 +313,10 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
     errores; `make post-etl` (5 986 filas) y `make test` (33) pasan. Auditoría contra los CSV: personas,
     diagnósticos (288 cardias), estadios (1 549) y filas de los 8 fármacos coinciden exactamente;
     949 paneles de biomarcadores; 0 valores codificados sin mapear.
+  - **Cohorte piloto de zolbetuximab** (`sql/01`, `sql/02`, `make cohort` / `make attrition`): índice =
+    primer estadio 4, sin filtrar por "vivo hoy"; atrición 1 340 → 949 → 807 → 806 → 657 → **243**.
+    `tests/test_cohort_zolbetuximab.py` la recalcula desde los CSV y coincide. Detalle en
+    `docs/cohorte-zolbetuximab.md`. Falta `03_features.sql` y las cohortes de trastuzumab/nivolumab.
 - **Entorno:** Docker 29.8.1 + Compose v5.5.1. La base actual (volumen `pgdata`) contiene la población
   gástrica (`output_gastric`); el spike de mama se borró.
 - **Hallazgos clave del spike (detalle en ADR-0001):**
@@ -325,8 +329,7 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
   demografía, así que el módulo no puede reponderarlos (mediana de edad ~54 y 50 % mujeres, no ~65 ni
   2:1). Además `-a` debe ser ≥ 36 (ver `synthea/README.md`).
 - **Decisiones pendientes para la próxima sesión (en orden):**
-  1. Escribir la cohorte (`sql/01_concept_sets.sql`, `02_cohorte.sql`) con **fecha índice** (estadio IV
-     o recaída), sin filtrar por "vivo hoy": el 51 % de los pacientes está fallecido.
+  1. `sql/03_features.sql` y cohortes de trastuzumab y nivolumab sobre el mismo tronco.
   2. Verificar con el corpus las probabilidades de biomarcadores (`PARAMS` del generador).
   3. Acotar versiones de dependencias en `pyproject.toml`.
   4. ADRs del profesor (LLM, motor, ground truth, evaluación).
