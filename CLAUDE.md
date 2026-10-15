@@ -178,9 +178,9 @@ Cuando trabajemos cualquiera de estas decisiones, crea un archivo en `docs/adr/N
 2. **ADR pendiente:** motor de inferencia local (Ollama vs. vLLM vs. SGLang). Nota: SGLang tiene
    un argumento técnico específico para este proyecto por su soporte de generación estructurada
    repetida (RadixAttention) — vale la pena evaluarlo en serio, no solo usar Ollama por default.
-3. **ADR pendiente:** metodología de construcción del ground truth (dos niveles: extracción de
-   criterios y cohorte esperada; protocolo de anotación explícito; cómo se documenta que solo hay
-   un anotador; separación dev/test).
+3. **ADR-0003 (Propuesto):** metodología de ground truth (40 preguntas, 12 desarrollo / 28 prueba;
+   nivel b con SQL y recálculo independiente; re-anotación propia):
+   `docs/adr/0003-metodologia-de-ground-truth.md`.
 4. **ADR-0002 (Propuesto):** estrategia de evaluación por capas (retrieval, extracción, SQL, cohorte,
    fidelidad RAG) y qué corre en CI: `docs/adr/0002-estrategia-de-evaluacion.md`.
 
