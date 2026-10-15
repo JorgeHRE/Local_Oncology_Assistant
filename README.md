@@ -53,6 +53,13 @@ make test           # todos los tests
   `make test-fast` corre lo que corre el CI.
 - Los datos generados y el vocabulario quedan en `data/raw/` (ignorado por git).
 
+## Motor de inferencia del LLM (fuera de Docker por ahora)
+
+El LLM corre **nativo** con Ollama (ver `docs/adr/0004-motor-de-inferencia.md`), no dentro de
+`compose.yml`: Docker aún no tiene el runtime de NVIDIA configurado. Es la única parte que no es
+"todo en Docker". Las versiones fijadas y los scripts de la prueba (`eval/spike/`) están en el ADR.
+Los binarios y modelos se guardan en `data/raw/engines/` (ignorado por git).
+
 ## Estructura
 
 | Ruta | Contenido |
@@ -61,6 +68,7 @@ make test           # todos los tests
 | `etl/` | ETL-Synthea (R, en Docker), índices del CDM y pasos posteriores al ETL |
 | `src/oncology_assistant/` | Paquete Python (conexión a la base, verificador de códigos de módulos) |
 | `tests/` | pytest; la marca `db` pide la base OMOP cargada |
+| `eval/` | Evaluación (hoy solo `spike/`, la prueba de motores del ADR-0004) |
 | `docs/` | Alcance clínico, ADRs, diccionario de datos (`features.md`), limitaciones |
 | `CLAUDE.md` | Contexto y estado del proyecto |
 
