@@ -175,9 +175,9 @@ Cuando trabajemos cualquiera de estas decisiones, crea un archivo en `docs/adr/N
    generalista instruction-tuned reciente vs. modelo biomédico especializado — pesar la
    capacidad de seguir formato estructurado vs. conocimiento clínico interno, dado que el RAG ya
    aporta el conocimiento de dominio).
-2. **ADR pendiente:** motor de inferencia local (Ollama vs. vLLM vs. SGLang). Nota: SGLang tiene
-   un argumento técnico específico para este proyecto por su soporte de generación estructurada
-   repetida (RadixAttention) — vale la pena evaluarlo en serio, no solo usar Ollama por default.
+2. **ADR-0004 (Propuesto):** motor de inferencia local: Ollama por defecto, llama.cpp como
+   alternativa, cliente OpenAI-compatible, vLLM/SGLang diferidos con criterio de reevaluación:
+   `docs/adr/0004-motor-de-inferencia.md`.
 3. **ADR-0003 (Propuesto):** metodología de ground truth (40 preguntas, 12 desarrollo / 28 prueba;
    nivel b con SQL y recálculo independiente; re-anotación propia):
    `docs/adr/0003-metodologia-de-ground-truth.md`.
