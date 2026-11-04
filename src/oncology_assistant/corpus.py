@@ -100,7 +100,12 @@ def now_utc() -> str:
 
 def pubmed_params(ids: list[str]) -> dict[str, str]:
     """E-utilities query; ``email`` is sent only if NCBI_EMAIL is set (never hard-coded)."""
-    params = {"db": "pubmed", "id": ",".join(ids), "retmode": "xml", "tool": "oncology-assistant-corpus"}
+    params = {
+        "db": "pubmed",
+        "id": ",".join(ids),
+        "retmode": "xml",
+        "tool": "oncology-assistant-corpus",
+    }
     if email := os.environ.get("NCBI_EMAIL"):
         params["email"] = email
     return params
