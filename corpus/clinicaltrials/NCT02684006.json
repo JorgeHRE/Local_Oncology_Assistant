@@ -1,0 +1,34 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Renal Cell Cancer"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n* Histologically or cytologically confirmed advanced or metastatic RCC with clear cell component\n* Availability of a formalin-fixed, paraffin-embedded (FFPE) tumor tissue block from a de novo tumor biopsy during screening (biopsied tumor lesion should not be a RECIST target lesion). Alternatively, a recently obtained archival FFPE tumor tissue block (not cut slides) from a primary or metastatic tumor resection or biopsy can be provided if the following criteria are met: 1) the biopsy or resection was performed within 1 year of randomization AND 2) the patient has not received any intervening systemic anti-cancer treatment from the time the tissue was obtained and randomization onto the current study. If an FFPE tissue block cannot be provided as per documented regulations then, 15 unstained slides (10 minimum) will be acceptable\n* Availability of an archival FFPE tumor tissue from primary tumor resection specimen (if not provided per above). If an FFPE tissue block cannot be provided as per documented regulations 15 unstained slides (10 minimum) will be acceptable\n* At least one measurable lesion as defined by RECIST version 1.1 that has not been previously irradiated\n* Eastern Cooperative Oncology Group (ECOG) performance status 0 or 1\n* Adequate bone marrow function, renal and liver functions\n\nExclusion Criteria:\n\n* Prior systemic therapy directed at advanced or metastatic RCC\n* Prior adjuvant or neoadjuvant therapy for RCC if disease progression or relapse has occurred during or within 12 months after the last dose of treatment.\n* Prior immunotherapy with IL-2, IFN-α, or anti PD 1, anti PD L1, anti PD L2, anti CD137, or anti cytotoxic T lymphocyte associated antigen 4 (CTLA 4) antibody (including ipilimumab), or any other antibody or drug specifically targeting T cell co stimulation or immune checkpoint pathways\n* Prior therapy with axitinib and/or sunitinib as well as any prior therapies with other VEGF pathway inhibitors\n* Newly diagnosed or active brain metastasis\n* Known severe hypersensitivity reactions to monoclonal antibodies (Grade ≥3), any history of anaphylaxis, or uncontrolled asthma (ie, 3 or more features of partially controlled asthma Global Initiative for Asthma 2011)\n* Any of the following in the previous 12 months: myocardial infarction, severe/unstable angina, coronary/peripheral artery bypass graft, symptomatic congestive heart failure, LVEF less than LLN, clinically significant pericardial effusion, cerebrovascular accident, transient ischemic attack\n* Any of the following in the previous 6 months: deep vein thrombosis or symptomatic pulmonary embolism\n* Vaccination within 4 weeks of the first dose of avelumab and while on trial is prohibited except for administration of inactivated vaccines (for example, inactivated influenza vaccines)",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "A Study of Avelumab With Axitinib Versus Sunitinib In Advanced Renal Cell Cancer (JAVELIN Renal 101)",
+   "nctId": "NCT02684006"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2025-07-30",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "COMPLETED",
+   "startDateStruct": {
+    "date": "2016-03-23",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

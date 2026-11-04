@@ -1,0 +1,35 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Gastric Cancer"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n* Have a good understanding of the study, are willing to follow the requirements of the study, and voluntarily sign the informed consent form.\n* Aged ≥ 18 years old and ≤ 75 years old.\n* Locally advanced unresectable or metastatic gastric or gastroesophageal adenocarcinoma confirmed by pathological histology or cytology.\n* No previous systemic therapy. Note: Patients who have previously received neoadjuvant or adjuvant therapy may be enrolled if they have ended treatment without recurrence or disease progression for at least 6 months.\n* Agree to provide a previously stored tumor tissue sample or a biopsy to collect tumor tissue.\n* ECOG PS score is in the range of 0\\~1.\n* Expected survival time ≥ 3 months.\n* Subjects having adequate organ and bone marrow functions with laboratory test values within 7 days prior to enrollment meeting the following requirements (no blood components, cell growth factors, albumin, and other corrective therapy drugs are allowed to be given within the first 14 days of obtaining laboratory tests), as follows:\n\n  1. Blood routine: absolute neutrophil count (ANC) ≥ 1.5×10\\^9/L; platelet count (PLT) ≥ 75×10\\^9/L; hemoglobin level (HGB) ≥ 7.5 g/dL.\n  2. Liver function: serum total bilirubin (TBIL) ≤ 1.5 × upper limit of normal (ULN); alanine aminotransferase (ALT) and aspartate aminotransferase (AST) ≤ 2.5 × ULN in subjects without liver metastases, and ALT and AST ≤ 5.0 × ULN in subjects with liver metastases; serum albumin ≥ 25 g/L.\n  3. Renal function: serum creatinine (Cr) ≤ 1.5 x ULN, or creatinine clearance\\>50 mL/min.\n* Female subjects of childbearing age or male subjects whose sexual partners are at childbearing age are required to take effective contraception measures throughout the treatment period and for 6 months after the treatment\n\nExclusion Criteria:\n\n* Prior exposure to any immune checkpoint inhibitors (anti-PD-1 antibody, anti-PD-L1 antibody, CTLA-4 antibody).\n* Receiving antitumor cytotoxic drugs, biological drugs (such as monoclonal antibodies), immunotherapy (such as interleukin 2 or interferon), or other investigational treatments within 4 weeks prior to enrollment.\n* Receiving radiotherapy within 4 weeks prior to the first dose.\n* Have undergone major surgical surgery within 4 weeks prior to enrollment or have not fully recovered from previous surgery.\n* Known presence of symptomatic CNS metastases and/or carcinomatous meningitis. Subjects with prior treatment for brain metastases may participate in the study provided that the brain metastases have remained stable for at least 4 weeks prior to the first dose of study treatment; and that neurological symptoms have recovered to ≤ grade 1 by NCI CTCAE version 5.0.\n* A history of other primary malignancies, except: malignancies in complete response for at least 2 years prior to enrollment and requiring no other treatment during the study period; adequately treated non-melanoma skin cancer or malignant freckled nevus with no evidence of disease recurrence; adequately treated carcinoma in situ with no evidence of disease recurrence.\n* Active autoimmune disease requiring systemic therapy (e.g., use of disease-relieving drugs, corticosteroids, or immunosuppressants) within 2 years prior to the first dose. Alternative therapies (e.g., thyroxine, insulin, or physiologic corticosteroids for adrenal or pituitary insufficiency) are allowed. A known history of primary immunodeficiency. For patients with only positive autoimmune antibodies, the presence of autoimmune diseases should be confirmed at the discretion of the investigator.\n* A history of gastrointestinal perforation and/or fistula in the previous 6 months.\n* Presence of intestinal obstruction (including incomplete intestinal obstruction requiring parenteral nutrition).\n* Confirmed as HER2-positive (i.e., IHC 3+ or IHC 2+ with ISH+) gastric or gastroesophageal adenocarcinoma.\n* Have heart symptoms or diseases that are not well controlled, such as:\n\n  1. Have had NYHA grade 3 or 4 cardiac insufficiency within 6 months prior to enrollment;\n  2. Unstable angina;\n  3. Have had acute myocardial infarction within 6 months prior to enrollment;\n  4. Have had clinically significant arrhythmias within 6 months prior to enrollment requiring treatment or intervention.\n* Infected with human immunodeficiency virus (HIV) (HIV 1/2 antibody or HIV RNA positive).\n* Known to have acute or chronic active hepatitis B (HBsAg positive and HBV DNA ≥ 1000 copies/mL) or acute or chronic active hepatitis C (HCV antibody positive and HCV RNA positive).\n* Severe infections that are in the active phase or poorly controlled in clinical practice. Serious infection, including but not limited to hospitalization for complications of infection, bacteremia or severe pneumonia, within 4 weeks prior to the first dose.\n* A known history of allogeneic organ transplantation and allogeneic hematopoietic stem cell transplantation.\n* A history of allergy or known intolerance to any drug in the study regimen.\n* Receiving live attenuated vaccine within 4 weeks prior to the first dose or planning to receive during the study period.\n* The toxicity of previous antitumor therapy has not returned to grade 0-1 according to CTCAE 5.0.",
+   "healthyVolunteers": false,
+   "maximumAge": "75 Years",
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "Comparing Modified XELOX Plus Sintilimab With Standard XELOX Plus Sintilimab in First-line Treatment for HER2-negative Gastric/Gastroesophageal Junction Adenocarcinoma",
+   "nctId": "NCT05918094"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2024-01-26",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "RECRUITING",
+   "startDateStruct": {
+    "date": "2023-04-30",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

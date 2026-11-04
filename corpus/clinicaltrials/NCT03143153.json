@@ -1,0 +1,34 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Various Advanced Cancer"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n* Must have histologically confirmed squamous cell carcinoma or adenosquamous cell carcinoma of esophagus\n* Male or Female at least 18 years of age\n* Must have esophageal cancer that cannot be operated on, or treated with definitive chemoradiation with curative intent, that is advanced, reoccurring or has spread out\n* Must have full activity or, if limited, must be able to walk and carry out light activities such as light house work or office work\n* Must agree to provide tumor tissue sample, either from a previous surgery or biopsy within 6 months or fresh, prior to the start of treatment in this study\n\nExclusion Criteria\n\n* Presence of tumor cells in the brain or spinal cord which are symptomatic or require treatment\n* Active known or suspected autoimmune disease\n* Any serious or uncontrolled medical disorder or active infection\n* Known history of positive test for human immunodeficiency virus (HIV) or known acquired immunodeficiency syndrome (AIDS)\n* Any positive test result for hepatitis B or C indicating acute or chronic infection and/or detectable virus\n\nOther protocol defined inclusion/exclusion criteria apply",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "A Study to Evaluate Efficacy in Subjects With Esophageal Cancer Treated With Nivolumab and Ipilimumab or Nivolumab Combined With Fluorouracil Plus Cisplatin Versus Fluorouracil Plus Cisplatin",
+   "nctId": "NCT03143153"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2026-02-17",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "COMPLETED",
+   "startDateStruct": {
+    "date": "2017-06-29",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

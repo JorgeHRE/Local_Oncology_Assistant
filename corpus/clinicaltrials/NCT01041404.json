@@ -1,0 +1,33 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Gastric Cancer"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n* Adult patients \\>=18 years of age\n* Inoperable locally advanced, recurrent, and/or metastatic cancer of the stomach or gastro-esophageal junction\n* Adenocarcinoma\n* HER2-positive tumors\n\nExclusion Criteria:\n\n* Previous chemotherapy for advanced/metastatic disease\n* Lack of physical integrity of the upper gastrointestinal tract, or malabsorption syndrome\n* History of cardiac disease\n* Dyspnoea at rest, due to complications of advanced malignancy or other disease, or patients who require supportive oxygen therapy",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "ToGA Study - A Study of Herceptin (Trastuzumab) in Combination With Chemotherapy Compared With Chemotherapy Alone in Patients With HER2-Positive Advanced Gastric Cancer",
+   "nctId": "NCT01041404"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2014-11-05",
+    "type": "ESTIMATED"
+   },
+   "overallStatus": "COMPLETED",
+   "startDateStruct": {
+    "date": "2005-09"
+   }
+  }
+ }
+}

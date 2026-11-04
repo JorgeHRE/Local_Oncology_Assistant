@@ -1,0 +1,34 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Unresectable or Metastatic Gastric or Gastroesophageal Junction Adenocarcinoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n1. Able and willing to sign a written Informed Consent Form(ICF) and to comply with protocol-specified visits and related procedures.\n2. Has histopathologically confirmed unresectable locally advanced or metastatic adenocarcinoma of the gastric/gastroesophageal junction (G/GEJ AC).\n3. Has received and progressed on at least 2 lines of systemic therapy (anti-PD-(L)1 in combination with platinum or fluoropyrimidines, paclitaxel/docetaxel, irinotecan). A prior (neo)adjuvant systemic therapy that ended within 6 months prior to disease relapse is defined as the first line therapy. The subject has ≤ 4 prior lines of systemic therapy.\n4. Has histopathologically confirmed CLDN18.2-positive disease.\n5. Is a man or woman of 18 years of age or older at the time of signing the ICF.\n6. Has an Eastern Cooperative Oncology Group (ECOG) performance status (PS) of 0 or 1.\n\nExclusion Criteria:\n\n1. Has HER2-positive (defined as immunohistochemistry \\[IHC\\] 3+, or IHC 2+ and positive by in situ hybridization) disease.\n2. Is currently participating in another interventional clinical study, except when the subject is during survival follow-up of an interventional clinical study.\n3. Has a history of treatment with topoisomerase inhibitorbased antibody-drug conjugate(s).\n4. Has received the last dose of an anti-cancer therapy (including traditional Chinese medicine indicated for gastric cancer in the package insert, but excluding herbal prescriptions) within 4 weeks or 5 half-lives (whichever is shorter) prior to the first dose of study treatment.\n5. Plans to receive other anti-cancer therapy during treatment with the study drug (palliative radiotherapy for symptomatic (e.g., pain) relief that does not affect response assessment is allowed).",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "A Multicenter, Phase 3 Study of IBI343 Monotherapy Versus Treatment of Investigator's Choice in Subjects With Previously Treated, Claudin (CLDN) 18.2-positive, HER2-negative, Gastric or Gastroesophageal Junction Adenocarcinoma (G-HOPE-001)",
+   "nctId": "NCT06238843"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2026-05-13",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "ACTIVE_NOT_RECRUITING",
+   "startDateStruct": {
+    "date": "2024-06-30",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

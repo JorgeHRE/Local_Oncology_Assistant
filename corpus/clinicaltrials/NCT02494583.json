@@ -1,0 +1,34 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Gastric Adenocarcinoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n* Performance status of 0 or 1 on the Eastern Cooperative Oncology Group (ECOG) Performance Scale within 3 days prior to first dose of study medication\n* Has histologically- or cytologically-confirmed diagnosis of locally advanced unresectable or metastatic gastric or GEJ adenocarcinoma\n* Human epidermal growth factor receptor 2- (HER2/neu-) negative and programmed cell death ligand 1 (PD-L1)-positive\n* Has measurable disease\n* Female participants of childbearing potential must be willing to use adequate contraception or be surgically sterile, or abstain from heterosexual activity for the course of the study through 120 days after the last dose of study medication\n* Male participants of childbearing potential should agree to use an adequate method of contraception starting with the first dose of study medication through 120 days after the last dose of study medication\n* Adequate organ function\n\nExclusion Criteria:\n\n* Squamous cell or undifferentiated gastric cancer\n* Previous therapy for locally advanced, unresectable or metastatic gastric/GEJ cancer. Participant may have received prior neoadjuvant or adjuvant therapy as long as it was completed at least 6 months prior to randomization\n* Major surgery, open biopsy or significant traumatic injury within 28 days prior to randomization, or anticipation of the need for major surgery during the course of study treatment.\n* Radiotherapy within 14 days of randomization\n* Known additional malignancy that is progressing or requires active treatment with the exception of basal cell carcinoma of the skin, squamous cell carcinoma of the skin that has undergone potentially curative therapy or in situ cervical cancer\n* Known active central nervous system (CNS) metastases and/or carcinomatous meningitis\n* Active autoimmune disease that has required systemic treatment in past 2 years\n* Diagnosis of immunodeficiency or is receiving chronic systemic steroid therapy (in dosing exceeding 10 mg daily of prednisone equivalent) or any other form of immunosuppressive therapy within 7 days prior the first dose of study medication\n* History of non-infectious pneumonitis that required steroids or current pneumonitis\n* Active infection requiring systemic therapy\n* Pregnant, breastfeeding, or expecting to conceive or father children within the projected duration of the trial, starting with the screening visit through 120 days after the last dose of study medication\n* Prior therapy with an anti-programmed cell death (PD)-1, anti-PD-L1, or anti-PD-L2 agent\n* Known history of human immunodeficiency virus (HIV)\n* Known active Hepatitis B or C\n* Currently participating in and receiving study therapy or has participated in a study of an investigational agent or has used an investigational device within 4 weeks prior to the first dose of study medication\n* Received a live vaccine within 30 days prior to the first dose of study medication",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "Study of Pembrolizumab (MK-3475) as First-Line Monotherapy and Combination Therapy for Treatment of Advanced Gastric or Gastroesophageal Junction Adenocarcinoma (MK-3475-062/KEYNOTE-062)",
+   "nctId": "NCT02494583"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2023-04-13",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "COMPLETED",
+   "startDateStruct": {
+    "date": "2015-07-31",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

@@ -1,0 +1,34 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Untreated Advanced or Metastatic Gastric, Gastroesophageal Junction, or Esophageal Adenocarcinoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria\n\n* Participants must be previously untreated with systemic treatment for advanced/metastatic disease, histologically or cytologically confirmed advanced or metastatic gastric cancer (GC), gastroesophageal junction adenocarcinoma (GEJC) or distal esophageal adenocarcinoma (EAC). GEJ involvement can be confirmed via biopsy, endoscopy, or imaging.\n* Participants must have a documented programmed cell death-(ligand)1 (PD-L1) ≥ 1 or \\< 1 status for Phase 2, and document PD-L1 ≥ 1 status for the Phase 3 part of the study.\n* Participants must have documented human epidermal growth factor receptor 2 (HER2)-negative cancer, as determined according to local guidelines.\n* Participants must have measurable disease as defined by RECIST v1.1.\n\nExclusion Criteria\n\n* Participants must not have untreated known central nervous system (CNS) metastases.\n* Participants must not have significant cardiovascular disease, such as myocardial infarction, unstable angina, arterial thrombosis, cerebrovascular accident within 6 months prior to randomization, uncontrolled hypertension (≥ 160 systolic, ≥ 100 diastolic mm Hg) despite optimal medical management, or congenital long QT syndrome.\n* Participants must not have evidence of major coagulation disorders (eg, hemophilia).\n* Participants must not have a history of deep vein thrombosis, pulmonary embolism, or any other significant thromboembolism within 3 months prior to randomization, unless the participant has been fully treated (eg, inferior vena cava filter placed) and/or adequately anticoagulated on a stable dose.\n* Participants must not have a history of abdominal fistula or gastrointestinal (GI) perforation within 6 months of randomization.\n* Participants must not have had major surgery, open biopsy, or significant traumatic injury within 28 days prior to randomization, or anticipation of the need for major surgery during the course of study intervention.\n* Other protocol-defined Inclusion/Exclusion criteria apply.",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "A Study to Evaluate the Safety and Efficacy of Pumitamig in Combination With Chemotherapy Versus Nivolumab in Combination With Chemotherapy in Participants With Previously Untreated Advanced or Metastatic Gastric, Gastroesophageal Junction, or Esophageal Adenocarcinoma (ROSETTA Gastric-204)",
+   "nctId": "NCT07221149"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2026-09-30",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "RECRUITING",
+   "startDateStruct": {
+    "date": "2026-03-13",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

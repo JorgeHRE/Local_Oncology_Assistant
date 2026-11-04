@@ -43,6 +43,7 @@ make etl            # CSV de Synthea + vocabulario -> OMOP, ~50 min; necesita ba
 make post-etl       # value_as_concept_id
 make cohort         # conjuntos de conceptos y cohorte piloto de zolbetuximab
 make attrition      # tabla de atrición de la cohorte
+make corpus         # descarga el corpus del RAG (ClinicalTrials.gov y PubMed); ver docs/corpus.md
 make test           # todos los tests
 ```
 

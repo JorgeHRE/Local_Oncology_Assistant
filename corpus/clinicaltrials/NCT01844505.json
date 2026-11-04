@@ -1,0 +1,34 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Unresectable or Metastatic Melanoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "For more information regarding BMS clinical trial participation, please visit www.BMSStudyConnect.com\n\nInclusion Criteria:\n\n* Histologically confirmed stage III (unresectable) or stage IV melanoma\n* Treatment naïve patients\n* Measurable disease by computed tomography (CT) or Magnetic Resonance Imaging (MRI) per RECIST 1.1 criteria\n* Tumor tissue from an unresectable or metastatic site of disease for biomarker analyses\n* Eastern Cooperative Oncology Group (ECOG) performance status (PS) 0 or 1\n\nExclusion Criteria:\n\n* Active brain metastases or leptomeningeal metastases\n* Ocular melanoma\n* Subjects with active, known or suspected autoimmune disease\n* Subjects with a condition requiring systemic treatment with either corticosteroids (\\>10 mg daily prednisone equivalents) or other immunosuppressive medications within 14 days of treatment\n* Prior treatment with an anti-Programmed Death receptor-1 (PD-1), anti-Programmed Death-1 ligand-1 (PD-L1), anti-PD-L2, or anti-cytotoxic T lymphocyte associated antigen-4 (anti-CTLA-4) antibody",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "Phase 3 Study of Nivolumab or Nivolumab Plus Ipilimumab Versus Ipilimumab Alone in Previously Untreated Advanced Melanoma (CheckMate 067)",
+   "nctId": "NCT01844505"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2025-05-21",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "COMPLETED",
+   "startDateStruct": {
+    "date": "2013-06-11",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

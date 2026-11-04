@@ -1,0 +1,35 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "HER2-positive Gastric Cancer",
+    "Gastroesophageal Junction Adenocarcinoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n1. HER2 positive for gastric cancer on a tumor biopsy.\n2. PD-L1 combined positive score (CPS) ≥ 1.\n3. Provision of tumor tissue sample from recent biopsy adequate for HER2 and PD-L1 testing.\n4. Previously untreated, unresectable, locally advanced or metastatic gastric or GEJ adenocarcinoma.\n5. WHO or Eastern Cooperative Oncology Group performance status of 0 or 1.\n6. Have measurable target disease assessed by the Investigator based on RECIST v1.1.\n7. Have adequate organ and bone marrow function.\n8. LVEF ≥ 50% within 28 days before randomization.\n9. Adequate treatment washout period before randomization.\n\nExclusion Criteria:\n\n1. Lack of physiological integrity of the upper gastrointestinal tract.\n2. Known dihydropyrimidine dehydrogenase enzyme deficiency.\n3. Contraindication to pembrolizumab or trastuzumab, contraindications to fluoropyrimidine (5-FU and capecitabine) or platinum (cisplatin and oxaliplatin) treatment as per local label.\n4. History of another primary malignancy except for malignancy treated with curative intent with no known active disease within 3 years before the first dose of study intervention and of low potential risk for recurrence.\n5. Persistent toxicities caused by previous anti-cancer therapy.\n6. Spinal cord compression or brain metastases unless asymptomatic, treated and stable and not requiring corticosteroid or anticonvulsant may be included in the study if they have recovered from the acute toxic effect of radiotherapy.\n7. Uncontrolled infection including tuberculosis and active hepatitis A infection.\n8. Uncontrolled infection requiring intravenous (IV) antibiotics, anti-virals, or antifungals.\n9. Recent receipt of live, attenuated vaccine.\n10. Chronic/active HBV or HCV infection unless controlled.\n11. Clinically significant cardiac or psychological conditions.\n12. Active or prior documented autoimmune or inflammatory disorders requiring chronic treatment with steroids or other immunosuppressive treatment.\n13. History of (non-infectious) ILD/pneumonitis, has current ILD/pneumonitis, or where suspected ILD/pneumonitis cannot be ruled out by imaging at screening.\n14. Lung-specific intercurrent clinically significant illnesses.\n15. Any active non-infectious skin disease requiring systemic treatment.\n16. A pleural effusion, ascites or pericardial effusion that requires drainage, peritoneal shunt, or cell-free and concentrated ascites reinfusion therapy (CART).\n17. History of any of the following: drug-induced severe cutaneous adverse reaction.\n18. Any concurrent antic-ancer treatment with the exception of receptor activator of nuclear factor kappa-B ligand inhibitors.\n19. Have had major surgical procedure recently (excluding placement of vascular access) or recent significant traumatic injury or an anticipated need for major surgery during the study.\n20. Current or prior use of immunosuppressive medication within 14 days before study intervention.",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "A Phase Ⅲ Study of Rilvegostomig in Combination With Fluoropyrimidine and Trastuzumab Deruxtecan as the First-line Treatment for HER2-positive Gastric Cancer",
+   "nctId": "NCT06764875"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2026-09-11",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "RECRUITING",
+   "startDateStruct": {
+    "date": "2025-03-01",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

@@ -1,0 +1,36 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Locally Advanced Unresectable or Metastatic Gastric Cancer",
+    "Locally Advanced Unresectable or Metastatic Gastroesophageal Junction (GEJ) Adenocarcinoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n1. Written informed consent\n2. Histologically confirmed diagnosis of locally advanced unresectable or metastatic gastric/GEJ adenocarcinoma with no treatment previously. For patients with neoadjuvant/adjuant chemotherapy in the past, duration of last therapy to recurrence should be more than 6 months\n3. At least 1 measurable site of the disease according to RECIST 1.1 criteria.\n4. Positive CDLN 18.2 expression\n5. Negative HER2 expression, PD-L1 CPS\\<5\n6. ECOG performance status (PS) 0-1\n7. Life expectancy \\> 3 months\n8. Age ≥ 18 years and ≤75 years\n9. Adequate haematological/ coagulation/ hepatic/ renal function\n10. Men and women of childbearing age should agree to use effective contraception from the time they sign their informed consent until 3 months after the last dosing. Female subjects of childbearing age must have a negative blood beta-HCG test within 72 hours prior to first dosing.\n\nExclusion Criteria:\n\n1. Previous radiotherapy within 4 weeks prior to the start of study treatment. (if palliative radiotherapy was given to bone metastases and the patient recovered from acute toxicity was allowed).\n2. Previous anti-tumor therapy within 4 weeks prior to the start of study treatment.\n3. Previous major operation within 4 weeks prior to the start of study treatment.\n4. Have a prior severe allergic reaction or intolerance to known components of M108 monoclonal antibodies or other monoclonal antibodies (including humanized or chimeric antibodies); Allergic or intolerant to any component of capecitabine, oxaliplatin, etc.\n5. Subject who has been treated with CLDN18.2 monoclonal/bispecific antibodies, CLDN18.2 CAR-T, CLDN18.2 ADC and any therapies that target CLDN18.2.\n6. Subject who is in pregnant or in lactation period.\n7. Other clinically significant disease which may have adversely affected the safe delivery of treatment within this study.",
+   "healthyVolunteers": false,
+   "maximumAge": "75 Years",
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "M108 Plus CAPOX Versus Placebo Plus CAPOX as First-line Treatment for Claudin (CLDN) 18.2-Positive, HER2-Negative, PD-L1 CPS<5, Locally Advanced Unresectable or Metastatic Gastric or Gastroesophageal Junction (GEJ) Adenocarcinoma.",
+   "nctId": "NCT06177041"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2024-02-28",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "RECRUITING",
+   "startDateStruct": {
+    "date": "2023-12-25",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

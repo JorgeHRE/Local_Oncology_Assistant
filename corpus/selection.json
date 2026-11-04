@@ -1,0 +1,363 @@
+{
+  "_comment": "Corpus selection for the gastric cancer assistant. Fetch with `make corpus`. Texts are NOT committed (see docs/corpus.md); corpus/manifest.json records source, version, date and SHA-256 of each document.",
+  "clinicaltrials": [
+    {
+      "id": "NCT03504397",
+      "role": "pivotal",
+      "note": "SPOTLIGHT (zolbetuximab + mFOLFOX6)"
+    },
+    {
+      "id": "NCT03653507",
+      "role": "pivotal",
+      "note": "GLOW (zolbetuximab + CAPOX)"
+    },
+    {
+      "id": "NCT02872116",
+      "role": "pivotal",
+      "note": "CheckMate 649 (nivolumab)"
+    },
+    {
+      "id": "NCT01041404",
+      "role": "pivotal",
+      "note": "ToGA (trastuzumab)"
+    },
+    {
+      "id": "NCT06346197",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT06901531",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT07673887",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT05427383",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT06177041",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT07385703",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT02494583",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT03615326",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT05152147",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT05677490",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT05918094",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT06093425",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT06221748",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT06764875",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT06841679",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT07103668",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT07584135",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT07700979",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT02625610",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT03130790",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT03675737",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT04704934",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT05111626",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT06203600",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT06504732",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT06731478",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT05008783",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT05568095",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT04882241",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT03221426",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT07221149",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT06123494",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT07118527",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT06238843",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT04879368",
+      "role": "candidate"
+    },
+    {
+      "id": "NCT02563002",
+      "role": "distractor"
+    },
+    {
+      "id": "NCT02142738",
+      "role": "distractor"
+    },
+    {
+      "id": "NCT00567190",
+      "role": "distractor"
+    },
+    {
+      "id": "NCT03143153",
+      "role": "distractor"
+    },
+    {
+      "id": "NCT03875235",
+      "role": "distractor"
+    },
+    {
+      "id": "NCT02477826",
+      "role": "distractor"
+    },
+    {
+      "id": "NCT01844505",
+      "role": "distractor"
+    },
+    {
+      "id": "NCT02358031",
+      "role": "distractor"
+    },
+    {
+      "id": "NCT02684006",
+      "role": "distractor"
+    },
+    {
+      "id": "NCT03434379",
+      "role": "distractor"
+    }
+  ],
+  "pubmed": [
+    {
+      "pmid": "37068504",
+      "topic": "pivotal"
+    },
+    {
+      "pmid": "37524953",
+      "topic": "pivotal"
+    },
+    {
+      "pmid": "34102137",
+      "topic": "pivotal"
+    },
+    {
+      "pmid": "20728210",
+      "topic": "pivotal"
+    },
+    {
+      "pmid": "39615405",
+      "topic": "claudin"
+    },
+    {
+      "pmid": "39306800",
+      "topic": "claudin"
+    },
+    {
+      "pmid": "42232601",
+      "topic": "claudin"
+    },
+    {
+      "pmid": "41203756",
+      "topic": "claudin"
+    },
+    {
+      "pmid": "28129524",
+      "topic": "her2"
+    },
+    {
+      "pmid": "25038874",
+      "topic": "her2"
+    },
+    {
+      "pmid": "18422971",
+      "topic": "her2"
+    },
+    {
+      "pmid": "27217694",
+      "topic": "her2"
+    },
+    {
+      "pmid": "36603169",
+      "topic": "immunotherapy"
+    },
+    {
+      "pmid": "37875143",
+      "topic": "immunotherapy"
+    },
+    {
+      "pmid": "40207218",
+      "topic": "immunotherapy"
+    },
+    {
+      "pmid": "39843940",
+      "topic": "immunotherapy"
+    },
+    {
+      "pmid": "35323331",
+      "topic": "immunotherapy"
+    },
+    {
+      "pmid": "35680043",
+      "topic": "msi"
+    },
+    {
+      "pmid": "33592120",
+      "topic": "msi"
+    },
+    {
+      "pmid": "39123202",
+      "topic": "msi"
+    },
+    {
+      "pmid": "37329891",
+      "topic": "first_line_trials"
+    },
+    {
+      "pmid": "40473445",
+      "topic": "first_line_trials"
+    },
+    {
+      "pmid": "37666264",
+      "topic": "first_line_trials"
+    },
+    {
+      "pmid": "30982686",
+      "topic": "perioperative"
+    },
+    {
+      "pmid": "37963317",
+      "topic": "perioperative"
+    },
+    {
+      "pmid": "40454643",
+      "topic": "perioperative"
+    },
+    {
+      "pmid": "40829093",
+      "topic": "perioperative"
+    },
+    {
+      "pmid": "38188462",
+      "topic": "zolbetuximab"
+    },
+    {
+      "pmid": "38458658",
+      "topic": "guideline"
+    },
+    {
+      "pmid": "42054784",
+      "topic": "guideline"
+    },
+    {
+      "pmid": "35386808",
+      "topic": "staging"
+    },
+    {
+      "pmid": "28765618",
+      "topic": "lauren"
+    },
+    {
+      "pmid": "36244398",
+      "topic": "fgfr2b"
+    },
+    {
+      "pmid": "32469182",
+      "topic": "later_lines"
+    },
+    {
+      "pmid": "25240821",
+      "topic": "later_lines"
+    },
+    {
+      "pmid": "40454632",
+      "topic": "later_lines"
+    },
+    {
+      "pmid": "35427471",
+      "topic": "distractor"
+    },
+    {
+      "pmid": "30620668",
+      "topic": "distractor"
+    },
+    {
+      "pmid": "32171426",
+      "topic": "distractor"
+    }
+  ]
+}

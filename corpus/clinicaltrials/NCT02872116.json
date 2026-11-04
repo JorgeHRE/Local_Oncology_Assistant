@@ -1,0 +1,36 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Gastric Cancer",
+    "Gastroesophageal Junction Cancer",
+    "Esophageal Adenocarcinoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n* Male or Female at least 18 years of age\n* Must have gastric cancer or gastroesophageal junction cancer that cannot be operated on and that is advanced or has spread out\n* Did not receive neoadjuvant or adjuvant treatment (chemotherapy, radiotherapy, or both) for their disease within the last 6 months\n* Must have full activity or, if limited, must be able to walk and carry out light activities such as light house work or office work\n* Must agree to provide tumor tissue sample, either from a previous surgery or biopsy within 6 months or fresh, prior to the start of treatment in this study\n\nExclusion Criteria:\n\n* Presence of tumor cells in the brain or spinal cord that have not been treated\n* Active known or suspected autoimmune disease\n* Any serious or uncontrolled medical disorder or active infection\n* Known history of positive test for human immunodeficiency virus (HIV) or known acquired immunodeficiency syndrome (AIDS)\n* Any positive test result for hepatitis B or C indicating acute or chronic infection\n\nOther protocol-defined inclusion/exclusion criteria apply",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "Efficacy Study of Nivolumab Plus Ipilimumab or Nivolumab Plus Chemotherapy Against Chemotherapy in Stomach Cancer or Stomach/Esophagus Junction Cancer",
+   "nctId": "NCT02872116"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2025-08-07",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "COMPLETED",
+   "startDateStruct": {
+    "date": "2016-10-12",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

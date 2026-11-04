@@ -1,0 +1,48 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Advanced Esophageal Adenocarcinoma",
+    "Advanced Gastric Adenocarcinoma",
+    "Advanced Gastroesophageal Junction Adenocarcinoma",
+    "Clinical Stage III Esophageal Adenocarcinoma AJCC v8",
+    "Clinical Stage III Gastric Cancer AJCC v8",
+    "Clinical Stage III Gastroesophageal Junction Adenocarcinoma AJCC v8",
+    "Clinical Stage IV Esophageal Adenocarcinoma AJCC v8",
+    "Clinical Stage IV Gastric Cancer AJCC v8",
+    "Clinical Stage IV Gastroesophageal Junction Adenocarcinoma AJCC v8",
+    "Metastatic Esophageal Adenocarcinoma",
+    "Metastatic Gastric Adenocarcinoma",
+    "Metastatic Gastroesophageal Junction Adenocarcinoma",
+    "Unresectable Esophageal Adenocarcinoma",
+    "Unresectable Gastric Adenocarcinoma",
+    "Unresectable Gastroesophageal Junction Adenocarcinoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n* Histologic documentation: HER2 negative adenocarcinoma as defined by American Society of Clinical Oncology (ASCO) College of American Pathologists (CAP) guidelines (Bartley et al., Journal of Clinical Oncology \\[JCO\\] 2017) with known PD-L1 combined positive score (CPS) (any CPS is allowed, but should be known prior to registration)\n* Stage: unresectable or metastatic\n* Tumor site: esophagus, gastroesophageal junction, or stomach\n* Measurable disease or non-measurable but evaluable disease as defined by Response Evaluation Criteria in Solid Tumors (RECIST) 1.1\n* No prior systemic treatment for unresectable or metastatic disease\n* Prior neoadjuvant or adjuvant cytotoxic chemotherapy or adjuvant immunotherapy is allowed as long as it was completed at least 1 year prior to registration\n* Not pregnant and not nursing, because this study involves an agent that has known genotoxic, mutagenic and teratogenic effects\n\n  \\* Therefore, for women of childbearing potential only, a negative serum or urine pregnancy test done =\\< 7 days prior to registration is required\n* Age \\>= 18 years\n* Eastern Cooperative Oncology Group (ECOG) Performance Status 0 or 1\n* Absolute neutrophil count (ANC) \\>= 1,500/mm\\^3\n* Platelet count \\>= 100,000/mm\\^3\n* Creatinine =\\< 1.5 x upper limit of normal (ULN) OR calculated (calc.) creatinine clearance \\>= 30 mL/min\n* Total bilirubin =\\< 1.5 x ULN\n* Aspartate aminotransferase (AST) and alanine aminotransferase (ALT) =\\< 3 x ULN (in patients with liver metastasis: =\\< 5 x ULN if clearly attributable to liver metastases)\n* Patients with a prior or concurrent malignancy whose natural history or treatment does not have the potential to interfere with the safety or efficacy assessment of the investigational regimen are eligible for this trial\n* Patients positive for human immunodeficiency virus (HIV) are eligible only if they meet all of the following:\n\n  * On effective anti-retroviral therapy\n  * Undetectable HIV viral load by standard clinical assay =\\< 6 months of registration\n* No known Gilbert's syndrome or known homozygosity for UGAT1A1\\*28 polymorphism\n* No baseline grade \\>= 2 peripheral neuropathy, neurosensory toxicity, or neuromotor toxicity per CTCAE version (v) 5.0 regardless of causality\n* No medical condition such as uncontrolled infection or uncontrolled diabetes mellitus which, in the opinion of the treating physician, would make this protocol unreasonably hazardous for the patient\n* Patients with known history or current symptoms of cardiac disease, or history of treatment with cardiotoxic agents, should have a clinical risk assessment of cardiac function using the New York Heart Association Functional Classification. To be eligible for this trial, patients should be class 2B or better\n* No untreated, symptomatic brain metastasis. Patients with treated brain metastases are eligible if the following criteria are met: 1) follow-up brain imaging done at least in 4 weeks after central nervous system (CNS)-directed therapy shows no evidence of progression and 2) the patient no longer requires steroids, or is on a stable steroid dose for more than four weeks\n* No allogeneic tissue/organ transplant\n* Patients who will receive nivolumab in addition to chemotherapy must not have any contraindications to immune checkpoint inhibitors\n\n  * Patients must not have active autoimmune disease that has required systemic treatment within 6 months prior to registration. Patients are permitted to receive immunotherapy if they have vitiligo, type I diabetes, residual hypothyroidism due to autoimmune condition only requiring hormone replacement, psoriasis not requiring systemic treatment, or conditions not expected to recur in the absence of an external trigger (precipitating event)\n  * Patients must not have a condition requiring systemic treatment with either corticosteroids (\\>10mg/day prednisone equivalents) or other immunosuppressive medications within 14 days prior to registration. Inhaled or topical steroids and adrenal replacement doses (=\\< 10mg/day prednisone equivalent) are permitted\n  * Patients must not have a history of noninfectious pneumonitis requiring steroids\n  * Patients with prior immune mediated adverse events related to immunotherapy that resulted in permanent treatment discontinuation with these agents are ineligible",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "mFOLFIRINOX Versus mFOLFOX With or Without Nivolumab for the Treatment of Advanced, Unresectable, or Metastatic HER2 Negative Esophageal, Gastroesophageal Junction, and Gastric Adenocarcinoma",
+   "nctId": "NCT05677490"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2026-10-02",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "RECRUITING",
+   "startDateStruct": {
+    "date": "2023-01-31",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

@@ -1,0 +1,35 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Gastric Cancer, Adenocarcinoma",
+    "Gastroesophageal Junction Adenocarcinoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n* Adults (according to local regulation) and able to provide informed consent for study participation.\n* Pathologically documented gastric and GEJ adenocarcinoma that has been previously treated in the metastatic setting (unresectable, locally advanced, or metastatic disease).\n* Progression on or after first-line therapy with a trastuzumab or approved trastuzumab biosimilar-containing regimen. Note: Prior neoadjuvant or adjuvant therapy with a trastuzumab-containing regimen can be counted as a line of therapy if the subject progressed on or within 6 months of completing neoadjuvant or adjuvant therapy. Prior neoadjuvant or adjuvant therapy that does not include trastuzumab will not be counted as a line of therapy regardless of the progression status of the subject.\n* Locally or centrally confirmed HER2-positive (IHC 3+ or IHC 2+ and evidence of HER2 amplification by ISH) as classified by ASCO-CAP on a tumor biopsy obtained after progression on or after a first-line trastuzumab or approved trastuzumab biosimilar-containing regimen.\n* Eastern Cooperative Oncology Group performance status of 0 or 1 at Screening.\n* Adequate bone marrow, renal, hepatic function, and blood clotting function within 14 days of randomization.\n\nExclusion Criteria:\n\n* Use of anticancer therapy after trastuzumab-containing treatment\n* Medical history of myocardial infarction (MI) within 6 months before randomization/enrollment, symptomatic congestive heart failure (New York Heart Association Class II to IV).\n* Has a QT interval corrected by Fridericia's formula (QTcF) prolongation to \\>470 msec (female subjects) or \\>450 msec (male subjects) based on average of the Screening triplicate12-lead ECG.\n* Has a history of (non-infectious) interstitial lung disease (ILD/pneumonitis) that required steroids, has current ILD/pneumonitis, or where suspected ILD/pneumonitis cannot be ruled out by imaging at Screening.\n* Any autoimmune, connective tissue or inflammatory disorders (eg, rheumatoid arthritis, Sjögren syndrome, sarcoidosis, etc.) where there is documented (or a suspicion of) pulmonary involvement at the time of Screening.\n* Prior complete pneumonectomy.\n* Spinal cord compression or clinically active central nervous system metastases, defined as untreated and symptomatic or requiring therapy with corticosteroids or anticonvulsants to control associated symptoms.\n* Has multiple primary malignancies within 3 years, except adequately resected non-melanoma skin cancer, curatively treated in-situ disease, other solid tumors curatively treated.\n* History of severe hypersensitivity reactions to either the T-DXd or inactive ingredients in T-DXd.\n* History of severe hypersensitivity reactions to other monoclonal antibodies, including ramucirumab or to any of its excipients.\n* Known allergy or hypersensitivity to paclitaxel or any components used in the paclitaxel preparation or other contraindication for taxane therapy.\n* Current uncontrolled infection requiring antibiotics, antivirals, or antifungals or an unexplained fever \\>38.0°C during Screening visits or on the first scheduled day of dosing (at the discretion of the Investigator, participants with tumor fever may be enrolled), which in the Investigator's opinion might compromise the participant's participation in the study or affect the study outcome\n* Clinically significant gastrointestinal disorder (eg, including hepatic disorders, bleeding, inflammation, occlusion, ileus, diarrhea Grade \\>1, jaundice, intestinal paralysis, malabsorption syndrome, ulcerative colitis, inflammatory bowel disease, or partial bowel obstruction) in the opinion of Investigator\n* Has history of receiving live, attenuated vaccine (mRNA and replication deficient adenoviral vaccines are not considered attenuated live vaccines) within 30 days prior to the first exposure to study intervention",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "Trastuzumab Deruxtecan for Subjects With HER2-Positive Gastric Cancer or Gastro-Esophageal Junction Adenocarcinoma After Progression on or After a Trastuzumab-Containing Regimen (DESTINY-Gastric04)",
+   "nctId": "NCT04704934"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2026-05-27",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "ACTIVE_NOT_RECRUITING",
+   "startDateStruct": {
+    "date": "2021-05-21",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

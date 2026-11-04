@@ -1,0 +1,34 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Gastric / Gastroesophageal Junction Adenocarcinoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n1. Able to provide written informed consent and can understand and comply with the requirements of the study.\n2. Histopathologically-confirmed diagnosis of locally advanced unresectable or metastatic G/GEJ adenocarcinoma.\n3. No prior systemic therapy for locally advanced unresectable or metastatic G/GEJ adenocarcinoma. NOTE: For participants who have received prior neoadjuvant/adjuvant therapy for curative intent, the time between disease progression and last treatment should be at least 6 months.\n4. ECOG PS of 0 or 1 within 3 days prior to randomization.\n5. Age ≥ 18 years at the time of voluntarily signing informed consent.\n6. Evaluable PD-L1 expression results.\n7. Participants must have at least one measurable lesion per RECIST v1.1 as assessed by investigator assessment. Lesions situated in a previously irradiated area are considered measurable if progression has been demonstrated in such lesions.\n8. Adequate organ function as indicated by the following laboratory values. Specimens must be collected within 7 days prior to the first dose of study treatment.\n9. Life expectancy ≥3 months.\n10. Women of childbearing potential (WOCBP) must have a negative serum pregnancy test within 7 days prior to the first dose and agree to use effective contraception during treatment, and for at least 150 days after the last dose of cadonilimab/nivolumab, 270 days after the last dose of oxaliplatin, and 180 days after the last dose of capecitabine.\n11. Non-sterile males must agree to use effective contraception during treatment and for at least 120 days following the last dose of cadonilimab/nivolumab/capecitabine and 180 days after the last dose of oxaliplatin.\n\nExclusion Criteria:\n\n1. Histopathologically confirmed other pathological types, such as squamous cell carcinoma, sarcoma or undifferentiated carcinoma.\n2. Known HER2 positive. Be HER2-positive defined as either IHC 3+ or IHC 2+ in combination with ISH+ (or FISH).\n3. Participants with active central nervous system (CNS) metastases and/or carcinomatous meningitis. Participants with previously treated brain metastases may participate provided they are radiologically stable (i.e., without evidence of progression) for at least 4 weeks by repeat imaging (note that the repeat imaging should be performed during study screening), clinically stable and without requirement of steroid treatment for at least 14 days prior to first dose of study intervention.\n4. Presence of clinically symptomatic pleural effusion, pericardial effusion, or ascites requiring frequent drainage (≥ 1 time/month).\n5. Clinically significant bleeding symptoms within 28 days before the first dose or a definite tendency to bleed.\n6. Have a history of ≥ Grade 2 gastrointestinal perforation and/or fistulae (including prior gastric fistula operation) within 6 months prior to randomization.\n7. Participants who, in the opinion of the investigator, have symptoms or signs suggestive of clinically unacceptable deterioration of the primary disease at the time of screening.",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "Phase 3 Study of Cadonilimab Combined With Chemotherapy vs Chemotherapy in Combination With or Without Nivolumab for the 1L Treatment of Participants With HER2-negative, Previously Untreated, Unresectable or Metastatic Gastric/GEJ Adenocarcinoma",
+   "nctId": "NCT07700979"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2026-09-29",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "RECRUITING",
+   "startDateStruct": {
+    "date": "2026-09-24",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

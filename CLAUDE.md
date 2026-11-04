@@ -125,6 +125,7 @@ Local_Oncology_Assistant/
 ├── tests/                  # ✅ pytest; marca `db` para tests contra la base OMOP
 ├── synthea/                 # ✅ configuración de Synthea: keep modules, módulo gástrico y su generador
 ├── notebooks/               # exploración únicamente, nunca lógica de producción
+├── corpus/                 # ✅ selección, manifiesto y fichas de ClinicalTrials.gov recortadas del corpus del RAG (el resto, en data/raw/corpus, no versionado)
 ├── docs/
 │   ├── protocolo.md         # ✅ existe (subido para hito de Sesión 10)
 │   ├── features.md           # ✅ diccionario de datos (módulo gástrico; ampliar con el resto)
@@ -320,6 +321,10 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
     primer estadio 4, sin filtrar por "vivo hoy"; atrición 1 340 → 949 → 807 → 806 → 657 → **243**.
     `tests/test_cohort_zolbetuximab.py` la recalcula desde los CSV y coincide. Detalle en
     `docs/cohorte-zolbetuximab.md`. Falta `03_features.sql` y las cohortes de trastuzumab/nivolumab.
+  - **Corpus del RAG** (`src/oncology_assistant/corpus.py`, `corpus/selection.json`, `corpus/manifest.json`,
+    `make corpus`): 88 documentos (49 fichas de ClinicalTrials.gov, 39 resúmenes de PubMed) con fuente,
+    versión, fecha y SHA-256. Fichas de ClinicalTrials.gov muy recortadas (título, estado, condición y criterios; 376 KB) versionables (términos de uso revisados el 2026-11-04, ver `docs/corpus.md`); PubMed y guías solo locales. Pendiente: guías NCCN/ESMO a mano
+    (`docs/corpus.md`), contrastar los umbrales del módulo con el corpus, chunking e indexación.
 - **Entorno:** Docker 29.8.1 + Compose v5.5.1. La base actual (volumen `pgdata`) contiene la población
   gástrica (`output_gastric`); el spike de mama se borró.
 - **Hallazgos clave del spike (detalle en ADR-0001):**

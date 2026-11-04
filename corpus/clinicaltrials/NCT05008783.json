@@ -1,0 +1,36 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Gastric Adenocarcinoma",
+    "Gastroesophageal Junction Adenocarcinoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n* Subjects must meet all of the following inclusion criteria to be enrolled in the study:\n\n  1. Ability to understand and voluntarily sign a written informed consent form (ICF), which must be signed before the specified study procedures required for the study are performed.\n  2. Males or females aged ≥ 18 to ≤ 75 years at the time of signing informed consent.\n  3. Histopathologically confirmed gastric adenocarcinoma or gastroesophageal junction (GEJ) adenocarcinoma.\n  4. Unresectable locally advanced or metastatic gastric adenocarcinoma or GEJ adenocarcinoma.\n  5. Subjects have not received prior systemic therapy for locally advanced or metastatic gastric adenocarcinoma or adenocarcinoma of the gastroesophageal junction. For subjects who have received prior neoadjuvant/adjuvant chemotherapy or chemoradiotherapy for curative intent, the time between disease progression and last treatment should be at least 6 months.\n  6. Subjects have at least one measurable tumor lesion per RECIST v1.1; lesions that received radiotherapy are not selected as target lesions, unless the lesion is the only measurable lesion and has unequivocal progression as judged by imaging, it can be considered as a target lesion.\n\nExclusion Criteria:\n\n* Subjects who meet any of the following criteria are not eligible to participate in this study:\n\n  1. Subjects with known HER2-positive gastric or GEJ adenocarcinoma.\n  2. Histopathology or cytology confirmed other pathological types, such as squamous cell carcinoma, sarcoma, or undifferentiated carcinoma.\n  3. Subjects who received palliative local therapy for non-target lesions within 2 weeks prior to the first dose; systemic nonspecific immunomodulatory therapy (e.g., interleukin, interferon, thymosin, etc.) within 2 weeks prior to the first dose; and Chinese herbal medicine or traditional Chinese medicinal products with anti-tumor indications within 2 weeks prior to the first dose.\n  4. Subjects who received any prior treatments targeting the mechanism of tumor immunity.\n  5. Medical history of gastrointestinal perforation or gastrointestinal fistula within 6 months prior to the first dose. If the perforation or fistula has been treated with resection or repair and the disease has recovered or resolved as judged by the Investigator, enrollment may be allowed.\n  6. Active or previously documented inflammatory bowel disease (e.g., Crohn's disease or ulcerative colitis).\n  7. Active malignancies within the past 3 years, with the exception of tumors in this study and cured local tumors, such as basal cell carcinoma of skin, squamous cell carcinoma of skin, superficial bladder cancer, carcinoma in situ of cervix, carcinoma in situ of breast, localized prostate cancer, etc.\n  8. Known active or untreated brain metastases, meningeal metastases, spinal cord compression, or leptomeningeal disease.\n  9. Presence of clinically symptomatic pleural effusion, pericardial effusion, or ascites requiring frequent drainage (≥ 1/month).\n  10. Active autoimmune disease requiring systemic treatment within 2 years prior to the start of study treatment, or autoimmune diseases that may relapse or require scheduled treatment as judged by the Investigator.",
+   "healthyVolunteers": false,
+   "maximumAge": "75 Years",
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "A Study of AK104 in the First-line Treatment of Locally Advanced Unresectable or Metastatic G/GEJ Adenocarcinoma",
+   "nctId": "NCT05008783"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2025-11-19",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "COMPLETED",
+   "startDateStruct": {
+    "date": "2021-09-17",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

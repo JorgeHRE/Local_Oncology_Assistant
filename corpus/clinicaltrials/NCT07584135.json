@@ -1,0 +1,34 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Gastric Adenocarcinoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria\n\n1. The patient voluntarily participated, provided informed consent, signed a written informed consent form, and had good compliance.\n2. Age ≥18 years (including), male and female. 3)Eastern Cooperative Oncology Group (ECOG) performance status of 0 or 1. 4）Expected survival period ≥3 months.\n\n5）Patients with HER2-negative, unresectable locally advanced, recurrent, or Metastatic gastric or gastroesophageal junction (GEJ) adenocarcinoma confirmed by histology/cytology. 6）Previously untreated for systemic therapy for locally advanced, recurrent, or Metastatic gastric/gastroesophageal junction (G/GEJ) adenocarcinoma. 7）Positive for CLDN18.2 by IHC testing at the central laboratory. 8）According to the RECIST v1.1 criteria, the patient has ≥1 measurable lesion. 9）The functional level of the organ meets the requirements of the protocol. 10）Agree to use contraception during the study period; females of reproductive potential will undergo a blood pregnancy test within 7 days prior to randomization, with a negative result.\n\nExclusion Criteria:\n\n1. Previously received any drug or cell therapy targeting CLDN18.2\n2. Received major surgery, live vaccine administration, or Drug therapy with other investigational medicinal products, or received radiotherapy within 2 weeks prior to randomization.\n3. Imaging shows cerebral tumor lesions (unless whole-brain radiotherapy or surgery, etc., local treatment has been completed, and imaging and clinical stability have been assessed according to the protocol) 4)Peripheral neuropathy ≥ Grade 2\n\n5）Idiopathic pulmonary fibrosis, Organising pneumonia, drug-induced pneumonia, idiopathic pneumonia, or evidence of active pneumonia on screening chest computerised tomography (CT) scan 6）Pericardial effusion, Pleural effusion, or ascites with a large volume, or with clinical symptoms, or requiring symptomatic treatment.\n\n7）There is a need for systemic antimicrobial or antiviral therapy for active infection.\n\n8）Subjects who cannot take oral medications, require enteral nutrition to maintain feeding, or have Malabsorption syndrome or other conditions affecting gastrointestinal Malabsorption.\n\n9）Presence of biliary or gastrointestinal obstruction, or persistent recurrent vomiting 10）Weight loss of \\>10% within the previous 2 months or severe Malnutrition, known prior to randomization.\n\n11）History of gastrointestinal perforation and/or fistula within the prior 6 months; presence of high-risk Haemorrhage of digestive tract disease or risk of rupture bleeding or gastrointestinal/respiratory fistula 12）Serious cardiovascular and cerebrovascular diseases 13）History of systemic treatment for autoimmune diseases within the past 2 years 14）Randomly selected patients with any other Neoplasm malignant within the past 5 years.\n\n15）Known severe allergic reaction to any ingredient in the study drug formulation 16）Known active Hepatitis B, active Hepatitis C, human immunodeficiency (HIV) infection, or have undergone allogeneic stem cell or Solid organ transplant.\n\n17）Diseases determined by researchers to be unsuitable for participation.",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "JS107 in Combination With Toripalimab and Chemotherapy for the Treatment of CLDN18.2-positive Gastric or Gastroesophageal Junction Adenocarcinoma",
+   "nctId": "NCT07584135"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2026-06-29",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "RECRUITING",
+   "startDateStruct": {
+    "date": "2026-05-28",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

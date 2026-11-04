@@ -1,0 +1,35 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Patients With Unresectable Locally Advanced or Metastatic Untreated Gastric or Gastroesophageal Junction Adenocarcinoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n1. Aged between 18 and 75 years (inclusive), male or female\n2. Histologically or cytologically confirmed untreated, locally advanced, unresectable or metastatic gastric or gastroesophageal junction adenocarcinoma.\n3. ECOG performance status score of 0 to 1.\n4. Body weight ≥ 35 kg.\n5. Life expectancy ≥12 weeks.\n6. Must have at least one measurable lesion according to RECIST v1.1 criteria.\n7. Tumor tissue samples must be provided, and newly obtained tumor tissues are preferred.\n8. Adequate bone marrow and organ function；\n9. Women of childbearing potential must agree on abstinence (avoid heterosexual sex) or use of the highly effective methods of contraception from the signature of informed consent form until at least 7 months after the last dose of the investigational product(s).\n10. Male patients whose partners are women of childbearing potential must agree on abstinence or use of the highly effective methods of contraception from the signature of informed consent form until at least 7 months after the last dose of investigational product(s).\n11. Capable of giving informed consent, have signed and dated the informed consent approved by the Ethics Committee, and willing and able to comply with tests and other procedures at scheduled visits.\n\nExclusion Criteria:\n\n1. Current or previous meningeal metastases; presence of active brain metastases.\n2. Ascites, pleural effusion and pericardial effusion requiring treatment (such as puncture, drainage, etc.) within 2 weeks before randomization.\n3. Subjects with other malignant tumors within 3 years before randomization.\n4. Have received traditional Chinese medicine with anti-tumor indications within 2 weeks before randomization.\n5. With adverse reactions (ARs) from previous anti-tumor treatment that have not recovered to NCI-CTCAE v5.0 Grade ≤ 1.\n6. Use of other non-marketed clinical investigational products or interventions within 4 weeks before randomization.\n7. Have undergone major surgery (excluding aspiration biopsy) or experienced significant trauma within 4 weeks before randomization.\n8. Patients with active autoimmune diseases or history of autoimmune diseases.\n9. Patients with known or suspected interstitial lung disease; patients with other severe lung diseases that seriously affect respiratory function within 3 months before randomization.\n10. History of active tuberculosis within 1 year before randomization, or history of active tuberculosis over 1 year without appropriate treatment.\n\n11、14. History of immunodeficiency, including positive HIV test; active hepatitis B or hepatitis C.\n\n12、Patients who have previously undergone allogeneic hematopoietic stem cell transplantation or organ transplantation.\n\n13、Severe cardiovascular or cerebrovascular diseases. 14、Active bleeding (CTCAE Grade ≥ 2). 15、Gastrointestinal perforation, gastrointestinal fistula or abdominal infection within 3 months before randomization.\n\n16、Uncontrollable tumor-related pain or symptomatic hypercalcemia. 17、Patients with Grade \\> 1 peripheral neuropathy. 18、Vaccination of live attenuated vaccine within 28 days prior to randomization.\n\n19、Previous use of anti-HER2 antibody-drug conjugates.",
+   "healthyVolunteers": false,
+   "maximumAge": "75 Years",
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "A Phase III Study of SHR-A1811 in Combination With Chemotherapy and Adebrelimab in Previously Untreated Patients With Gastric or Gastroesophageal Junction Adenocarcinoma",
+   "nctId": "NCT07118527"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2026-02-11",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "RECRUITING",
+   "startDateStruct": {
+    "date": "2025-08-18",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}
