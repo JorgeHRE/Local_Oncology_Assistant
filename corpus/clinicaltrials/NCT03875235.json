@@ -1,0 +1,35 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Biliary Tract Neoplasms"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion\n\n1. Histologically confirmed, unresectable advanced or metastatic biliary tract, including cholangiocarcinoma (intrahepatic or extrahepatic) and gallbladder carcinoma.\n2. Patients with previously untreated disease if unresectable or metastatic at initial diagnosis will be eligible.\n3. Patient with recurrent disease \\>6 months after curative surgery or \\>6 months after the completion of adjuvant therapy (chemotherapy and/or radiation) will be eligible.\n4. WHO/ECOG PS of 0 or 1\n\nExclusion\n\n1. History of another primary malignancy\n2. Brain metastases or spinal cord compression\n3. Uncontrolled intercurrent illness\n4. Major surgical procedure within 28 days prior to the first dose of IP.\n5. Prior locoregional therapy such as radioembolization",
+   "healthyVolunteers": false,
+   "maximumAge": "130 Years",
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "Durvalumab or Placebo in Combination With Gemcitabine/Cisplatin in Patients With 1st Line Advanced Biliary Tract Cancer (TOPAZ-1)",
+   "nctId": "NCT03875235"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2026-08-26",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "ACTIVE_NOT_RECRUITING",
+   "startDateStruct": {
+    "date": "2019-04-16",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

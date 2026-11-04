@@ -1,0 +1,35 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Gastric Cancer",
+    "Gastroesophageal Junction Cancer"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria\n\n1. Sign and date the Tissue Prescreening ICF, prior to central HER2 and PD-L1 CPS testing. Sign and date the Main Screening ICF, prior to the start of any trial-specific qualification procedures. Sign and date the Optional PGx ICF (included in the Main Screening ICF) prior to any PGx procedure.\n2. Adults ≥18 years of age on the day of signing the ICF. Follow local regulatory requirements if the legal age of consent for trial participation is \\>18 years old.\n3. Previously untreated, unresectable, locally advanced or metastatic gastric or GEJ adenocarcinoma histologically confirmed by pathology report. Prior treatment in the perioperative and/or adjuvant setting is permissible, provided there is \\>6 months between the end of perioperative or neoadjuvant treatment and the diagnosis of recurrent disease.\n\n   Note: Prior use of IO (ie, anti-PD-1/PD-L1) therapy in the (neo)adjuvant setting is allowed as long as there is \\>6 months between the end of IO therapy and the diagnosis of recurrent disease.\n4. Centrally determined HER2-positive (IHC 3+ or IHC 2+/ISH-positive) gastric or GEJ cancer as classified by the American Society of Clinical Oncology-College of American Pathologists for GC on a tumor biopsy as detected by prospective central test on new (core, incisional, excisional biopsy) or existing tumor tissue taken at the time of diagnosis of locally advanced or metastatic disease.\n\n   Note: Archival samples taken from a previous diagnostic or surgical biopsy not previously irradiated can be accepted. Details pertaining to tumor tissue submission can be found in the Study Laboratory Manual.\n5. Centrally determined tumor PD-L1 CPS using the PD-L1 assay:\n\n   * For the Main Cohort: PD-L1 CPS ≥1\n   * For the Exploratory Cohort: PD-L1 CPS \\<1\n6. All participants must provide a tumor sample for tissue-based IHC staining to centrally determine HER2 expression, PD-L1 CPS, and other correlatives. The mandatory FFPE or new biopsy tumor sample can be from either the primary tumor or metastatic biopsy. Specimens with limited tumor content (as centrally determined) and cytology samples are inadequate for defining tumor HER2 and PD-L1 status.\n7. At least 1 target measurable lesion on CT or MRI, assessed by the investigator based on RECIST v1.1. Lesions situated in a previously irradiated area are considered measurable if progression has been shown in such lesions.\n8. LVEF ≥50% within 28 days before randomization.\n\nExclusion Criteria\n\n1. Prior exposure to other HER2-targeting therapies (including ADCs).\n2. Lack of physiological integrity of the upper gastrointestinal tract (ie, severe Crohn disease that results in malabsorption) or malabsorption syndrome that would preclude feasibility of oral chemotherapy for participants planned to be offered capecitabine as part of the study treatment.\n3. Known total or partial DPD enzyme deficiency. Note: Screening for DPD enzyme deficiency is required only in regions/countries where DPD testing is SoC and with unknown DPD status. For regions/countries where DPD testing is not SoC, local practice should be followed. In Spain and Italy, screening for DPD enzyme deficiency is mandatory for all participants with unknown DPD status.\n4. Contraindications to trastuzumab, 5-FU, capecitabine, cisplatin, or oxaliplatin treatment as per local label.\n5. Medical history of myocardial infarction within 6 months before randomization or symptomatic CHF (New York Heart Association Class II to IV). Participants with troponin levels above ULN at Screening (as defined by the manufacturer) and without any myocardial infarction -related symptoms should have a cardiologic consultation during the Screening Period to rule out myocardial infarction.\n6. Has a corrected QT interval (QTcF) prolongation to \\>470 ms (females) or \\>450 ms (males) based on the average of the screening triplicate 12-lead ECG.\n7. Has a history of (non-infectious) ILD/pneumonitis that required steroids, has current ILD/pneumonitis, or where suspected ILD/pneumonitis cannot be ruled out by imaging at Screening\n8. Lung-specific intercurrent clinically significant illnesses including, but not limited to, any underlying pulmonary disorder (eg, pulmonary emboli within 3 months of the trial randomization, severe asthma, severe chronic obstructive pulmonary disease, restrictive lung disease, pleural effusion, etc).",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "Study of TDXd, Chemotherapy, Pembrolizumab, and Trastuzumab in First-Line Metastatic HER2-Positive Gastric or Gastroesophageal Junction Cancer",
+   "nctId": "NCT06731478"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2026-08-10",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "RECRUITING",
+   "startDateStruct": {
+    "date": "2025-02-27",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

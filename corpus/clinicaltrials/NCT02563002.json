@@ -1,0 +1,34 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Colorectal Carcinoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n* Locally confirmed dMMR or MSI-H stage IV colorectal carcinoma\n* Eastern Cooperative Oncology Group (ECOG) performance status of 0 or 1 within 10 days prior to study start\n* Life expectancy of at least 3 months\n* Measurable disease\n* Female participants of childbearing potential must be willing to use adequate contraception for the course of the study starting with the first dose of study medication through 180 days after the last dose of standard of care (SOC) therapy or 120 days after the last pembrolizumab dose\n* Male participants must agree to use adequate contraception for the course of the study starting with the first dose of study medication through 180 days after the last dose of study medication for chemotherapy arm (no contraception requirement for pembrolizumab \\[MK-3475\\] arm)\n* Adequate organ function\n\nExclusion Criteria:\n\n* Has received prior systemic therapy for Stage IV colorectal cancer. May have received prior adjuvant chemotherapy for colorectal cancer as long as it was completed at least 6 months prior to randomization on this study\n* Currently participating and receiving treatment in another study, or participated in a study of an investigational agent and received treatment, or used an investigational device within 4 weeks of randomization\n* Active autoimmune disease that has required systemic treatment in past 2 years\n* Diagnosis of immunodeficiency or receiving systemic steroid therapy or any other form of immunosuppressive therapy within 7 days prior to randomization on this study\n* Radiation therapy within 4 weeks prior to randomization on this study and not recovered to baseline from adverse events due to radiation therapy\n* Known active central nervous system (CNS) metastases and/or carcinomatous meningitis\n* Major surgical procedure, open biopsy or significant traumatic injury within 28 days prior to randomization on this study\n* Has received prior therapy with an immune checkpoint inhibitor (e.g., anti-programmed cell death \\[PD\\]-1, anti-PD ligand 1 \\[L1\\], anti-PD-L2 agent, or anti-cytotoxic T-lymphocyte-associated protein 4 \\[CTLA-4\\] agent, etc.)\n* Another malignancy that is progressing or requires active treatment with the exception of non-melanomatous skin cancer that has undergone potentially curative therapy and in situ cervical carcinoma\n* Received a live or a live attenuated vaccine within 30 days of planned start of study medication\n* Known history of Human Immunodeficiency Virus (HIV), Hepatitis B or C\n* Known history of, or any evidence of interstitial lung disease or active, non-infectious pneumonitis\n* Known history of active tuberculosis (Bacillus tuberculosis \\[TB\\])\n* Active infection requiring systemic therapy\n* Known psychiatric or substance abuse disorders that would interfere with cooperation with the requirements of the study\n* Pregnant, breastfeeding, or expecting to conceive or father children within the projected duration of the study, starting with the screening visit through 180 days after the last dose of SOC (for male and female participants) or 120 days after the last dose of pembrolizumab (for female participants only)",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "Study of Pembrolizumab (MK-3475) vs Standard Therapy in Participants With Microsatellite Instability-High (MSI-H) or Mismatch Repair Deficient (dMMR) Stage IV Colorectal Carcinoma (MK-3475-177/KEYNOTE-177)",
+   "nctId": "NCT02563002"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2024-10-03",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "COMPLETED",
+   "startDateStruct": {
+    "date": "2015-11-30",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

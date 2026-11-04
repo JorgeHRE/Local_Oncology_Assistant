@@ -1,0 +1,36 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Gastric Cancer",
+    "Gastroesophageal-junction Cancer",
+    "Advanced Cancer"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n* 1\\. ≥18 years of age on day of signing informed consent. 2. Histologically or cytologically confirmed diagnosis of previously untreated, unresectable locally advanced or metastatic G/GEJ adenocarcinoma.\n\n  3\\. Must be willing and able to provide archival or fresh tissue sample, a formalin-fixed, paraffin-embedded (FFPE) block, or 151 or more unstained, freshly cut, serial sections (on slides) from an FFPE tumor specimen or fresh biopsy tissue from a tumor lesion (either primary or metastatic) not previously irradiated fixed in formalin solution. FFPE tissue blocks are preferred to slides. Notes: details pertaining to tumor tissue submission can be found in the Laboratory Manual. Fresh biopsies are not required for study entry and will not be covered as part of the study procedures. Handling of the fresh biopsy tissue is an alternative offered to investigators in case they plan to biopsy the subjects as part of their standard of care; the fresh sample can be sent directly to the central laboratory if it is more convenient to the sites.\n\n  4\\. Positive CLDN18.2 expression in tumor tissue confirmed by the central laboratory at screening using CTA (Claudin 18.2 IHC 14G11 pharmDx).\n\n  5\\. Must have at least one measurable lesion or evaluable disease by CT or MRI per RECIST 1.1 criteria as assessed locally by the investigator; radiographic tumor assessment should be performed within 28 days prior to randomization.\n\n  6\\. Subjects should be eligible to receive chemotherapy and pembrolizumab per the investigator judgement.\n\n  7\\. Known PD-L1 CPS Status (tested by central laboratory to provide CPS status by PD-L1 IHC 22C3 pharmDx).\n\n  8\\. Have an Eastern Cooperative Oncology Group (ECOG) performance status of 0 to 1 assessed within 14 days before randomization.\n\n  9\\. Subjects who have AEs due to previous anticancer therapies must have recovered to ≤Grade 1 or pre-treatment status. Subjects with endocrine-related AEs who are adequately treated with hormone replacement or subjects who have ≤Grade 2 neuropathy are eligible.\n\n  10\\. Have a life expectancy of greater than 12 weeks. 11. Demonstrate adequate organ function.\n\nExclusion Criteria\n\n1. Has received any prior systemic anticancer treatment (chemotherapy, immunotherapy, biologic therapy, or targeted therapy) for G/GEJ adenocarcinoma. Neo/adjuvant treatment is permitted as long as it was completed at least 6 months prior to randomization.\n2. Has received prior radiotherapy within 2 weeks before randomization; Note: Subjects must have recovered from all radiation-related toxicities. A previously irradiated lesion can be used as measurable lesion as long as it progressed post radiation therapy.\n3. Has received anti-CLDN18.2 agents at any time.\n4. Has received any traditional Chinese medicine or proprietary Chinese medicine with anti-tumor effect within 7 days before randomization.\n5. Has received vaccines (live, attenuated, or research vaccines) within 30 days before randomization. Administration of killed vaccines is allowed.",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "Combination of Osemitamab (TST001), Pembrolizumab and Chemotherapy as First-line Therapy in Advanced or Metastatic GC/GEJ Adenocarcinoma",
+   "nctId": "NCT06093425"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2026-09-29",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "NOT_YET_RECRUITING",
+   "startDateStruct": {
+    "date": "2027-06-30",
+    "type": "ESTIMATED"
+   }
+  }
+ }
+}

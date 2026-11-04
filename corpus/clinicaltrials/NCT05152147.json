@@ -1,0 +1,36 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Gastric Neoplasms",
+    "Gastroesophageal Adenocarcinoma",
+    "Esophageal Adenocarcinoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n* Histologically confirmed unresectable locally advanced, recurrent or metastatic HER2-positive gastroesophageal adenocarcinoma (adenocarcinomas of the stomach or esophagus, including the gastroesophageal junction), defined as 3+ HER2 expression by IHC or 2+ HER2 expression by IHC with ISH positivity per central assessment. Subjects with esophageal adenocarcinoma must not be eligible for combined chemoradiotherapy at the time of enrollment\n* Assessable (measurable or non-measurable) disease as defined by RECIST 1.1\n* Eastern Cooperative Oncology Group (ECOG) performance status score of 0 or 1, assessed within 3 days prior to randomization\n* Adequate organ function\n* Left ventricular ejection fraction (LVEF) ≥ 50% as determined by either echocardiogram or multiple gated acquisition scan (MUGA)\n\nExclusion Criteria:\n\n* Prior treatment with a HER2-targeted agent, with the exception of subjects who received HER2-targeted treatment for breast cancer \\> 5 years prior to initial diagnosis of GEA\n* Prior treatment with an anti-PD-1, anti-PD-L1, anti-PD-L2 or any other antibody or drug specifically targeting T-cell co-stimulation or checkpoint pathways\n* Prior treatment with systemic antineoplastic therapy or intraperitoneal chemotherapy for unresectable locally advanced, recurrent or metastatic GEA\n* Untreated central nervous system (CNS) metastases, symptomatic CNS metastases, or radiation treatment for CNS metastases within 4 weeks prior to randomization. Stable, treated brain metastases are allowed (defined as subjects who are completely off steroids and anticonvulsants and are neurologically stable with no evidence of radiographic progression for at least 4 weeks prior to randomization)\n* Known history of or ongoing leptomeningeal disease (LMD)\n* Known additional malignancy that is not considered cured or that has required treatment within the past 3 years\n* Known active hepatitis\n* Any history of human immunodeficiency virus (HIV) infection\n* Known SARS-CoV-2 infection; subjects with prior infection that has resolved per local institutions' requirements and screening guidance are eligible\n* QTc Fridericia (QTcF) \\> 470 ms\n* Clinically significant cardiac disease, such as ventricular arrhythmia requiring therapy, uncontrolled hypertension or any history of symptomatic congestive heart failure (CHF)",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "A Study of Zanidatamab in Combination With Chemotherapy Plus or Minus Tislelizumab in Patients With HER2-positive Advanced or Metastatic Gastric and Esophageal Cancers",
+   "nctId": "NCT05152147"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2026-09-24",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "ACTIVE_NOT_RECRUITING",
+   "startDateStruct": {
+    "date": "2021-12-02",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

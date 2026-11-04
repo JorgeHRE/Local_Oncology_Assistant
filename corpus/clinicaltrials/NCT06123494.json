@@ -1,0 +1,35 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "HER2-positive Advanced Gastric Cancer or Gastroesophageal Junction Adenocarcinoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n1. Age 18-75 years old, male and female;\n2. Histologically or cytologically confirmed gastric or gastroesophageal junction adenocarcinoma, and unresectable locally advanced or metastatic disease\n3. Prior anti-HER-2 containing treatment\n4. Progression on or after first-line standard treatment (Prior neoadjuvant or adjuvant therapy can be counted as a line of therapy if the subject progressed on or within 6 months of completing neoadjuvant or adjuvant therapy);\n5. Centrally confirmed HER2-positive (IHC 3+ or IHC 2+ and evidence of HER2 amplification by ISH) as classified by ASCO-CAP on a tumor biopsy\n6. At least one measurable lesion according to the solid tumor response Evaluation Criteria (RECIST 1.1);\n7. ECOG: 0-1;\n8. Expected survival ≥12 weeks;\n9. Good blood reserve and liver, kidney and coagulation function;\n10. Willing to provide informed consent for study participation.\n\nExclusion Criteria:\n\n1. Receive the last dose of anti-cancer therapy(including chemotherapy, radiotherapy, biological therapy, targeted therapy or immunotherapy) within 4 weeks, prior to the first dose;\n2. Known allergies to monoclonal antibodies and inactive ingredients of this product, and allergies to paclitaxel, docetaxel, and irinotecan concurrently;\n3. The toxicity of prior anti-tumor therapy did not recover to the level specified by CTCAE v5.0 grade evaluation ≤ Grade 1 or inclusion/exclusion criteria;\n4. Clinically active central nervous system metastases;\n5. Uncontrollable pleural effusion, pericardial effusion, or ascites requiring repeated drainage;\n6. Clinically significant gastrointestinal disorder by the opinion of Investigator;\n7. Has a history of immunodeficiency, including a positive HIV test;\n8. During the screening visits and before the first dose, unexplained fever \\> 38.5℃, severe infection (CTC-AE \\> Grade 2), and active pulmonary inflammation were indicated by screening imaging;\n9. Subjects with interstitial pneumonia or with ≥ grade 3 interstitial pneumonia during prior treatment with immune checkpoint inhibitors;\n10. Active hepatitis B(HBV DNA ≥ 500 IU/mL), hepatitis C (positive for hepatitis C antibody, and HCV-RNA above the lower limit of detection of the analytical method);\n11. Clinically significant cardiovascular disease ,such as severe/unstable angina, symptomatic congestive heart failure (NYHA ≥ Class II.), clinically significant supraventricular or ventricular arrhythmia requiring treatment or intervention, myocardial infarction within 6 months before the first dose, cerebrovascular accident (including transient ischemic attack); QTcF of 12-lead ECG was ≥470 ms; Left ventricular ejection fraction \\<50%; Clinically uncontrolled hypertension;\n12. Had other malignancies with 5 years;\n13. Pregnant or lactating women;\n14. Other factors that might have led to drop out the study by the investigator opinion.",
+   "healthyVolunteers": false,
+   "maximumAge": "75 Years",
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "SHR-A1811 for Subjects With Her2-positive Gastric Cancer and Gastroesophageal Junction Adenocarcinoma After Progression on or After First-line Anti-HER2 Therapy-containing Regimen",
+   "nctId": "NCT06123494"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2024-01-16",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "RECRUITING",
+   "startDateStruct": {
+    "date": "2024-01-09",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

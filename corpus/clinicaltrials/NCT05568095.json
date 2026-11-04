@@ -1,0 +1,34 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Advanced Upper Gastrointestinal Tract Adenocarcinoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Key Inclusion Criteria:\n\n* Capable of giving signed informed consent which is in compliance with the requirements and restrictions listed in the informed consent form (ICF) and in protocol.\n* Histologically confirmed diagnosis of locally advanced unresectable or metastatic gastric, GEJ, or esophageal adenocarcinoma.\n* Eastern Cooperative Oncology Group (ECOG) performance status of 0-1.\n* At least one measurable target lesion per Response Evaluation Criteria in Solid Tumors (RECIST) v1.1.\n\nKey Exclusion Criteria:\n\n* Underlying medical or psychiatric conditions that, in the investigator's or sponsor's opinion, will make the administration of study-specified therapy hazardous, including but not limited to:\n* Interstitial lung disease, including history of interstitial lung disease or non-infectious pneumonitis. Active viral, bacterial, or fungal infections requiring parenteral treatment within 14 days of randomization.\n* Clinically significant cardiovascular disease, such as New York Heart Association Class II or greater cardiac disease or cerebrovascular accident within 3 months prior to randomization, unstable angina, or new onset angina within 3 months prior to randomization, myocardial infarction within 6 months prior to randomization, or unstable arrhythmia within 3 months prior to randomization.\n* History of prior solid-organ transplantation, including allogenic bone marrow transplantation.\n* Dementia, psychiatric, or substance abuse disorders that would interfere with satisfying the requirements of the trial.\n* Known human epidermal growth factor receptor 2 (HER-2) positive tumor.\n* Known untreated, symptomatic, or actively progressing central nervous system (CNS) (brain) metastases. Participants with leptomeningeal metastases are excluded from enrollment.\n* Received prior systemic treatment for locally advanced unresectable or metastatic gastric, GEJ, or esophageal adenocarcinoma.\n* Disease progression within 6 months of completion of neoadjuvant or adjuvant therapy.\n\nNote: Other protocol defined Inclusion/Exclusion criteria may apply.",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "A Clinical Trial of a New Combination Treatment, Domvanalimab and Zimberelimab, Plus Chemotherapy, for People With an Upper Gastrointestinal Tract Cancer That Cannot be Removed With Surgery That Has Spread to Other Parts of the Body",
+   "nctId": "NCT05568095"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2026-09-03",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "COMPLETED",
+   "startDateStruct": {
+    "date": "2022-11-21",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

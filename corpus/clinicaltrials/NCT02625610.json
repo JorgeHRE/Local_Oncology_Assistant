@@ -1,0 +1,34 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Unresectable, Locally Advanced or Metastatic, Adenocarcinoma of the Stomach, or of the Gastro Esophageal Junction"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n* Male or female participants greater than or equal to (\\>=) 18 years\n* Disease must be measurable by Response Evaluation Criteria in Solid Tumors version 1.1 (RECIST 1.1)\n* Participants with histologically confirmed unresectable locally advanced or metastatic adenocarcinoma of the stomach or gastro-esophageal junction (GEJ)\n* Eastern Cooperative Oncology Group Performance Status (ECOG PS) of 0 to 1 at trial entry\n* Estimated life expectancy of more than 12 weeks\n* Adequate haematological, hepatic and renal functions defined by the protocol\n* Negative blood pregnancy test at Screening for women of childbearing potential\n* Highly effective contraception for both male and female participants if the risk of conception exists\n* Other protocol defined inclusion criteria could apply\n\nExclusion Criteria:\n\n* Prior therapy with any antibody or drug targeting T-cell coregulatory proteins\n* Concurrent anticancer treatment or immunosuppressive agents\n* Prior chemotherapy for unresectable locally advanced or metastatic adenocarcinoma of the stomach or gastro-esophageal junction (GEJ)\n* Tumor shown to be human epidermal growth factor 2 plus (HER2+)\n* Major surgery for any reason, except diagnostic biopsy, within 4 weeks of enrolment and/or if the participant has not fully recovered from the surgery within 4 weeks of enrolment\n* Participants receiving immunosuppressive agents (such as steroids) for any reason should be tapered off these drugs before initiation of the study treatment (with the exception of participants with adrenal insufficiency, who may continue corticosteroids at physiologic replacement dose, equivalent to \\<= 10 mg prednisone daily)\n* All participants with brain metastases, except those meeting the following criteria: a. Brain metastases have been treated locally, have not been progressing at least 2 months after completion of therapy, and no steroid maintenance therapy is required, and b. No ongoing neurological symptoms that are related to the brain localization of the disease (sequelae that are a consequence of the treatment of the brain metastases are acceptable)\n* Previous malignant disease (other than gastric cancer) within the last 5 years with the exception of basal or squamous cell carcinoma of the skin or carcinoma in situ (bladder, cervical, colorectal, breast)\n* Prior organ transplantation, including allogeneic stem-cell transplantation\n* Significant acute or chronic infections\n* Active autoimmune disease that might deteriorate when receiving an immunostimulatory agent\n* Known severe hypersensitivity reactions to monoclonal antibodies, any history of anaphylaxis, or uncontrolled asthma (that is, 3 or more features of partially controlled asthma)\n* Persisting toxicity related to prior therapy except alopecia\n* Neuropathy Grade \\> 3\n* Pregnancy or lactation\n* Known alcohol or drug abuse\n* History of uncontrolled intercurrent illness including hypertension, active infection, diabetes\n* Clinically significant (i.e., active) cardiovascular disease\n* All other significant diseases might impair the participant's tolerance of study treatment\n* Any psychiatric condition that would prohibit the understanding or rendering of informed consent and that would limit compliance with study requirements\n* Vaccination with live or live/attenuated viruses within 55 days of the first dose of avelumab and while on trial is prohibited except for administration of inactivated vaccines\n* Legal incapacity or limited legal capacity\n* Participants will be excluded from the Induction Phase and the Maintenance Phase if administration of their chemotherapy would be inconsistent with the current local labelling (SmPC) (e.g., in regard to contraindications, warnings/precautions or special provisions) for that chemotherapy. Investigators should check updated labelling via relevant websites at the time of entry into the Induction Phase and the Maintenance Phase\n* Other protocol defined exclusion criteria could apply",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "Avelumab in First-Line Maintenance Gastric Cancer (JAVELIN Gastric 100)",
+   "nctId": "NCT02625610"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2022-06-09",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "COMPLETED",
+   "startDateStruct": {
+    "date": "2015-12-24",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}

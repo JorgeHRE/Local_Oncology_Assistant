@@ -1,0 +1,34 @@
+{
+ "protocolSection": {
+  "conditionsModule": {
+   "conditions": [
+    "Non-Small Cell Lung Carcinoma"
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n* Histological or cytological diagnosis of Stage IV NSCLC lacking epidermal growth factor receptor (EGFR)-sensitizing mutation and/or anaplastic lymphoma kinase (ALK) translocation, and received no prior systemic chemotherapy treatment for their metastatic NSCLC\n* At least one radiographically measurable lesion per RECIST 1.1\n* Life expectancy of at least 3 months\n* Performance status of 0 or 1 on the Eastern Cooperative Oncology Group (ECOG) Performance Status\n* Adequate organ function\n* No history of prior malignancy, with the exception of basal cell carcinoma of the skin, superficial bladder cancer, squamous cell carcinoma of the skin, or in situ cervical cancer, or has undergone potentially curative therapy with no evidence of that disease recurrence for 5 years since initiation of that therapy\n* Provided newly obtained formalin fixed tumor tissue from a biopsy of a tumor at the time of or AFTER the diagnosis of metastatic disease has been made AND from a site not previously irradiated\n* PD-L1 strong expressing tumor as determined by immunohistochemistry (IHC) at a central laboratory\n* Female participants must have a negative pregnancy test at screening if of childbearing potential or be of non-childbearing potential\n* Female participants of childbearing potential and male partners with female partners of childbearing potential must agree to use 2 adequate barrier methods of contraception during the study and for 120 days after last dose of study drug and up to 180 days after last dose of chemotherapy\n\nExclusion Criteria:\n\n* EGFR sensitizing mutation and/or ALK translocation\n* Has received systemic therapy for the treatment of their stage IV NSCLC. Completion of treatment with chemotherapy and/or radiation as part of neoadjuvant/adjuvant therapy is allowed as long as therapy was completed at least 6 months prior to the diagnosis of metastatic disease.\n* Currently participating or has participated in a study of an investigational agent or using an investigational device within 4 weeks of first dose of study drug\n* Tumor specimen is not evaluable for PD-L1 expression by the central laboratory\n* Receiving systemic steroid therapy \\< 3 days prior to first dose of study drug or receiving any other form of immunosuppressive medication\n* Expected to require any other form of systemic or localized antineoplastic therapy during the study\n* Received prior systemic cytotoxic chemotherapy, biological therapy, major surgery within 3 weeks of first dose of study drug; received thoracic radiation therapy of \\> 30 gray (Gy) within 6 months of first dose of study drug\n* Received prior therapy with an anti-programmed cell death protein 1 (anti-PD-1), anti-PD-L1, anti-programmed cell death-ligand 2 (anti-PD-L2), anti-CD137 (4-1BB ligand, a member of the Tumor Necrosis Factor Receptor \\[TNFR\\] family), or anti-Cytotoxic T-lymphocyte-associated antigen-4 (anti-CTLA-4) antibody (including ipilimumab or any other antibody or drug specifically targeting T-cell co-stimulation or checkpoint pathways)\n* Has untreated central nervous system (CNS) metastases and/or carcinomatous meningitis\n* Active autoimmune disease that has required systemic treatment in past 2 years\n* Allogenic tissue/solid organ transplant\n* Interstitial lung disease or pneumonitis that has required oral or IV steroids\n* Received or will receive a live vaccine within 30 days prior to first dose of study drug\n* Active infection requiring IV systemic therapy\n* Known history of human immunodeficiency virus (HIV)\n* Known active tuberculosis, or hepatitis B or C\n* Known psychiatric or substance abuse disorders that would interfere with cooperation with the requirements of the study\n* Is, at the time of signing informed consent, a regular user (including \"recreational use\") of any illicit drugs or had a recent history (within the last year) of substance abuse (including alcohol)\n* Pregnant or breastfeeding, or expecting to conceive or father children during the study and through 120 days after last dose of pembrolizumab or 180 days after last dose of SOC chemotherapy\n* Immediate family member who is investigational site or sponsor staff directly involved with this study",
+   "healthyVolunteers": false,
+   "minimumAge": "18 Years",
+   "sex": "ALL",
+   "stdAges": [
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "identificationModule": {
+   "briefTitle": "Study of Pembrolizumab (MK-3475) Compared to Platinum-Based Chemotherapies in Participants With Metastatic Non-Small Cell Lung Cancer (MK-3475-024/KEYNOTE-024)",
+   "nctId": "NCT02142738"
+  },
+  "statusModule": {
+   "lastUpdatePostDateStruct": {
+    "date": "2022-06-13",
+    "type": "ACTUAL"
+   },
+   "overallStatus": "COMPLETED",
+   "startDateStruct": {
+    "date": "2014-08-25",
+    "type": "ACTUAL"
+   }
+  }
+ }
+}
