@@ -26,7 +26,7 @@ import time
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -95,7 +95,7 @@ def sha256_bytes(data: bytes) -> str:
 
 def now_utc() -> str:
     """Current UTC time in ISO format, to the second."""
-    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def pubmed_params(ids: list[str]) -> dict[str, str]:
