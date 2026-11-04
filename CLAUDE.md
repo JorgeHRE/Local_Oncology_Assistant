@@ -324,7 +324,10 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
   - **Corpus del RAG** (`src/oncology_assistant/corpus.py`, `corpus/selection.json`, `corpus/manifest.json`,
     `make corpus`): 88 documentos (49 fichas de ClinicalTrials.gov, 39 resúmenes de PubMed) con fuente,
     versión, fecha y SHA-256. Fichas de ClinicalTrials.gov muy recortadas (título, estado, condición y criterios; 376 KB) versionables (términos de uso revisados el 2026-11-04, ver `docs/corpus.md`); PubMed y guías solo locales. Pendiente: guías NCCN/ESMO a mano
-    (`docs/corpus.md`), contrastar los umbrales del módulo con el corpus, chunking e indexación.
+    (`docs/corpus.md`), chunking e indexación.
+  - **Umbrales vs. corpus (2026-11-04):** `docs/umbrales-vs-corpus.md` (borrador). HER2, ECOG 0–1 y lavado de
+    180 d respaldados; CLDN18.2 38 % ✗ (el corpus da 30–34 %); `cycle_days` 21 incorrecto para FOLFOX (14 d);
+    CPS ≥ 5 y el resto, sin respaldo en el corpus. Aún no se cambió ningún parámetro.
 - **Entorno:** Docker 29.8.1 + Compose v5.5.1. La base actual (volumen `pgdata`) contiene la población
   gástrica (`output_gastric`); el spike de mama se borró.
 - **Hallazgos clave del spike (detalle en ADR-0001):**
@@ -338,7 +341,7 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
   2:1). Además `-a` debe ser ≥ 36 (ver `synthea/README.md`).
 - **Decisiones pendientes para la próxima sesión (en orden):**
   1. `sql/03_features.sql` y cohortes de trastuzumab y nivolumab sobre el mismo tronco.
-  2. Verificar con el corpus las probabilidades de biomarcadores (`PARAMS` del generador).
+  2. Decidir y aplicar los cambios de `docs/umbrales-vs-corpus.md` (CLDN18.2 ~33 %, `cycle_days` por esquema) y regenerar.
   3. Acotar versiones de dependencias en `pyproject.toml`.
   4. ADRs del profesor (LLM, motor, ground truth, evaluación).
   5. Menor: el repo está anidado en una carpeta padre vacía — ¿aplanar?
