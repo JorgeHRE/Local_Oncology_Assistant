@@ -44,6 +44,8 @@ make post-etl       # value_as_concept_id
 make cohort         # conjuntos de conceptos y cohorte piloto de zolbetuximab
 make attrition      # tabla de atrición de la cohorte
 make corpus         # descarga el corpus del RAG (ClinicalTrials.gov y PubMed); ver docs/corpus.md
+make chunks         # resume las dos estrategias de chunking (ADR-0006); no necesita modelo
+make index          # embeddings -> ChromaDB en data/processed/chroma (la 1.ª vez descarga el modelo)
 make test           # todos los tests
 ```
 
