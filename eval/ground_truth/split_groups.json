@@ -1,0 +1,6 @@
+{
+  "description": "Documents whose eligibility text is near-identical must be in the same split (docs/guia-anotacion.md §5). Measured 2026-11-05 with chunking B: GLOW shares 30 of its 35 criteria (>90 % similar) with SPOTLIGHT; NCT06901531 and NCT07673887 share 7/44 and 4/58.",
+  "groups": {
+    "zolbetuximab-astellas": ["ct:NCT03504397", "ct:NCT03653507", "ct:NCT06901531", "ct:NCT07673887"]
+  }
+}
