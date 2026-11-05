@@ -37,9 +37,9 @@ El jar de Synthea sí se descarga solo (`make synthea-jar`, con verificación de
 make env            # crea .env; edita POSTGRES_PASSWORD
 make build          # imagen de Python para tests y herramientas
 make module         # regenera el módulo gástrico y verifica sus códigos (necesita la base cargada)
-make generate       # Synthea: ~1 300 registros (SYNTHEA_POP=650 vivos), unos 10–20 min
+make generate       # Synthea: ~1 360 registros (SYNTHEA_POP=650 vivos), unos 4 min
 make db             # PostgreSQL
-make etl            # CSV de Synthea + vocabulario -> OMOP, ~50 min; necesita base VACÍA
+make etl            # CSV de Synthea + vocabulario -> OMOP, ~50–70 min; necesita base VACÍA
 make post-etl       # value_as_concept_id
 make cohort         # conjuntos de conceptos y cohorte piloto de zolbetuximab
 make attrition      # tabla de atrición de la cohorte

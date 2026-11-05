@@ -18,20 +18,20 @@
 | Alcance | Una cohorte piloto (zolbetuximab) | Trastuzumab y nivolumab se añaden después con el mismo tronco |
 | Atrición | Vista SQL acumulativa, en el orden de los criterios | Sin esquema de resultados materializados que gestionar |
 
-## Tabla de atrición (base con 1 340 pacientes)
+## Tabla de atrición (base con 1 360 pacientes)
 
 | Paso | Criterio | Quedan | Se pierden |
 |---|---|---|---|
-| 0 | Personas en la base | 1 340 | – |
-| 1 | Diagnóstico de cáncer gástrico | 1 340 | 0 |
-| 2 | Enfermedad avanzada (estadio 4 registrado) | 949 | 391 |
-| 3 | Adulto (≥ 18) al índice | 949 | 0 |
-| 4 | ECOG 0–1 | 807 | 142 |
+| 0 | Personas en la base | 1 360 | – |
+| 1 | Diagnóstico de cáncer gástrico | 1 360 | 0 |
+| 2 | Enfermedad avanzada (estadio 4 registrado) | 954 | 406 |
+| 3 | Adulto (≥ 18) al índice | 954 | 0 |
+| 4 | ECOG 0–1 | 807 | 147 |
 | 5 | Sin tratamiento sistémico en los 180 días previos | 806 | 1 |
-| 6 | HER2 negativo | 657 | 149 |
-| 7 | CLDN18 positivo | **243** | 414 |
+| 6 | HER2 negativo | 658 | 148 |
+| 7 | CLDN18 positivo | **218** | 440 |
 
-Los 243 están dentro del rango que anticipó el profesor (180–270). De ellos, 140 recibieron
+Los 218 están dentro del rango que anticipó el profesor (180–270). De ellos, 126 recibieron
 zolbetuximab; la diferencia es información útil para el RAG, no un error.
 
 ## Verificación
