@@ -14,7 +14,7 @@ APP := docker compose --profile dev run --rm app
 PSQL := docker compose exec -T db sh -c 'psql -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -v ON_ERROR_STOP=1'
 
 .DEFAULT_GOAL := help
-.PHONY: help env build db reset-db test test-fast lint format module synthea-jar generate etl post-etl cohort attrition corpus corpus-verify
+.PHONY: help env build db reset-db test test-fast lint format module synthea-jar generate etl post-etl cohort attrition corpus corpus-verify chunks index
 
 help: ## List the targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
@@ -75,3 +75,9 @@ corpus: ## Download the RAG corpus (ClinicalTrials.gov + PubMed) and register gu
 
 corpus-verify: ## Check the local corpus against corpus/manifest.json (SHA-256)
 	$(APP) python -m oncology_assistant.corpus verify
+
+chunks: ## Summarize both chunking strategies (no model needed)
+	$(APP) python -m oncology_assistant.chunking
+
+index: ## Embed the chunks into ChromaDB (data/processed/chroma); the first run downloads the embedding model
+	$(APP) env HOME=/app/data/processed python -m oncology_assistant.index build

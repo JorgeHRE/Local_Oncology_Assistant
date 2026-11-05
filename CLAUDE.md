@@ -132,7 +132,7 @@ Local_Oncology_Assistant/
 │   ├── MODEL_CARD.md         # ⚠️ no existe aún
 │   ├── LIMITACIONES.md       # ✅ existe; completar conforme avance el proyecto
 │   ├── USO_DE_IA.md           # ⚠️ no existe aún — declarar uso de Gemini y Claude
-│   └── adr/                  # ✅ existe — 0001 en borrador; ver sección 6
+│   └── adr/                  # ✅ existe — 0001 a 0004 y 0006 (chunking); ver sección 6
 └── figuras/                 # ⚠️ no existe aún
 ```
 
@@ -326,7 +326,12 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
   - **Corpus del RAG** (`src/oncology_assistant/corpus.py`, `corpus/selection.json`, `corpus/manifest.json`,
     `make corpus`): 88 documentos (49 fichas de ClinicalTrials.gov, 39 resúmenes de PubMed) con fuente,
     versión, fecha y SHA-256. Fichas de ClinicalTrials.gov muy recortadas (título, estado, condición y criterios; 376 KB) versionables (términos de uso revisados el 2026-11-04, ver `docs/corpus.md`); PubMed y guías solo locales. Pendiente: guías NCCN/ESMO a mano
-    (`docs/corpus.md`), chunking e indexación.
+    (`docs/corpus.md`).
+  - **Chunking e indexación (2026-11-05, ADR-0006 Propuesto):** `src/oncology_assistant/chunking.py` (B estructural:
+    1 373 chunks, uno por criterio; C documento completo: 88) y `index.py` (ChromaDB, una colección por estrategia,
+    embedder inyectable). `make chunks`, `make index`; `tests/test_chunking.py` y `tests/test_index.py` (con embedder
+    falso, sin descargar nada). Falta construir el índice real (descarga del modelo por defecto) y medir recall@k
+    cuando exista el ground truth. Modelo de embeddings: ADR pendiente.
   - **Umbrales vs. corpus (2026-11-04):** `docs/umbrales-vs-corpus.md` (borrador). HER2, ECOG 0–1 y lavado de
     180 d respaldados; CLDN18.2 38 % ✗ (el corpus da 30–34 %) → ahora 33 %; `cycle_days` 21 incorrecto para FOLFOX →
     ahora 14 d (FOLFOX) / 21 d (CAPOX); población regenerada. CPS ≥ 5 y el resto, sin respaldo en el corpus.
@@ -342,7 +347,7 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
   demografía, así que el módulo no puede reponderarlos (mediana de edad ~54 y 50 % mujeres, no ~65 ni
   2:1). Además `-a` debe ser ≥ 36 (ver `synthea/README.md`).
 - **Decisiones pendientes para la próxima sesión (en orden):**
-  1. `sql/03_features.sql` y cohortes de trastuzumab y nivolumab sobre el mismo tronco.
+  1. `sql/03_features.sql` y cohortes de trastuzumab y nivolumab sobre el mismo tronco. Construir el índice real (`make index`).
   2. (Hecho 2026-11-04) cambios de `docs/umbrales-vs-corpus.md`; queda CPS ≥ 5 (necesita texto completo de CheckMate 649).
   3. Acotar versiones de dependencias en `pyproject.toml`.
   4. ADRs del profesor (LLM, motor, ground truth, evaluación).
