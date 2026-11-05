@@ -332,6 +332,10 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
     embedder inyectable). `make chunks`, `make index`; `tests/test_chunking.py` y `tests/test_index.py` (con embedder
     falso, sin descargar nada). Falta construir el índice real (descarga del modelo por defecto) y medir recall@k
     cuando exista el ground truth. Modelo de embeddings: ADR pendiente.
+  - **Ground truth: herramientas listas (2026-11-05), anotación pendiente del autor.** `docs/guia-anotacion.md` (v0.1),
+    esquema y validador `src/oncology_assistant/ground_truth.py` (citas literales, partición por documento y por
+    grupos de documentos casi idénticos), `eval/ground_truth/` (archivo vacío, `split_groups.json`, `CHANGELOG.md`),
+    `make gt-validate`. Ningún LLM redacta el ground truth (ADR-0003).
   - **Umbrales vs. corpus (2026-11-04):** `docs/umbrales-vs-corpus.md` (borrador). HER2, ECOG 0–1 y lavado de
     180 d respaldados; CLDN18.2 38 % ✗ (el corpus da 30–34 %) → ahora 33 %; `cycle_days` 21 incorrecto para FOLFOX →
     ahora 14 d (FOLFOX) / 21 d (CAPOX); población regenerada. CPS ≥ 5 y el resto, sin respaldo en el corpus.
