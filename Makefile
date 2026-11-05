@@ -80,4 +80,4 @@ chunks: ## Summarize both chunking strategies (no model needed)
 	$(APP) python -m oncology_assistant.chunking
 
 index: ## Embed the chunks into ChromaDB (data/processed/chroma); the first run downloads the embedding model
-	$(APP) env HOME=/work/data/processed python -m oncology_assistant.index build
+	$(APP) env HOME=/app/data/processed python -m oncology_assistant.index build
