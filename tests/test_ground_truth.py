@@ -7,6 +7,7 @@ Records here are synthetic test fixtures, not ground truth: the real file is wri
 from __future__ import annotations
 
 import json
+import re
 
 import pytest
 from pydantic import ValidationError
@@ -188,3 +189,18 @@ def test_the_committed_ground_truth_file_is_valid():
 def test_bad_records_raise_with_the_model_directly():
     with pytest.raises(ValidationError):
         gt.Criterion.model_validate(criterion(kind="maybe"))
+
+
+def test_the_examples_in_the_annotation_guide_follow_the_schema(tmp_path):
+    """The R and E examples of docs/guia-anotacion.md parse, and are rejected only for the
+    made-up document (so nobody can paste them into the real file by mistake)."""
+    guide = (gt.REPO_ROOT / "docs" / "guia-anotacion.md").read_text(encoding="utf-8")
+    blocks = re.findall(r"```json\n(.*?)\n```", guide, flags=re.DOTALL)
+    examples = [json.loads(b) for b in blocks if '"id": "R-001"' in b or '"id": "E-001"' in b]
+    assert [e["type"] for e in examples] == ["R", "E"]
+    parsed = parse(*examples)
+    path = tmp_path / "examples.jsonl"
+    path.write_text("\n".join(json.dumps(e) for e in examples))
+    problems = gt.validate(path)
+    assert problems and all("unknown document" in p and "NCT00000000" in p for p in problems)
+    assert len(parsed[1].criteria) == 3

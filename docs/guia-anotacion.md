@@ -1,6 +1,6 @@
 # Guía de anotación del ground truth
 
-- **Estado:** v0.1, borrador (2026-11-05). Se congela como v1.0 al terminar las 5 primeras preguntas
+- **Estado:** v0.2, borrador (2026-11-05; v0.2 añade cómo se formula cada tipo y ejemplos). Se congela como v1.0 al terminar las 5 primeras preguntas
   (ADR-0003: con ellas se estima el tiempo total y se corrige lo que no funcione).
 - **Método:** `docs/adr/0003-metodologia-de-ground-truth.md`. **Esquema y validador:**
   `src/oncology_assistant/ground_truth.py`. **Archivo:** `eval/ground_truth/ground_truth.jsonl`.
@@ -15,6 +15,148 @@ se escribe una pregunta: si la pregunta se escribe mirando lo que el buscador en
 queda sesgada a favor del buscador. Los modelos solo se evalúan contra lo anotado.
 
 Las plantillas de esta guía usan marcadores `<...>`: son estructura, no contenido.
+
+## Antes de empezar: qué pregunta cada tipo y cómo se escribe
+
+Esta sección es la que hay que leer primero. Las demás dan el detalle de cada campo.
+
+### A. Sobre qué pregunta cada tipo
+
+| Tipo | Pregunta sobre… | Se responde con… | Quién calcula la respuesta |
+|---|---|---|---|
+| **R** (recuperación) | Los **documentos** del corpus: fichas de ensayos y resúmenes de artículos | Un texto corto y las citas literales que lo respaldan | Tú, leyendo los documentos |
+| **E** (extracción) | **Un protocolo**: convertir su sección de criterios en una lista estructurada | La lista de criterios atómicos de esa sección | Tú, leyendo el protocolo |
+| **C** (cohorte) | Los **pacientes** de la base OMOP: los **1 360**, no solo la cohorte de zolbetuximab | El conjunto de pacientes que cumplen los criterios | El SQL de referencia y un recálculo con pandas, no tú (§5) |
+
+- **R y E no tocan a los pacientes.** Son preguntas sobre textos.
+- Los **218** pacientes de la cohorte de zolbetuximab son la respuesta de **una sola** pregunta C
+  (la de SPOTLIGHT/GLOW). Otras C (por ejemplo, criterios de un ensayo de trastuzumab o de nivolumab)
+  darán otros conjuntos de pacientes.
+
+### B. Pregunta, respuesta y registro: qué va en lenguaje natural y qué no
+
+Cada pregunta se guarda como **un registro JSON** en `ground_truth.jsonl`. Los bloques de código de
+esta guía son la **forma de ese registro**, no la forma de la pregunta.
+
+| Parte | Cómo se escribe | Campo |
+|---|---|---|
+| La pregunta | Lenguaje natural, en inglés, como la haría un investigador clínico | `question` |
+| La respuesta (solo R) | Lenguaje natural, corta, con los valores literales del texto | `reference_answer` |
+| Las fuentes | Citas literales copiadas del documento | `relevant` (R) o `citation` de cada criterio |
+| Las condiciones (E y C) | **Estructuradas**: un objeto JSON por criterio, con `kind`, `concept`, `operator`, `value`… | `criteria` |
+
+**Por qué en inglés:** el corpus está en inglés y el modelo de embeddings actual solo es de inglés.
+Con preguntas en español se mediría a la vez la búsqueda y la traducción. Un asistente que responda
+en español queda para una v2 con un modelo multilingüe.
+
+### C. Cómo formular una pregunta R
+
+1. **Nombra el ensayo o el contexto** cuando la respuesta dependa de él (NCT o nombre del ensayo).
+   Varios ensayos copian los mismos criterios; sin el nombre, la pregunta tiene varias respuestas
+   correctas.
+2. **No copies la frase del documento en la pregunta.** Si la pregunta repite la cita palabra por
+   palabra, se mide coincidencia de palabras, no comprensión. La cita va en `relevant`.
+3. **Una pregunta, una respuesta comprobable.** Nada de "Tell me about HER2".
+4. **Decide la forma** y anótala en `notes`:
+   - `single`: un solo dato de un documento.
+   - `multi`: varios criterios o secciones del mismo documento.
+   - `compare`: dos o más documentos o fuentes.
+5. **La respuesta solo dice lo que dicen los textos citados**, con sus valores literales. Sin
+   conocimiento propio ni interpretación.
+
+Ejemplos de forma con un ensayo **inventado** (NCT00000000 no existe):
+
+| Forma | Mal | Bien |
+|---|---|---|
+| `single` | "Which trial says 'Subject has a HER2-negative tumor'?" (copia la cita) | "What HER2 status does trial NCT00000000 require?" |
+| `single` | "Tell me about HER2 in gastric cancer." (sin respuesta comprobable) | "Which HER2 result excludes a patient from trial NCT00000000?" |
+| `multi` | "What are the criteria?" (demasiado amplia, es una E) | "Which biomarker results must a patient have to enter trial NCT00000000?" |
+| `compare` | "Are the trials similar?" (no comprobable) | "Do trials NCT00000000 and NCT00000001 accept the same ECOG range?" |
+
+### D. Cómo formular una pregunta E
+
+- La pregunta sigue siempre la misma plantilla:
+  `"Extract the inclusion criteria of trial <NCT…>"` o
+  `"Extract the exclusion criteria of trial <NCT…>"`.
+- Se anotan **todos** los criterios de esa sección, evaluables o no, cada uno como un objeto.
+- Cómo partir y codificar (frases inventadas):
+
+| Texto | Cuántos criterios | Cómo |
+|---|---|---|
+| "HER2-negative and CLDN18.2-positive tumor" | 2 | `HER2 = negative` y `CLDN18.2 = positive` |
+| "ECOG performance status 0 or 1" | 1 | `ECOG <= 1` |
+| "No prior systemic therapy for advanced disease" (bajo *Inclusion*) | 1 | `kind: inclusion`, `concept: prior systemic therapy`, `operator: absent` |
+| "Adequate liver function within 7 days prior to randomization" | 1 | `evaluable: false`, motivo: analítica no modelada; `time_window` literal |
+| "≥ 75% of tumor cells with moderate to strong staining" | 1 | `operator: ">="`, `value: "75"`, `unit: "% of tumor cells"`; el resto de la frase queda en la cita |
+
+### E. Cómo formular una pregunta C
+
+- Plantilla: `"Which patients in the database meet the evaluable criteria of trial <NCT…>?"`.
+- `criteria`: **solo los evaluables** de ese ensayo, con el mismo formato que en E (puedes copiarlos
+  de la E del mismo ensayo).
+- `reference_sql`: el archivo de `sql/` que implementa la cohorte (por ejemplo,
+  `sql/02_cohorte.sql` para zolbetuximab). No escribes la lista de pacientes: la calculan el SQL y el
+  recálculo con pandas, y se guardan `dataset_id` y `expected_count`.
+- Las C se anotan **después** de las R y las E, cuando exista el SQL de cada una. Ver la pregunta
+  abierta sobre quién escribe ese SQL.
+
+### F. Ejemplos completos (inventados)
+
+Los tres usan el ensayo inventado NCT00000000. **No los copies al archivo:** el validador los
+rechaza porque ese documento no está en el corpus (`unknown document`).
+
+R:
+
+```json
+{"id": "R-001", "type": "R", "split": "dev", "topic": "her2",
+ "question": "What HER2 status does trial NCT00000000 require?",
+ "reference_answer": "HER2-negative tumors only.",
+ "relevant": [{"doc_id": "ct:NCT00000000", "quote": "Subject has a HER2-negative tumor"}],
+ "annotator": "JH", "annotated_on": "2026-11-05", "notes": "single"}
+```
+
+E (tres de los criterios de la sección; en una E real van todos):
+
+```json
+{"id": "E-001", "type": "E", "split": "dev", "source": "ct:NCT00000000",
+ "question": "Extract the inclusion criteria of trial NCT00000000",
+ "criteria": [
+   {"kind": "inclusion", "concept": "HER2", "operator": "=", "value": "negative",
+    "unit": null, "time_window": null, "evaluable": true, "not_evaluable_reason": null,
+    "citation": {"doc_id": "ct:NCT00000000", "quote": "Subject has a HER2-negative tumor"}},
+   {"kind": "inclusion", "concept": "ECOG", "operator": "<=", "value": "1",
+    "unit": null, "time_window": null, "evaluable": true, "not_evaluable_reason": null,
+    "citation": {"doc_id": "ct:NCT00000000", "quote": "ECOG performance status 0 or 1"}},
+   {"kind": "inclusion", "concept": "liver function", "operator": null, "value": "adequate",
+    "unit": null, "time_window": "within 7 days prior to randomization", "evaluable": false,
+    "not_evaluable_reason": "laboratory values are not modelled",
+    "citation": {"doc_id": "ct:NCT00000000", "quote": "Adequate liver function within 7 days prior to randomization"}}
+ ],
+ "annotator": "JH", "annotated_on": "2026-11-05", "notes": "tiempo: 40 min"}
+```
+
+C:
+
+```json
+{"id": "C-001", "type": "C", "split": "dev", "source": "ct:NCT00000000",
+ "question": "Which patients in the database meet the evaluable criteria of trial NCT00000000?",
+ "criteria": [<los criterios evaluables, como en la E>],
+ "reference_sql": "sql/<archivo>.sql", "dataset_id": null, "expected_count": null,
+ "annotator": "JH", "annotated_on": "2026-11-05"}
+```
+
+### G. Paso a paso para cada registro
+
+1. Elige el documento (para la tanda piloto, uno de `dev` en §6).
+2. Léelo en la fuente original (§1), **sin** el RAG ni un LLM.
+3. Escribe el registro con formato, como en los ejemplos, en un borrador fuera del repo (por
+   ejemplo `~/borrador.json`).
+4. Añádelo al archivo en una sola línea:
+   `jq -c . ~/borrador.json >> eval/ground_truth/ground_truth.jsonl`
+5. Valida: `make gt-validate`. Si una cita no aparece literal en el documento, te lo dice con el id
+   del registro.
+6. Apunta el tiempo que tardaste en `notes` (con las 5 primeras se estima el total).
+7. Anota el cambio en `eval/ground_truth/CHANGELOG.md`.
 
 ## 1. Dónde leer
 
@@ -173,6 +315,7 @@ Las C saldrían de los mismos documentos (2 de `dev`, 6 de `test`).
 ## 9. Lista de comprobación por registro
 
 1. ¿La pregunta se escribió leyendo el documento, sin consultar el RAG ni un LLM?
+   ¿Nombra el ensayo cuando hace falta y no copia la cita?
 2. ¿Cada cita es literal, mínima y está dentro de un criterio o sección?
 3. ¿Cada criterio es atómico, con valores y ventanas literales?
 4. ¿`evaluable` está decidido con la tabla del §4, y con motivo si es `false`?
@@ -180,6 +323,12 @@ Las C saldrían de los mismos documentos (2 de `dev`, 6 de `test`).
 6. ¿`make gt-validate` pasa?
 
 ## Preguntas abiertas
+
+- **Quién escribe el SQL de referencia de las C.** El ADR-0003 descarta que un LLM proponga el SQL
+  del ground truth (contaminaría la evaluación con un modelo de la misma familia). Pero
+  `sql/02_cohorte.sql` (zolbetuximab) y su recálculo con pandas se escribieron con Claude Code.
+  Opciones: revisarlo tú línea por línea contra la E correspondiente y declararlo, o reescribir tú
+  el recálculo independiente. Se decide antes de anotar las C.
 
 - ¿Una E por sección (inclusión o exclusión) es una carga razonable? SPOTLIGHT tiene 14 viñetas de
   inclusión y 20 de exclusión (chunks de la estrategia B; los criterios atómicos pueden ser más). Se decide con las 5 primeras preguntas.
