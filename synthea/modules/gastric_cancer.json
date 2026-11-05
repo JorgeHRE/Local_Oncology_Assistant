@@ -557,11 +557,11 @@
       "distributed_transition": [
         {
           "transition": "CLDN18 Positive",
-          "distribution": 0.38
+          "distribution": 0.33
         },
         {
           "transition": "CLDN18 Negative",
-          "distribution": 0.62
+          "distribution": 0.67
         }
       ]
     },
@@ -1221,6 +1221,31 @@
       ]
     },
     "Cycle Delay": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "condition": {
+            "condition_type": "Attribute",
+            "attribute": "gc_backbone",
+            "operator": "==",
+            "value": "folfox"
+          },
+          "transition": "Cycle Delay FOLFOX"
+        },
+        {
+          "transition": "Cycle Delay CAPOX"
+        }
+      ]
+    },
+    "Cycle Delay FOLFOX": {
+      "type": "Delay",
+      "exact": {
+        "quantity": 14,
+        "unit": "days"
+      },
+      "direct_transition": "Cycle Encounter"
+    },
+    "Cycle Delay CAPOX": {
       "type": "Delay",
       "exact": {
         "quantity": 21,

@@ -1,7 +1,9 @@
 # Umbrales del módulo gástrico frente al corpus
 
-- **Estado:** borrador para revisión (2026-11-04). No se ha cambiado ningún parámetro del generador ni
-  de la cohorte: esto solo documenta qué respalda el corpus y qué no.
+- **Estado:** revisado y aplicado parcialmente (2026-11-04). Se aplicaron las recomendaciones 1 y 2
+  (`p_cldn18_positive` 0,33 y `cycle_days` por esquema); la población se regeneró (1 360 pacientes,
+  218 elegibles para zolbetuximab, antes 243). El resto de parámetros no cambió. Las tablas de abajo
+  describen los valores **anteriores** a ese cambio.
 - **Fuentes:** 39 resúmenes de PubMed (`data/raw/corpus/pubmed/`, solo locales) y 39 fichas de
   ClinicalTrials.gov no distractoras (`corpus/clinicaltrials/`, 4 pivotales + 35 candidatos). Las
   citas llevan PMID o NCT.

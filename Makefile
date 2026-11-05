@@ -53,10 +53,10 @@ synthea-jar: ## Download Synthea v3.3.0 and verify its SHA-256
 	@test -f $(SYNTHEA_JAR) || curl -fL -o $(SYNTHEA_JAR) $(SYNTHEA_URL)
 	@echo "$(SYNTHEA_SHA256)  $(SYNTHEA_JAR)" | sha256sum -c -
 
-generate: synthea-jar ## Generate the gastric population (SYNTHEA_POP=650 vivos, ~1 300 registros)
+generate: synthea-jar ## Generate the gastric population (SYNTHEA_POP=650 vivos, ~1 360 registros)
 	docker compose --profile synthea run --rm synthea
 
-etl: db ## Load Synthea CSVs + Athena vocabulary into an EMPTY database (~50 min; see reset-db)
+etl: db ## Load Synthea CSVs + Athena vocabulary into an EMPTY database (~50-70 min; see reset-db)
 	SYNTHEA_CSV_DIR=/data/raw/synthea/output_gastric/csv docker compose --profile etl run --rm etl
 
 post-etl: ## Steps after the ETL (value_as_concept_id)

@@ -266,7 +266,7 @@ python -m oncology_assistant.synthea_codes synthea/modules/*.json
 
 # Base OMOP local (requiere .env; ver etl/README.md)
 docker compose up -d db
-docker compose --profile etl run --rm etl   # Synthea CSV + vocab -> OMOP (~28 min)
+docker compose --profile etl run --rm etl   # Synthea CSV + vocab -> OMOP (~50–70 min)
 docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo índices (~1.5 min)
 
 # Correr suite de evaluación (pendiente de implementar)
@@ -279,7 +279,7 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
 
 *(actualizar después de cada sesión de trabajo)*
 
-- **Última actualización:** 2026-10-14 — módulo gástrico, población de 1 340 pacientes generada y
+- **Última actualización:** 2026-11-04 — población regenerada (1 360 pacientes) con CLDN18.2 33 % y ciclos por esquema; antes: módulo gástrico, población de 1 340 pacientes generada y
   cargada en OMOP con el ETL completo; flujo reproducible con Docker y `make` (PR #1 y #2).
 - **Hito actual del curso:** Sesión 10 completada (protocolo subido) → trabajando hacia Sesión 18
   (cohorte definida, implementada, con tabla de atrición).
@@ -310,15 +310,17 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
     §8; `docs/LIMITACIONES.md` y `docs/features.md` documentan CLDN18.2 ≈ LOINC 105011-1.
   - Flujo reproducible: `README.md`, `Makefile`, imagen de Python y servicios `app`/`synthea` en
     `compose.yml`. `main` protegido (PR + CI `lint-and-test` obligatorios).
-  - **Población gástrica (2026-10-14):** `make generate` (≈ 20 min) → 1 340 registros (650 vivos, 690
-    fallecidos), 70,8 % avanzados, 243 elegibles para zolbetuximab por criterios (140 lo recibieron).
+  - **Población gástrica (2026-10-14):** `make generate` (≈ 4 min) → 1 360 registros (650 vivos, 710
+    fallecidos), 70,1 % avanzados, 218 elegibles para zolbetuximab por criterios (126 lo recibieron).
+    Regenerada el 2026-11-04 con CLDN18.2 33 % y ciclos de 14 d (FOLFOX) / 21 d (CAPOX); la anterior (1 340; 243)
+    sigue en `data/raw/synthea/output_gastric_v1`.
     CSV en `data/raw/synthea/output_gastric/` (SHA-256 en `SHA256SUMS`).
-  - **ETL completo validado:** `make etl` 53 min (tablas de eventos 43,9 min, índices 1,5 min) sin
-    errores; `make post-etl` (5 986 filas) y `make test` (33) pasan. Auditoría contra los CSV: personas,
-    diagnósticos (288 cardias), estadios (1 549) y filas de los 8 fármacos coinciden exactamente;
-    949 paneles de biomarcadores; 0 valores codificados sin mapear.
+  - **ETL completo validado:** `make etl` 70 min (la primera vez, 53; índices 1,5 min) sin
+    errores; `make post-etl` (6 048 filas) y `make test` (47) pasan. Auditoría contra los CSV (de la primera
+    carga): personas, diagnósticos (cardias), estadios y filas de los 8 fármacos coincidían exactamente; en la
+    carga nueva: 296 personas con cardias, 1 569 estadios, 954 paneles de HER2; 0 valores codificados sin mapear.
   - **Cohorte piloto de zolbetuximab** (`sql/01`, `sql/02`, `make cohort` / `make attrition`): índice =
-    primer estadio 4, sin filtrar por "vivo hoy"; atrición 1 340 → 949 → 807 → 806 → 657 → **243**.
+    primer estadio 4, sin filtrar por "vivo hoy"; atrición 1 360 → 954 → 807 → 806 → 658 → **218**.
     `tests/test_cohort_zolbetuximab.py` la recalcula desde los CSV y coincide. Detalle en
     `docs/cohorte-zolbetuximab.md`. Falta `03_features.sql` y las cohortes de trastuzumab/nivolumab.
   - **Corpus del RAG** (`src/oncology_assistant/corpus.py`, `corpus/selection.json`, `corpus/manifest.json`,
@@ -326,8 +328,8 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
     versión, fecha y SHA-256. Fichas de ClinicalTrials.gov muy recortadas (título, estado, condición y criterios; 376 KB) versionables (términos de uso revisados el 2026-11-04, ver `docs/corpus.md`); PubMed y guías solo locales. Pendiente: guías NCCN/ESMO a mano
     (`docs/corpus.md`), chunking e indexación.
   - **Umbrales vs. corpus (2026-11-04):** `docs/umbrales-vs-corpus.md` (borrador). HER2, ECOG 0–1 y lavado de
-    180 d respaldados; CLDN18.2 38 % ✗ (el corpus da 30–34 %); `cycle_days` 21 incorrecto para FOLFOX (14 d);
-    CPS ≥ 5 y el resto, sin respaldo en el corpus. Aún no se cambió ningún parámetro.
+    180 d respaldados; CLDN18.2 38 % ✗ (el corpus da 30–34 %) → ahora 33 %; `cycle_days` 21 incorrecto para FOLFOX →
+    ahora 14 d (FOLFOX) / 21 d (CAPOX); población regenerada. CPS ≥ 5 y el resto, sin respaldo en el corpus.
 - **Entorno:** Docker 29.8.1 + Compose v5.5.1. La base actual (volumen `pgdata`) contiene la población
   gástrica (`output_gastric`); el spike de mama se borró.
 - **Hallazgos clave del spike (detalle en ADR-0001):**
@@ -341,7 +343,7 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
   2:1). Además `-a` debe ser ≥ 36 (ver `synthea/README.md`).
 - **Decisiones pendientes para la próxima sesión (en orden):**
   1. `sql/03_features.sql` y cohortes de trastuzumab y nivolumab sobre el mismo tronco.
-  2. Decidir y aplicar los cambios de `docs/umbrales-vs-corpus.md` (CLDN18.2 ~33 %, `cycle_days` por esquema) y regenerar.
+  2. (Hecho 2026-11-04) cambios de `docs/umbrales-vs-corpus.md`; queda CPS ≥ 5 (necesita texto completo de CheckMate 649).
   3. Acotar versiones de dependencias en `pyproject.toml`.
   4. ADRs del profesor (LLM, motor, ground truth, evaluación).
   5. Menor: el repo está anidado en una carpeta padre vacía — ¿aplanar?

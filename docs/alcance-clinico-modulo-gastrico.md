@@ -80,7 +80,7 @@ Inicio ─► Diagnóstico (adenocarcinoma gástrico)
 | Variable | Probabilidad | Referencia aproximada (a verificar) |
 |---|---|---|
 | HER2+ | 20 % | ~22 % de positivos en el cribado de ToGA |
-| CLDN18.2+ (≥75 %) | 38 % | ~38 % en el cribado de SPOTLIGHT/GLOW |
+| CLDN18.2+ (≥75 %) | 33 % | 29,9–34,4 % en tres estudios del corpus (antes 38 %, de memoria; ver `docs/umbrales-vs-corpus.md`) |
 | PD-L1 CPS ≥ 5 | 60 % | ~60 % en CheckMate 649 |
 | MSI-H | 5 % | 3–5 % en enfermedad avanzada |
 | ECOG ≥ 2 | 15 % | Elegido para la atrición |
@@ -178,7 +178,7 @@ componen en el mismo día. La cohorte SQL los reconoce por sus ingredientes vía
    §4.1 para por qué no se ligaría a CLDN18.2.
 7. **Tamaño:** ¿cuántos pacientes gástricos se quieren en la cohorte final? Con ~70 % avanzados y
    las probabilidades de arriba, 300 pacientes dan unos 50 CLDN18.2+ elegibles para zolbetuximab
-   (300 × 0.70 avanzados × 0.85 ECOG 0–1 × 0.80 HER2− × 0.38 CLDN18.2+ ≈ 54).
+   (300 × 0.70 avanzados × 0.85 ECOG 0–1 × 0.80 HER2− × 0.38 CLDN18.2+ ≈ 54; con el 33 % actual, ≈ 47).
 
 ## 8. Respuestas del profesor (2026-10-14) y cómo quedaron en el módulo
 

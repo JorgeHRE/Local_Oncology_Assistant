@@ -36,7 +36,9 @@ PARAMS: dict[str, Any] = {
     "recurrence_delay_months": (6, 18),
     # Biomarkers, drawn independently (v1).
     "p_her2_positive": 0.20,
-    "p_cldn18_positive": 0.38,
+    # Corpus (docs/umbrales-vs-corpus.md): 29.9-34.4 % with the >= 75 % cut-off; the 38 % of the
+    # SPOTLIGHT/GLOW screening is not in the corpus abstracts.
+    "p_cldn18_positive": 0.33,
     "p_cps_high": 0.60,  # CPS >= 5
     "p_msi_high": 0.05,
     "ecog": {0: 0.35, 1: 0.50, 2: 0.10, 3: 0.04, 4: 0.01},  # ECOG >= 2: 15 %
@@ -45,7 +47,8 @@ PARAMS: dict[str, Any] = {
     "p_targeted_given_eligible": 0.85,  # eligible patients who get the targeted drug
     "p_mono_given_poor_ecog": 0.60,  # rest: no systemic therapy
     "n_cycles": 6,
-    "cycle_days": 21,
+    # CAPOX is given every 3 weeks and FOLFOX every 2 (CheckMate 649, SPOTLIGHT).
+    "cycle_days": {"capox": 21, "folfox": 14},
     "p_death": 0.70,
 }
 
@@ -567,11 +570,22 @@ def build_states(p: dict[str, Any]) -> dict[str, dict[str, Any]]:
     add(
         "Cycle Delay",
         {
-            "type": "Delay",
-            "exact": {"quantity": p["cycle_days"], "unit": "days"},
-            "direct_transition": "Cycle Encounter",
+            "type": "Simple",
+            "conditional_transition": [
+                when(attr_is("gc_backbone", "folfox"), "Cycle Delay FOLFOX"),
+                {"transition": "Cycle Delay CAPOX"},
+            ],
         },
     )
+    for name, backbone in (("Cycle Delay FOLFOX", "folfox"), ("Cycle Delay CAPOX", "capox")):
+        add(
+            name,
+            {
+                "type": "Delay",
+                "exact": {"quantity": p["cycle_days"][backbone], "unit": "days"},
+                "direct_transition": "Cycle Encounter",
+            },
+        )
 
     # --- Progression and death (second line is out of scope) ---------------------------------
     add(
