@@ -14,7 +14,7 @@ APP := docker compose --profile dev run --rm app
 PSQL := docker compose exec -T db sh -c 'psql -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -v ON_ERROR_STOP=1'
 
 .DEFAULT_GOAL := help
-.PHONY: help env build db reset-db test test-fast lint format module synthea-jar generate etl post-etl cohort attrition corpus corpus-verify chunks index gt-validate gt-validate-final gt-dataset-id llm-up llm-down ask eval-retrieval
+.PHONY: help env build db reset-db test test-fast lint format module synthea-jar generate etl post-etl cohort attrition corpus corpus-verify chunks index gt-validate gt-validate-final gt-dataset-id llm-up llm-down ask eval-retrieval index-embed
 
 help: ## List the targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
@@ -106,5 +106,8 @@ llm-down: ## Stop the local LLM server
 ask: ## Ask the RAG a question: make ask Q="Which CLDN18.2 result ... NCT07103668?"
 	env HOME=$(CURDIR)/data/processed $(or $(PY),.venv/bin/python) -m oncology_assistant.rag "$(Q)" --passages
 
-eval-retrieval: ## recall@k of the R questions (dev split; use SPLIT=test only for the final run)
-	env HOME=$(CURDIR)/data/processed $(or $(PY),.venv/bin/python) -m oncology_assistant.eval_retrieval --split $(or $(SPLIT),dev)
+eval-retrieval: ## recall@k of the R questions (dev; SPLIT=test only for the final run; MODEL=bge-m3)
+	env HOME=$(CURDIR)/data/processed $(or $(PY),.venv/bin/python) -m oncology_assistant.eval_retrieval --split $(or $(SPLIT),dev) --model $(or $(MODEL),bge-m3)
+
+index-embed: ## Build the index of an Ollama embedding model (MODEL=bge-m3): ollama pull first
+	env HOME=$(CURDIR)/data/processed $(or $(PY),.venv/bin/python) -m oncology_assistant.embedders build $(or $(MODEL),bge-m3)

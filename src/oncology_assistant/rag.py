@@ -30,14 +30,16 @@ from pathlib import Path
 from typing import Any
 
 from oncology_assistant.chunking import STRATEGIES
+from oncology_assistant.embedders import OLLAMA_URL, index_dir_for, ollama_embedder
 from oncology_assistant.ground_truth import normalize
 from oncology_assistant.hybrid import hybrid_query
 from oncology_assistant.index import INDEX_DIR, Embedder, query
 
 logger = logging.getLogger(__name__)
 
-OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://127.0.0.1:11500")
 MODEL = os.environ.get("RAG_MODEL", "qwen3:8b")
+# Embedding model of the retriever (Ollama). "default" = the ONNX MiniLM of index.py.
+EMBEDDER = os.environ.get("RAG_EMBEDDER", "bge-m3")
 SEED = 7
 NOT_FOUND = "The retrieved passages do not contain the answer."
 
@@ -113,8 +115,9 @@ def retrieve(
     k: int = 6,
     strategy: str = "structural",
     embedder: Embedder | None = None,
-    path: Path = INDEX_DIR,
+    path: Path | None = None,
     hybrid: bool = True,
+    model: str = EMBEDDER,
 ) -> list[dict[str, Any]]:
     """The chunks closest to the question, restricted to the trials it names (if any).
 
@@ -124,6 +127,9 @@ def retrieve(
     """
     if strategy not in STRATEGIES:
         raise ValueError(f"unknown strategy {strategy!r}; use one of {STRATEGIES}")
+    if embedder is None and path is None and model != "default":
+        embedder, path = ollama_embedder(model), index_dir_for(model)
+    path = path or INDEX_DIR
     search = hybrid_query if hybrid else query
     where = trial_filter(question)
     trials = where["doc_id"].get("$in") if where and isinstance(where["doc_id"], dict) else None
@@ -221,10 +227,11 @@ def ask(
     strategy: str = "structural",
     llm: Llm | None = None,
     embedder: Embedder | None = None,
-    path: Path = INDEX_DIR,
+    path: Path | None = None,
+    model: str = EMBEDDER,
 ) -> Answer:
     """Retrieve, generate and verify. The whole pipeline for one question."""
-    passages = retrieve(question, k=k, strategy=strategy, embedder=embedder, path=path)
+    passages = retrieve(question, k=k, strategy=strategy, embedder=embedder, path=path, model=model)
     if not passages:
         return Answer(question, NOT_FOUND)
     raw = (llm or ollama_llm())(build_messages(question, passages))
