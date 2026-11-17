@@ -31,3 +31,9 @@ Formato: versión, fecha, qué cambió y por qué (`docs/guia-anotacion.md` §8)
   NCT02872116, NCT06346197, NCT07221149, NCT03504397, NCT05427383) con sus archivos SQL independientes
   en `sql/cohort_*.sql` (`sql/02_cohorte.sql` para NCT03504397), `dataset_id` y `expected_count`
   verificados contra los CSV de Synthea. `make gt-validate-final` pasa con las 40 preguntas completas.
+
+## Sin versión (2026-11-17, declaración)
+
+- C-007: declarado en `notes` y en la guía (preguntas abiertas) que `sql/02_cohorte.sql` tiene su base
+  escrita con Claude Code (contra el ADR-0003) y que el anotador lo revisó manualmente. Limitación a
+  mencionar al informar los resultados de C-007. El resto de C usa SQL propio del anotador.
