@@ -36,7 +36,9 @@ FROM (VALUES
     ('systemic_antineoplastic', 1387104),
     ('systemic_antineoplastic', 1735539),
     ('systemic_antineoplastic', 45892628),
-    ('zolbetuximab',          1735539)
+    ('trastuzumab',           1387104),
+    ('zolbetuximab',          1735539),
+    ('nivolumab',             45892628)
 ) AS s(concept_set_name, concept_id)
 JOIN cdm.concept_ancestor a ON a.ancestor_concept_id = s.concept_id;
 
@@ -46,6 +48,8 @@ INSERT INTO results.concept_set (concept_set_name, concept_id) VALUES
     ('stage_4',           4123017),   -- Stage 4
     ('her2_ihc',          3019066),   -- LOINC 18474-7
     ('cldn18_ihc',        1091409),   -- LOINC 105011-1 (Claudin 18, proxy for CLDN18.2; see LIMITACIONES)
+    ('pdl1_cps',          1091860),   -- LOINC 105303-2, numeric 0-100
+    ('msi',               21493972),  -- LOINC 81695-9, Positive (= MSI-H) / Negative
     ('ecog',              36305384),  -- LOINC 89247-1, numeric 0-4
     ('result_positive',   9191),
     ('result_negative',   9189);
@@ -55,9 +59,9 @@ DECLARE
     missing text;
 BEGIN
     SELECT string_agg(expected, ', ') INTO missing
-    FROM unnest(ARRAY['gastric_cancer', 'systemic_antineoplastic', 'zolbetuximab', 'stage_group',
-                      'stage_4', 'her2_ihc', 'cldn18_ihc', 'ecog', 'result_positive',
-                      'result_negative']) AS expected
+    FROM unnest(ARRAY['gastric_cancer', 'systemic_antineoplastic', 'trastuzumab', 'zolbetuximab',
+                      'nivolumab', 'stage_group', 'stage_4', 'her2_ihc', 'cldn18_ihc',
+                      'pdl1_cps', 'msi', 'ecog', 'result_positive', 'result_negative']) AS expected
     WHERE NOT EXISTS (SELECT 1 FROM results.concept_set cs WHERE cs.concept_set_name = expected);
     IF missing IS NOT NULL THEN
         RAISE EXCEPTION 'empty concept sets (vocabulary not loaded?): %', missing;

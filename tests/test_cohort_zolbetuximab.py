@@ -137,3 +137,37 @@ def test_cohort_view_equals_last_step(
         "SELECT count(*) FROM results.gc_zolbetuximab_cohort"
     ).fetchone()
     assert n_cohort == attrition[-1][1]
+
+
+COHORT_VIEWS = {
+    "C-001": ("sql/cohort_nct06123494.sql", "gc_nct06123494"),
+    "C-002": ("sql/cohort_nct06177041.sql", "gc_nct06177041"),
+    "C-003": ("sql/cohort_nct01041404.sql", "gc_nct01041404"),
+    "C-004": ("sql/cohort_nct02872116.sql", "gc_nct02872116"),
+    "C-005": ("sql/cohort_nct06346197.sql", "gc_nct06346197"),
+    "C-006": ("sql/cohort_nct07221149.sql", "gc_nct07221149"),
+    "C-007": ("sql/02_cohorte.sql", "gc_zolbetuximab"),
+    "C-008": ("sql/cohort_nct05427383.sql", "gc_nct05427383"),
+}
+
+
+def test_all_ground_truth_cohorts_match_expected_count(omop_conn: psycopg.Connection) -> None:
+    """Every C record in ground_truth.jsonl must match its SQL cohort view and attrition table."""
+    from oncology_assistant.ground_truth import GROUND_TRUTH_PATH, CohortRecord, parse_records
+
+    omop_conn.execute((REPO_ROOT / "sql" / "01_concept_sets.sql").read_text(encoding="utf-8"))
+    records, problems = parse_records(GROUND_TRUTH_PATH.read_text(encoding="utf-8").splitlines())
+    assert not problems
+    cohorts = [r for r in records if isinstance(r, CohortRecord)]
+    assert len(cohorts) == 8
+    for r in cohorts:
+        sql_rel, prefix = COHORT_VIEWS[r.id]
+        assert r.reference_sql == sql_rel
+        omop_conn.execute((REPO_ROOT / sql_rel).read_text(encoding="utf-8"))
+        (n_cohort,) = omop_conn.execute(f"SELECT count(*) FROM results.{prefix}_cohort").fetchone()
+        rows = omop_conn.execute(
+            f"SELECT n_remaining FROM results.{prefix}_attrition ORDER BY step"
+        ).fetchall()
+        counts = [n for (n,) in rows]
+        assert counts == sorted(counts, reverse=True), r.id
+        assert n_cohort == counts[-1] == r.expected_count, r.id

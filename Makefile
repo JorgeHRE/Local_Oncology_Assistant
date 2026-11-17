@@ -62,9 +62,10 @@ etl: db ## Load Synthea CSVs + Athena vocabulary into an EMPTY database (~50-70 
 post-etl: ## Steps after the ETL (value_as_concept_id)
 	$(PSQL) < etl/post_etl/01_value_as_concept.sql
 
-cohort: ## Build the concept sets and the zolbetuximab pilot cohort (schema `results`)
+cohort: ## Build the concept sets and all ground-truth cohort views (schema `results`)
 	$(PSQL) < sql/01_concept_sets.sql
 	$(PSQL) < sql/02_cohorte.sql
+	for f in sql/cohort_*.sql; do $(PSQL) < "$$f"; done
 
 attrition: ## Print the attrition table of the pilot cohort
 	echo 'SELECT step, description, n_remaining, n_lost FROM results.gc_zolbetuximab_attrition' | $(PSQL)
