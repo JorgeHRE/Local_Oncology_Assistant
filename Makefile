@@ -112,5 +112,11 @@ ask-text: ## Ask only the RAG over the texts, listing the retrieved passages: ma
 eval-retrieval: ## recall@k of the R questions (dev; SPLIT=test only for the final run; MODEL=bge-m3)
 	env HOME=$(CURDIR)/data/processed $(or $(PY),.venv/bin/python) -m oncology_assistant.eval_retrieval --split $(or $(SPLIT),dev) --model $(or $(MODEL),bge-m3)
 
+eval-generation: ## Compare the candidate LLMs on the same passages (dev; writes data/processed/llm_comparison_dev.md)
+	env HOME=$(CURDIR)/data/processed $(or $(PY),.venv/bin/python) -m oncology_assistant.eval_generation --split $(or $(SPLIT),dev)
+
+eval-extraction: ## Compare the candidate LLMs extracting criteria from the E sections (dev; ~5 min)
+	env HOME=$(CURDIR)/data/processed $(or $(PY),.venv/bin/python) -m oncology_assistant.eval_extraction --split $(or $(SPLIT),dev)
+
 index-embed: ## Build the index of an Ollama embedding model (MODEL=bge-m3): ollama pull first
 	env HOME=$(CURDIR)/data/processed $(or $(PY),.venv/bin/python) -m oncology_assistant.embedders build $(or $(MODEL),bge-m3)
