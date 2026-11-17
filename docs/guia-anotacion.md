@@ -336,13 +336,16 @@ Las C saldrían de los mismos documentos (2 de `dev`, 6 de `test`).
 - **Resuelta con el piloto (2026-11-17): una E por sección completa se mantiene.** Costó ~15 min
   cada una; el anotador dice que baja con la práctica. Quedan como están las cuotas (12 E).
 
-## 10. Tiempos medidos en el piloto (2026-11-17)
+## 10. Tiempos medidos (piloto 2026-11-17 y tanda completa de R y E)
 
-| Tipo | Medido | Quedan | Estimación |
-|---|---|---|---|
-| R | ~5 min cada una (15 min por 3) | 17 | 1,5 a 3 h (las de varios criterios o de comparar tardan más) |
-| E | ~15 min cada una (la última, la más larga) | 10 | 1,5 a 2,5 h (según el tamaño de la ficha) |
-| C | sin medir | 8 | pendiente de la pregunta abierta de arriba |
+| Tipo | Medido | Hecho |
+|---|---|---|
+| R | piloto: ~5 min cada una (15 min por 3). Las otras 17: ~1 h 30 min en total (~5 min cada una) | 20 de 20, ~1 h 45 min |
+| E | piloto: ~15 min cada una (la última, la más larga). Las otras 10: ~1 h en total (~6 min cada una), hechas a la vez que las R | 12 de 12 |
+| C | sin medir | 0 de 8; pendiente de la pregunta abierta de arriba |
 
-Total de R y E: **~4 a 5 h**. La re-anotación a ciegas (§7, 10 preguntas) suma ~1 a 1,5 h. La muestra
-es pequeña (3 R y 2 E): se reajusta al hacer más.
+Las E de la tanda se hicieron **intercaladas con las R**: leer un documento servía para las dos, así
+que los tiempos de R y E no se suman sin más. El tiempo de la tanda de 17 R + 10 E fue de ~1 h 30 min
+a ~2 h 30 min (aproximado, por el solapamiento). El anotador nota que, con el contexto de los textos
+ya en la cabeza, cada pregunta sale más rápido: las E bajaron de ~15 a ~6 min. La re-anotación a
+ciegas (§7, 10 preguntas) suma ~1 a 1,5 h.
