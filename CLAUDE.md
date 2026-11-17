@@ -121,7 +121,7 @@ Local_Oncology_Assistant/
 │   ├── 01_concept_sets.sql   # ✅ conjuntos de conceptos (esquema `results`)
 │   ├── 02_cohorte.sql        # ✅ cohorte piloto de zolbetuximab + tabla de atrición
 │   └── 03_features.sql       # ⚠️ no existe aún
-├── src/oncology_assistant/  # ✅ db.py, synthea_codes.py (verificador de códigos GMF)
+├── src/oncology_assistant/  # ✅ db.py, synthea_codes.py, corpus.py, chunking.py, index.py, ground_truth.py, rag.py, hybrid.py, eval_retrieval.py
 ├── tests/                  # ✅ pytest; marca `db` para tests contra la base OMOP
 ├── synthea/                 # ✅ configuración de Synthea: keep modules, módulo gástrico y su generador
 ├── notebooks/               # exploración únicamente, nunca lógica de producción
@@ -339,6 +339,14 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
   - **Umbrales vs. corpus (2026-11-04):** `docs/umbrales-vs-corpus.md` (borrador). HER2, ECOG 0–1 y lavado de
     180 d respaldados; CLDN18.2 38 % ✗ (el corpus da 30–34 %) → ahora 33 %; `cycle_days` 21 incorrecto para FOLFOX →
     ahora 14 d (FOLFOX) / 21 d (CAPOX); población regenerada. CPS ≥ 5 y el resto, sin respaldo en el corpus.
+  - **Ground truth completo (2026-11-17, PR #12–#17):** 40 preguntas (20 R, 12 E, 8 C) anotadas por el autor, guía v1.0,
+    `make gt-validate-final` pasa. C-007 usa un SQL con base de Claude Code, revisado a mano por el autor (declarado en
+    `notes` y en la guía). Pendientes: recálculo independiente con pandas y re-anotación a ciegas (≥ 2026-11-24).
+  - **RAG beta (2026-11-17, ADR-0005 y de retrieval SIN cerrar):** `rag.py` (recupera, responde con qwen3:8b vía Ollama
+    en la GPU y verifica que cada cita sea literal), `hybrid.py` (BM25 + vector por RRF), `eval_retrieval.py` (recall@k
+    de las R; usar `--split dev`, `test` solo en la corrida final), `make llm-up | ask | eval-retrieval | llm-down`.
+    recall@10 en dev (6 R): B vector 0,33; B híbrida 0,50; C 1,00 (trivial). Falla con preguntas sin NCT y en
+    comparaciones donde un ensayo no menciona el tema. Las cohortes (C) aún no están conectadas al asistente.
 - **Entorno:** Docker 29.8.1 + Compose v5.5.1. La base actual (volumen `pgdata`) contiene la población
   gástrica (`output_gastric`); el spike de mama se borró.
 - **Hallazgos clave del spike (detalle en ADR-0001):**
