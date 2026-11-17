@@ -108,6 +108,9 @@ def test_quotes_from_the_website_match_the_markdown_record(docs):
     assert gt.contains_quote(text, "  Subject has ECOG\n performance status 0 to 1.")
     assert not gt.contains_quote(text, "Subject has ECOG performance status 0 to 2.")
     assert gt.contains_quote("1\\. Age 18\\~75 years", "Age 18~75 years")
+    assert gt.contains_quote(
+        "LVEF \\<50%; PD-L1 CPS \\>=5; R\\^2 \\& more", "LVEF <50%; PD-L1 CPS >=5; R^2 & more"
+    )
 
 
 def test_check_citations_flags_quotes_not_in_the_document(docs):
