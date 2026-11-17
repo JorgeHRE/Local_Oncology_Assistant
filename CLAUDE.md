@@ -131,7 +131,7 @@ Local_Oncology_Assistant/
 │   ├── features.md           # ✅ diccionario de datos (módulo gástrico; ampliar con el resto)
 │   ├── MODEL_CARD.md         # ⚠️ no existe aún
 │   ├── LIMITACIONES.md       # ✅ existe; completar conforme avance el proyecto
-│   ├── USO_DE_IA.md           # ⚠️ no existe aún — declarar uso de Gemini y Claude
+│   ├── USO_DE_IA.md           # ✅ borrador (2026-11-17); el autor debe confirmarlo (§7)
 │   └── adr/                  # ✅ existe — 0001 a 0004 y 0006 (chunking); ver sección 6
 └── figuras/                 # ⚠️ no existe aún
 ```
