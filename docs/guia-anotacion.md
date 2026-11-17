@@ -1,7 +1,9 @@
 # Guía de anotación del ground truth
 
-- **Estado:** v0.2, borrador (2026-11-05; v0.2 añade cómo se formula cada tipo y ejemplos). Se congela como v1.0 al terminar las 5 primeras preguntas
-  (ADR-0003: con ellas se estima el tiempo total y se corrige lo que no funcione).
+- **Estado:** v1.0 (2026-11-17), congelada tras la tanda piloto de 5 preguntas (3 R y 2 E; ADR-0003).
+  Historial: v0.1 y v0.2 (2026-11-05), v1.0 (2026-11-17: piloto, partición ampliada, escapes de
+  Markdown en las citas y tiempos medidos). No confundir con la versión **del ground truth** (§8),
+  que es otra: la del conjunto de prueba congelado.
 - **Método:** `docs/adr/0003-metodologia-de-ground-truth.md`. **Esquema y validador:**
   `src/oncology_assistant/ground_truth.py`. **Archivo:** `eval/ground_truth/ground_truth.jsonl`.
 - **Validar:** `make gt-validate` (en cualquier momento) y `make gt-validate-final` (al terminar:
@@ -292,9 +294,10 @@ tratamiento previo):
 | Partición | Documento | Por qué |
 |---|---|---|
 | test | SPOTLIGHT (NCT03504397), GLOW (NCT03653507), NCT06901531, NCT07673887 | Grupo de zolbetuximab; base de la cohorte piloto |
-| test | ToGA (NCT01041404), CheckMate 649 (NCT02872116) | Pivotales. Sus fichas tienen poco texto (539 y 1 101 caracteres): secciones cortas |
+| test | ToGA (NCT01041404), CheckMate 649 (NCT02872116) | Pivotales. Sus fichas tienen poco texto (539 y 1 101 caracteres): secciones cortas. CheckMate 649 forma grupo con CheckMate 648 (NCT03143153), que comparte 7 de sus 11 criterios, así que NCT03143153 también va en `test` |
 | test | NCT07385703 (CLDN18.2 + PD-L1), NCT05427383 (HER2+) | Diversidad de biomarcadores |
 | dev | NCT06504732 (HER2+), NCT06346197 (MSI-H, CPS ≥ 5), NCT06177041 (CLDN18.2, CPS < 5), NCT03675737 (KEYNOTE-859, HER2−) | Un ejemplo de cada biomarcador para iterar prompts sin tocar prueba |
+| dev | NCT07103668 (CLDN18.2+), NCT06123494 (HER2+), NCT02477826 (PD-L1) | Añadidos el 2026-11-17 por el anotador: son los ensayos de sus preguntas piloto; no comparten texto casi idéntico con ningún documento de `test` (medido el 2026-11-17) |
 
 Las C saldrían de los mismos documentos (2 de `dev`, 6 de `test`).
 
@@ -330,5 +333,16 @@ Las C saldrían de los mismos documentos (2 de `dev`, 6 de `test`).
   Opciones: revisarlo tú línea por línea contra la E correspondiente y declararlo, o reescribir tú
   el recálculo independiente. Se decide antes de anotar las C.
 
-- ¿Una E por sección (inclusión o exclusión) es una carga razonable? SPOTLIGHT tiene 14 viñetas de
-  inclusión y 20 de exclusión (chunks de la estrategia B; los criterios atómicos pueden ser más). Se decide con las 5 primeras preguntas.
+- **Resuelta con el piloto (2026-11-17): una E por sección completa se mantiene.** Costó ~15 min
+  cada una; el anotador dice que baja con la práctica. Quedan como están las cuotas (12 E).
+
+## 10. Tiempos medidos en el piloto (2026-11-17)
+
+| Tipo | Medido | Quedan | Estimación |
+|---|---|---|---|
+| R | ~5 min cada una (15 min por 3) | 17 | 1,5 a 3 h (las de varios criterios o de comparar tardan más) |
+| E | ~15 min cada una (la última, la más larga) | 10 | 1,5 a 2,5 h (según el tamaño de la ficha) |
+| C | sin medir | 8 | pendiente de la pregunta abierta de arriba |
+
+Total de R y E: **~4 a 5 h**. La re-anotación a ciegas (§7, 10 preguntas) suma ~1 a 1,5 h. La muestra
+es pequeña (3 R y 2 E): se reajusta al hacer más.

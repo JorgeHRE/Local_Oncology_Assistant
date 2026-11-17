@@ -35,8 +35,8 @@ STRATEGIES = ("structural", "whole")
 _HEADER = re.compile(r"^(?:key\s+)?(inclusion|exclusion)\b.{0,70}$", re.IGNORECASE)
 # Top-level bullet: "* ", "- ", "• ", "12. ", "12) " or the full-width "12）".
 _BULLET = re.compile(r"^(?:[*\-•]|\d+[.)）])\s*")
-# ClinicalTrials.gov text is Markdown: punctuation can be escaped ("1\.", "18\~75", "\>").
-_ESCAPED = re.compile(r"\\([.)(~>*_#\[\]-])")
+# ClinicalTrials.gov text is Markdown: punctuation can be escaped ("1\.", "18\~75", "\>", "\<50%").
+_ESCAPED = re.compile(r"\\([.)(~<>^&*_#\[\]-])")
 # A labelled PubMed section: "METHODS: ...", "PATIENTS AND METHODS: ...".
 _LABEL = re.compile(r"^([A-Z][A-Z /&-]{2,40}):\s*(.*)$")
 
