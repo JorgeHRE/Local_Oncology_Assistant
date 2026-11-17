@@ -83,15 +83,26 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--split", choices=("dev", "test"), default="dev")
     parser.add_argument("-k", type=int, nargs="+", default=[1, 3, 5, 10])
+    parser.add_argument(
+        "--model",
+        help="Ollama embedding model with its own index (see embedders.py); omit or 'default' for the ONNX MiniLM",
+    )
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(message)s")
     records = load_r_records(split=args.split)
-    print(f"R questions in {args.split}: {len(records)}")
+    embedder, index_path = None, INDEX_DIR
+    if args.model and args.model != "default":
+        from oncology_assistant.embedders import index_dir_for, ollama_embedder
+
+        embedder, index_path = ollama_embedder(args.model), index_dir_for(args.model)
+    print(f"R questions in {args.split}: {len(records)}; embedder: {args.model or 'default'}")
     for strategy in STRATEGIES:
         for hybrid in (False, True):
             label = f"{strategy}/{'hybrid' if hybrid else 'vector'}"
             for k in args.k:
-                results = evaluate(records, strategy, k, hybrid=hybrid)
+                results = evaluate(
+                    records, strategy, k, embedder=embedder, index_path=index_path, hybrid=hybrid
+                )
                 missed = [r.question_id for r in results if r.found < r.total]
                 print(
                     f"{label:18s} recall@{k:<3d} {mean_recall(results):.2f}  incomplete: {missed}"
