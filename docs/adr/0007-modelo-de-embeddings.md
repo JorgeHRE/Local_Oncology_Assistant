@@ -48,7 +48,10 @@ el texto de la pregunta.
 ## Decisión
 
 Usar **bge-m3** por defecto (variable `RAG_EMBEDDER`; `default` vuelve al ONNX), con búsqueda
-solo vectorial y con reformulación de la pregunta (`--no-rewrite` la desactiva). Razones: es el mejor en recall@1 y @10 junto con el otro modelo nuevo, es
+con reformulación de la pregunta (`--no-rewrite` la desactiva). **Aclaración (2026-11-17):** el código
+desplegado usa la búsqueda **híbrida** (BM25 + vector) por defecto, no solo vectorial: con reformulación, en
+desarrollo la híbrida dio recall@5 0,83 frente a 0,75 y recall@10 igual (0,83). La corrida única de `test`
+(`eval/results/test_2026-11-17.md`) se hizo con esa configuración y la dio como principal antes de verla. Razones: es el mejor en recall@1 y @10 junto con el otro modelo nuevo, es
 multilingüe (el RAG responde preguntas en español: el MiniLM es solo inglés) y se ejecuta en la
 misma GPU y el mismo servidor que el LLM. La búsqueda híbrida (BM25) ayudó con el MiniLM pero no
 mejora de forma consistente con los modelos nuevos; queda disponible (`hybrid.py`) y activada por

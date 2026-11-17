@@ -41,7 +41,7 @@ Se compararon tres candidatos que caben en 12 GB de VRAM, con los mismos fragmen
 - **Respuesta (6 preguntas):** qwen3:8b y medgemma:4b no dieron ninguna cita inventada (se niegan más); gemma3:12b nunca se niega y en 2 de 6 respuestas la cita no es literal.
 - **Extracción de criterios (4 secciones, 51 criterios):** qwen3:8b es el más literal (0,98 de citas) y el más parecido al anotador en granularidad (1,12 criterios por criterio de referencia); gemma3:12b sobre-divide (1,92) y tarda el doble; medgemma:4b es el más débil. En `evaluable` ningún modelo supera el 0,54 y la línea base de "todo no evaluable" es 0,69: declarar no evaluable es la debilidad de todos.
 - El modelo biomédico no aportó ventaja: el conocimiento clínico lo aporta la recuperación.
-Decisión: qwen3:8b (5,2 GB, deja VRAM al embedder). Confirmación sobre el conjunto de prueba: pendiente (una sola corrida).
+Decisión: qwen3:8b (5,2 GB, deja VRAM al embedder). Confirmación sobre el conjunto de prueba (corrida única, `eval/results/test_2026-11-17.md`): 11 de 12 respuestas con todas las citas literales, 1 negativa con la evidencia presente, y en extracción 0,97 de citas literales y 1,00 de criterios extraídos frente a la referencia; `evaluable` (0,51) no supera la línea base de "todo no evaluable" (0,53).
 
 ### 7.2 Motor de ejecución: **Ollama** (ADR-0004, Propuesto)
 Se midieron Ollama 0.40.4 y llama.cpp b11624 en la RTX 5070: 110 y 107 tokens/s, 10 de 10 salidas con esquema JSON válidas en ambos, y misma salida con semilla fija. Se elige Ollama (descarga y carga de modelos por API, versiones fijadas por SHA-256) y llama.cpp queda como respaldo. vLLM y SGLang no se probaron: la carga es secuencial (unas 120 llamadas por pasada) y se reevaluarán si una corrida pasa de 30 minutos o hacen falta peticiones concurrentes. Un cliente compatible con OpenAI aísla las diferencias entre motores.
@@ -58,8 +58,9 @@ Se midieron Ollama 0.40.4 y llama.cpp b11624 en la RTX 5070: 110 y 107 tokens/s,
 | 3-4 SQL y cohorte | Recuentos exactos por ensayo | vistas SQL frente al recuento esperado (pytest, marca `db`) | Las 8 cohortes coinciden |
 | 5 Fidelidad | La respuesta se apoya en los fragmentos | verificación literal de citas; juicio del anotador | Parcial; sin juez LLM |
 
-Recuperación (recall@10, 6 R de desarrollo, estrategia por criterio): all-MiniLM-L6-v2 0,33; con búsqueda híbrida 0,50; **bge-m3 0,67; bge-m3 con reformulación de la pregunta 0,83** (ADR-0007). El conjunto de prueba está congelado: se evalúa **una sola vez** al final y no se usa para iterar. Las pruebas de software (pytest) usan modelos falsos y corren en el CI; las evaluaciones con modelo corren en local con GPU.
+Recuperación (recall@10, 6 R de desarrollo, estrategia por criterio): all-MiniLM-L6-v2 0,33; con búsqueda híbrida 0,50; **bge-m3 0,67; bge-m3 con reformulación de la pregunta 0,83** (ADR-0007). **Conjunto de prueba (corrida única, 2026-11-17, 14 R):** recall@5 = **0,83** con la configuración desplegada (híbrida y reformulación), frente a 0,83 en desarrollo; detalle y límites en `eval/results/test_2026-11-17.md`. El conjunto de prueba ya se usó: no se usa para iterar. Las pruebas de software (pytest) usan modelos falsos y corren en el CI; las evaluaciones con modelo corren en local con GPU.
 
 ## 8. Estado y pendientes
 - Hecho: corpus, índice, ground truth completo, cohortes, asistente con enrutado, comparación de LLM y embeddings en desarrollo.
-- Pendiente: corrida única sobre el conjunto de prueba; re-anotación a ciegas; recálculo independiente con pandas de las otras siete cohortes; mejorar la declaración de no evaluable en la extracción; interfaz de demostración.
+- Hecho además: corrida única sobre el conjunto de prueba (2026-11-17).
+- Pendiente: re-anotación a ciegas; recálculo independiente con pandas de las otras siete cohortes; mejorar la declaración de no evaluable en la extracción; interfaz de demostración.
