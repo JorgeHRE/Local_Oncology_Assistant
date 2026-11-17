@@ -37,3 +37,10 @@ Formato: versión, fecha, qué cambió y por qué (`docs/guia-anotacion.md` §8)
 - C-007: declarado en `notes` y en la guía (preguntas abiertas) que `sql/02_cohorte.sql` tiene su base
   escrita con Claude Code (contra el ADR-0003) y que el anotador lo revisó manualmente. Limitación a
   mencionar al informar los resultados de C-007. El resto de C usa SQL propio del anotador.
+
+## Sin versión (2026-11-17, revisión de `evaluable`)
+
+- E: el anotador revisó los flags de `evaluable` contra la tabla del §4 de la guía (apoyado en
+  `make review-evaluable`, que solo lista): 45 criterios pasaron de evaluables a no evaluables, con su
+  `not_evaluable_reason`. La referencia de `dev` pasó de 41/51 a 16/51 en True.
+- C-001 pasó de 8 a 7 criterios. `make gt-validate-final` pasa.
