@@ -1,7 +1,8 @@
 # ADR-0005: Modelo de lenguaje (LLM) para responder con los textos
 
-- **Estado:** Propuesto. Faltan dos cosas: el juicio de corrección de las respuestas R por el anotador
-  (las tablas de abajo son automáticas) y la corrida única sobre `test`.
+- **Estado:** Aceptado (2026-11-17): el autor elige **qwen3:8b**. La confirmación sobre `test` (una sola
+  corrida, ADR-0003) y la mejora del prompt de extracción para `evaluable` quedan pendientes y no cambian la
+  decisión, salvo que la corrida de `test` mostrara un problema grave.
 - **Fecha:** 2026-11-17
 - **Decisores:** Jorge (autor), con asistencia de Claude Code
 - **Relacionado:** ADR-0002 (evaluación por capas), ADR-0003 (ground truth; `test` se evalúa una vez),
@@ -111,11 +112,22 @@ Las demás columnas no cambiaron (no dependen de este campo); `evaluable` se rep
 
 ## Decisión
 
-*(Pendiente del juicio de corrección de las R.)* Con las dos tareas, la preferencia razonada por estos
-datos sigue siendo **qwen3:8b**: no inventa citas en las R; en la extracción es el más literal (0,98), el más
-parecido al anotador en granularidad (1,12) y el mejor en el valor; es el que ya está integrado y deja VRAM libre
-para el embedder (5,2 GB frente a 8,2 GB de gemma3:12b); y el RAG reintenta las citas no literales. **Matiz:**
-en `evaluable` qwen3:8b es claramente peor que gemma3:12b (0,38 frente a 0,54), y ninguno llega a la línea base
-de "todo False" (0,69). La decisión no cambia, pero la declaración de no evaluable queda como el trabajo
-pendiente de la extracción (prompt con ejemplos negativos, o una regla determinista sobre el concepto). El modelo
-biomédico no aporta ventaja en ninguna de las dos tareas.
+**qwen3:8b** (decisión del autor, 2026-11-17), servido por Ollama (ADR-0004) con salida JSON con esquema,
+temperatura 0 y semilla fija. Razones, con los datos de `dev`:
+
+- No dio ninguna respuesta con una cita inventada en las R; en la extracción es el más literal (0,98) y el
+  más parecido al anotador en granularidad (1,12), y el mejor en el valor (0,78).
+- Ya está integrado en el asistente, y ocupa 5,2 GB frente a 8,2 GB de gemma3:12b: deja VRAM libre para el
+  embedder (bge-m3, ADR-0007) y para la reformulación de las preguntas.
+- El RAG reintenta las citas no literales y las marca como no confiables, lo que compensa sus negativas.
+- El modelo biomédico (medgemma:4b) no aportó ventaja en ninguna de las dos tareas: el conocimiento clínico
+  lo aporta la recuperación.
+
+**Matices que se aceptan:**
+- En `evaluable` qwen3:8b es peor que gemma3:12b (0,38 frente a 0,54), y ningún modelo llega a la línea base
+  de "todo False" (0,69). La declaración de no evaluable queda como trabajo pendiente de la extracción (prompt
+  con ejemplos negativos o una regla determinista sobre el concepto).
+- La evidencia es pequeña (6 R y 4 E de dos ensayos). Las diferencias finas entre modelos no son concluyentes.
+
+**Se reevalúa si:** la corrida única sobre `test` muestra un problema grave; cambia el hardware (por ejemplo,
+más VRAM permitiría un modelo mayor); o aparece un candidato claramente mejor.
