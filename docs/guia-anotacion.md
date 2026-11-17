@@ -327,11 +327,11 @@ Las C saldrían de los mismos documentos (2 de `dev`, 6 de `test`).
 
 ## Preguntas abiertas
 
-- **Quién escribe el SQL de referencia de las C.** El ADR-0003 descarta que un LLM proponga el SQL
-  del ground truth (contaminaría la evaluación con un modelo de la misma familia). Pero
-  `sql/02_cohorte.sql` (zolbetuximab) y su recálculo con pandas se escribieron con Claude Code.
-  Opciones: revisarlo tú línea por línea contra la E correspondiente y declararlo, o reescribir tú
-  el recálculo independiente. Se decide antes de anotar las C.
+- **Quién escribe el SQL de referencia de las C: resuelta (2026-11-17).** Las C-001 a C-006 y C-008
+  llevan SQL propio del anotador (`sql/cohort_*.sql`). **C-007 usa `sql/02_cohorte.sql`, cuya base se
+  escribió con Claude Code**, lo que el ADR-0003 descarta como método. Declaración del anotador: lo
+  revisó manualmente. Queda como limitación: no es un SQL independiente de un LLM de la misma familia,
+  y debe mencionarse al informar los resultados de C-007.
 
 - **Resuelta con el piloto (2026-11-17): una E por sección completa se mantiene.** Costó ~15 min
   cada una; el anotador dice que baja con la práctica. Quedan como están las cuotas (12 E).
