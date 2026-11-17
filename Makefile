@@ -118,5 +118,8 @@ eval-generation: ## Compare the candidate LLMs on the same passages (dev; writes
 eval-extraction: ## Compare the candidate LLMs extracting criteria from the E sections (dev; ~5 min)
 	env HOME=$(CURDIR)/data/processed $(or $(PY),.venv/bin/python) -m oncology_assistant.eval_extraction --split $(or $(SPLIT),dev)
 
+review-evaluable: ## List criteria whose `evaluable` flag may contradict the guide (writes data/processed/revision_evaluable.md; changes nothing)
+	$(or $(PY),.venv/bin/python) -m oncology_assistant.review_evaluable
+
 index-embed: ## Build the index of an Ollama embedding model (MODEL=bge-m3): ollama pull first
 	env HOME=$(CURDIR)/data/processed $(or $(PY),.venv/bin/python) -m oncology_assistant.embedders build $(or $(MODEL),bge-m3)

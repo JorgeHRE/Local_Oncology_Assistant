@@ -58,9 +58,11 @@ juez automático: emparejando por la cita que respalda cada criterio.
 
 | Modelo | JSON válido | Cobertura de citas | Citas literales | Criterios extraídos / referencia | Operador | Valor | `evaluable` | s/sección |
 |---|---|---|---|---|---|---|---|---|
-| qwen3:8b | 4/4 | 0,97 | **0,98** | **1,12** | 0,56 | **0,78** | 0,76 | 13,6 |
-| gemma3:12b | 4/4 | 0,97 | 0,94 | 1,92 | **0,78** | 0,66 | 0,76 | 27,4 |
-| medgemma:4b | 4/4 | 0,91 | 0,87 | 1,41 | 0,27 | 0,58 | **0,79** | **9,3** |
+| qwen3:8b | 4/4 | 0,97 | **0,98** | **1,12** | 0,56 | **0,78** | (0,76)† | 13,6 |
+| gemma3:12b | 4/4 | 0,97 | 0,94 | 1,92 | **0,78** | 0,66 | (0,76)† | 27,4 |
+| medgemma:4b | 4/4 | 0,91 | 0,87 | 1,41 | 0,27 | 0,58 | (0,79)† | **9,3** |
+
+† **La columna `evaluable` no es interpretable** (ver el aviso de abajo): no se resalta ninguna cifra.
 
 Cobertura = parte de las citas de referencia que algún criterio extraído cita; operador, valor y `evaluable`
 son el acuerdo con la referencia sobre los criterios cubiertos (50/51 para qwen3 y gemma3, 48/51 para
@@ -71,22 +73,38 @@ Lectura:
   granularidad (1,12), con el mejor acuerdo en el valor.
 - **gemma3:12b** parte casi cada criterio en dos (1,92) y tarda el doble, aunque acierta más el operador.
 - **medgemma:4b**, el biomédico, es el más débil en operador y en citas literales; solo gana en velocidad.
-- `evaluable` es similar en los tres (0,76 a 0,79): ninguno reproduce bien las decisiones del anotador sin
-  ejemplos, un trabajo pendiente del prompt.
+- `evaluable`: **no se saca ninguna conclusión**. La referencia de `dev` tiene el 80 % de los criterios en
+  True (41 de 51), y aproximadamente 24 de ellos contradicen la tabla del §4 de la guía (lesión medible,
+  embarazo, metástasis del sistema nervioso central, analíticas, comorbilidades no modeladas, radioterapia
+  y cirugía previas...). Un modelo que marcara todo como evaluable tendría un acuerdo de 0,80, así que los
+  tres (0,76 a 0,79) están por debajo de esa línea base trivial. No es solo medgemma: marca True en el 97 %
+  de sus criterios, qwen3:8b en el 89 % y gemma3:12b en el 77 %.
 - El acuerdo en **operador** depende de convenciones (por ejemplo `=` frente a `present`), así que es la
   cifra más frágil.
+
+## Aviso: la referencia de `evaluable` está sin revisar (2026-11-17)
+
+La revisión de los flags de `evaluable` de las E (y de las C) encontró criterios marcados True que la guía
+§4 lista como no evaluables. Hasta que el anotador los corrija, la columna `evaluable` de la extracción no
+debe usarse para elegir modelo, y deberá repetirse la medición (`make eval-extraction`, ~5 min) con la
+referencia corregida. Las demás columnas y las medidas sobre las R no dependen de esto. El listado de
+criterios a revisar sale de `make review-evaluable`; los cambios en el ground truth los hace el anotador
+(ADR-0003).
 
 ## Pendiente antes de decidir
 
 1. **Corrección de las respuestas**, que solo puede juzgar el anotador: `data/processed/llm_comparison_dev.md`
    lista cada pregunta, su respuesta de referencia y la de cada modelo, con un hueco "Correcta (sí / parcial /
    no)". Un juez automático con modelos de las mismas familias estaría sesgado.
-2. Confirmar con las R de `test` en **una sola** corrida (ADR-0003).
+2. Corregir los flags de `evaluable` y repetir la medición de extracción (ver el aviso de arriba).
+3. Confirmar con las R de `test` en **una sola** corrida (ADR-0003).
 
 ## Límites
 
 - **Muestras pequeñas:** 6 R y 4 E. En las R, las diferencias de un caso son ruido. Las E suman 51
   criterios, pero vienen de solo 2 ensayos (NCT06123494 y NCT06177041): miden el estilo de esas fichas.
+- La referencia de `evaluable` de las E está sin revisar (ver el aviso); la comparación de extracción se
+  repetirá cuando se corrija.
 - La extracción de criterios hacia SQL aún no está integrada en el asistente; esta medición justifica el
   modelo para esa tarea, no el flujo completo.
 - No se probaron otros modelos (por ejemplo, de 14B cuantizados), ni se afinó el prompt por modelo.
