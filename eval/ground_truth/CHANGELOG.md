@@ -21,3 +21,9 @@ Formato: versión, fecha, qué cambió y por qué (`docs/guia-anotacion.md` §8)
   fichas del corpus los traen (`\<50%`) y una cita sin la barra no se encontraba. Requiere rehacer
   el índice (`make index`).
 - Archivo: R-001 a R-003 y E-001 y E-002 (todos `dev`).
+
+## Sin versión (2026-11-17)
+
+- Archivo: añadidas R-004 a R-020 y E-003 a E-012. Con ellas están completas las cuotas de R (6/14) y E
+  (4/8); faltan las 8 C. `make gt-validate` pasa; `gt-validate-final` solo falla por las C.
+- Guía §10: tiempos medidos de toda la tanda (R ~5 min, E ~6 min intercaladas con las R).
