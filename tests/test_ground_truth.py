@@ -186,7 +186,12 @@ def test_validate_a_file_end_to_end(tmp_path):
 
 def test_the_committed_ground_truth_file_is_valid():
     assert gt.GROUND_TRUTH_PATH.exists()
-    assert gt.validate(gt.GROUND_TRUTH_PATH) == []
+    assert gt.validate(gt.GROUND_TRUTH_PATH, final=True) == []
+    records, _ = gt.parse_records(gt.GROUND_TRUTH_PATH.read_text(encoding="utf-8").splitlines())
+    for r in records:
+        if isinstance(r, gt.CohortRecord):
+            assert (gt.REPO_ROOT / r.reference_sql).exists(), r.id
+            assert r.dataset_id is not None and r.expected_count is not None, r.id
 
 
 def test_bad_records_raise_with_the_model_directly():

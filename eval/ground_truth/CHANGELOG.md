@@ -27,3 +27,7 @@ Formato: versión, fecha, qué cambió y por qué (`docs/guia-anotacion.md` §8)
 - Archivo: añadidas R-004 a R-020 y E-003 a E-012. Con ellas están completas las cuotas de R (6/14) y E
   (4/8); faltan las 8 C. `make gt-validate` pasa; `gt-validate-final` solo falla por las C.
 - Guía §10: tiempos medidos de toda la tanda (R ~5 min, E ~6 min intercaladas con las R).
+- Archivo: añadidas C-001 a C-008 (2 `dev`: NCT06123494, NCT06177041; 6 `test`: NCT01041404,
+  NCT02872116, NCT06346197, NCT07221149, NCT03504397, NCT05427383) con sus archivos SQL independientes
+  en `sql/cohort_*.sql` (`sql/02_cohorte.sql` para NCT03504397), `dataset_id` y `expected_count`
+  verificados contra los CSV de Synthea. `make gt-validate-final` pasa con las 40 preguntas completas.
