@@ -141,3 +141,88 @@ def test_a_comparison_gets_evidence_from_every_named_trial(chroma):
     assert {h["metadata"]["doc_id"] for h in hits} == {"ct:NCT03504397", "ct:NCT03653507"}
     assert len(hits) == 6
     assert hits == sorted(hits, key=lambda h: h["distance"])
+
+
+def test_rewrite_query_uses_the_model_and_falls_back_to_the_question():
+    assert (
+        rag.rewrite_query("q?", lambda _m: json.dumps({"query": " expanded query "}))
+        == "expanded query"
+    )
+    assert rag.rewrite_query("q?", lambda _m: "not json") == "q?"
+    assert rag.rewrite_query("q?", lambda _m: json.dumps({"query": "  "})) == "q?"
+
+    def down(_messages):
+        raise RuntimeError("no server")
+
+    assert rag.rewrite_query("q?", down) == "q?"
+
+
+def test_extra_queries_are_fused_into_one_ranking(chroma):
+    plain = rag.retrieve(f"ECOG {TRIAL}", k=4, embedder=fake_embedder, path=chroma)
+    fused = rag.retrieve(
+        f"ECOG {TRIAL}",
+        k=4,
+        embedder=fake_embedder,
+        path=chroma,
+        extra_queries=["exclusion criteria hepatitis"],
+    )
+    assert len(fused) == len(plain) == 4
+    assert {h["metadata"]["doc_id"] for h in fused} == {f"ct:{TRIAL}"}
+    assert [h["id"] for h in fused] != [h["id"] for h in plain]
+
+
+def test_ask_with_rewrite_records_the_search_query(chroma):
+    result = rag.ask(
+        f"ECOG {TRIAL}",
+        k=3,
+        llm=lambda _m: json.dumps({"answer": rag.NOT_FOUND, "citations": []}),
+        embedder=fake_embedder,
+        path=chroma,
+        rewrite=True,
+        rewriter=lambda _m: json.dumps({"query": "performance status"}),
+    )
+    assert result.search_query == "performance status"
+    assert "performance status" in rag.format_answer(result, show_passages=True)
+
+
+def test_retry_replaces_a_made_up_quote_with_a_literal_one(chroma):
+    good = rag.retrieve(f"ECOG {TRIAL}", k=3, embedder=fake_embedder, path=chroma)[0]["text"][:30]
+    replies = iter(
+        [
+            json.dumps(
+                {"answer": "a", "citations": [{"passage": 1, "quote": "not in the passage at all"}]}
+            ),
+            json.dumps({"answer": "a", "citations": [{"passage": 1, "quote": good}]}),
+        ]
+    )
+    seen = []
+
+    def llm(messages):
+        seen.append(messages)
+        return next(replies)
+
+    result = rag.ask(f"ECOG {TRIAL}", k=3, llm=llm, embedder=fake_embedder, path=chroma)
+    assert result.grounded and result.retried
+    assert len(seen) == 2 and "NOT exact copies" in seen[1][-1]["content"]
+    assert "not in the passage at all" in seen[1][-1]["content"]
+
+
+def test_retry_that_does_not_improve_keeps_the_first_answer(chroma):
+    bad = json.dumps(
+        {"answer": "first", "citations": [{"passage": 1, "quote": "invented text here"}]}
+    )
+    result = rag.ask(f"ECOG {TRIAL}", k=3, llm=lambda _m: bad, embedder=fake_embedder, path=chroma)
+    assert not result.grounded and not result.retried and result.answer == "first"
+
+
+def test_no_retry_when_disabled_or_when_all_quotes_are_literal(chroma):
+    calls = []
+
+    def llm(_messages):
+        calls.append(1)
+        return json.dumps(
+            {"answer": "a", "citations": [{"passage": 1, "quote": "invented text here"}]}
+        )
+
+    rag.ask(f"ECOG {TRIAL}", k=3, llm=llm, embedder=fake_embedder, path=chroma, retry=False)
+    assert len(calls) == 1

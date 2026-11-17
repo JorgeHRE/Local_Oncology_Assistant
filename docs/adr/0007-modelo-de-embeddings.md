@@ -29,10 +29,26 @@ a los ensayos nombrados en la pregunta, estrategia B (un chunk por criterio).
 Los modelos nuevos se sirven con el mismo Ollama (ADR-0004), cada uno con su índice
 (`data/processed/chroma_<modelo>`), construido con los mismos chunks.
 
+## Reformulación de la pregunta (2026-11-17)
+
+Antes de buscar, el LLM local reescribe la pregunta como consulta de búsqueda (conserva los NCT y los
+números, expande abreviaturas y nombra el biomarcador como lo hacen los criterios). Se busca con la
+pregunta original y con la reformulada y se fusionan por rango (RRF). Con **bge-m3**, 6 R de `dev`:
+
+| Búsqueda | recall@1 | @3 | @5 | @10 |
+|---|---|---|---|---|
+| vector, sin reformular | 0,42 | 0,42 | 0,50 | 0,67 |
+| vector, **con reformulación** | 0,42 | **0,75** | **0,75** | **0,83** |
+| híbrida, con reformulación | 0,25 | 0,58 | 0,83 | 0,83 |
+
+Solo falla R-002 (una pregunta muy general sobre "qué biomarcador excluye" en un ensayo de 37
+chunks). Cuesta una llamada extra al LLM (~1 s). La reformulación no ve el ground truth: solo recibe
+el texto de la pregunta.
+
 ## Decisión
 
 Usar **bge-m3** por defecto (variable `RAG_EMBEDDER`; `default` vuelve al ONNX), con búsqueda
-solo vectorial. Razones: es el mejor en recall@1 y @10 junto con el otro modelo nuevo, es
+solo vectorial y con reformulación de la pregunta (`--no-rewrite` la desactiva). Razones: es el mejor en recall@1 y @10 junto con el otro modelo nuevo, es
 multilingüe (el RAG responde preguntas en español: el MiniLM es solo inglés) y se ejecuta en la
 misma GPU y el mismo servidor que el LLM. La búsqueda híbrida (BM25) ayudó con el MiniLM pero no
 mejora de forma consistente con los modelos nuevos; queda disponible (`hybrid.py`) y activada por
