@@ -121,7 +121,7 @@ Local_Oncology_Assistant/
 │   ├── 01_concept_sets.sql   # ✅ conjuntos de conceptos (esquema `results`)
 │   ├── 02_cohorte.sql        # ✅ cohorte piloto de zolbetuximab + tabla de atrición
 │   └── 03_features.sql       # ⚠️ no existe aún
-├── src/oncology_assistant/  # ✅ db.py, synthea_codes.py, corpus.py, chunking.py, index.py, ground_truth.py, rag.py, hybrid.py, eval_retrieval.py
+├── src/oncology_assistant/  # ✅ db.py, synthea_codes.py, corpus.py, chunking.py, index.py, ground_truth.py, rag.py, hybrid.py, embedders.py, eval_retrieval.py, cohorts.py, assistant.py
 ├── tests/                  # ✅ pytest; marca `db` para tests contra la base OMOP
 ├── synthea/                 # ✅ configuración de Synthea: keep modules, módulo gástrico y su generador
 ├── notebooks/               # exploración únicamente, nunca lógica de producción
@@ -347,6 +347,12 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
     de las R; usar `--split dev`, `test` solo en la corrida final), `make llm-up | ask | eval-retrieval | llm-down`.
     recall@10 en dev (6 R): B vector 0,33; B híbrida 0,50; C 1,00 (trivial). Falla con preguntas sin NCT y en
     comparaciones donde un ensayo no menciona el tema. Las cohortes (C) aún no están conectadas al asistente.
+  - **Asistente con cohortes (2026-11-17):** `assistant.py` enruta cada pregunta de forma determinista: si pide los
+    *pacientes* de un ensayo nombrado ("Which patients meet…", "How many patients…") responde desde las vistas
+    `results.gc_*_cohort` (`cohorts.py`: conteo, tabla de atrición y muestra; sin LLM en los números); el resto va al RAG
+    sobre los textos. Con `bge-m3` y reformulación: recall@10 en dev 0,83 (ADR-0007). `make ask` / `make ask-text`.
+    El enrutado acierta en las 40 preguntas del ground truth (8 C a cohortes; 20 R y 12 E al RAG), pero se ajustó viendo
+    esas preguntas. Las cohortes existen solo para 8 ensayos; para otros avisa de que no hay cohorte.
 - **Entorno:** Docker 29.8.1 + Compose v5.5.1. La base actual (volumen `pgdata`) contiene la población
   gástrica (`output_gastric`); el spike de mama se borró.
 - **Hallazgos clave del spike (detalle en ADR-0001):**
