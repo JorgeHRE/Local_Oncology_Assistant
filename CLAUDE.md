@@ -393,3 +393,7 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
 
 Este feedback se resuelve directamente completando los ADRs de la sección 6. No se considera
 atendido hasta que `docs/protocolo.md` incluya esas cuatro decisiones justificadas.
+
+**Actualización (2026-11-17):** `docs/protocolo.md` (versión 2, §7) incluye ya las cuatro decisiones: LLM
+(ADR-0005, qwen3:8b), motor (ADR-0004, Ollama), ground truth (ADR-0003, 40 preguntas hechas) y evaluación
+(ADR-0002, con las capas medidas en desarrollo). Falta la corrida única sobre `test` y la revisión del profesor.
