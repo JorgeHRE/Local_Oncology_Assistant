@@ -14,7 +14,7 @@ APP := docker compose --profile dev run --rm app
 PSQL := docker compose exec -T db sh -c 'psql -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -v ON_ERROR_STOP=1'
 
 .DEFAULT_GOAL := help
-.PHONY: help env build db reset-db test test-fast lint format module synthea-jar generate etl post-etl cohort attrition corpus corpus-verify chunks index gt-validate gt-validate-final gt-dataset-id llm-up llm-down ask eval-retrieval index-embed
+.PHONY: help env build db reset-db test test-fast lint format module synthea-jar generate etl post-etl cohort attrition corpus corpus-verify chunks index gt-validate gt-validate-final gt-dataset-id llm-up llm-down ask ask-text eval-retrieval index-embed
 
 help: ## List the targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
@@ -103,7 +103,10 @@ llm-up: ## Start the local LLM server (Ollama, port 11500) in the background
 llm-down: ## Stop the local LLM server
 	-pkill -f "ollama serve"
 
-ask: ## Ask the RAG a question: make ask Q="Which CLDN18.2 result ... NCT07103668?"
+ask: ## Ask the assistant (texts or cohort): make ask Q="How many patients are eligible for NCT06123494?"
+	env HOME=$(CURDIR)/data/processed $(or $(PY),.venv/bin/python) -m oncology_assistant.assistant "$(Q)"
+
+ask-text: ## Ask only the RAG over the texts, listing the retrieved passages: make ask-text Q="..."
 	env HOME=$(CURDIR)/data/processed $(or $(PY),.venv/bin/python) -m oncology_assistant.rag "$(Q)" --passages
 
 eval-retrieval: ## recall@k of the R questions (dev; SPLIT=test only for the final run; MODEL=bge-m3)
