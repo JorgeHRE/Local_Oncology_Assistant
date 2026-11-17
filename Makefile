@@ -14,7 +14,7 @@ APP := docker compose --profile dev run --rm app
 PSQL := docker compose exec -T db sh -c 'psql -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -v ON_ERROR_STOP=1'
 
 .DEFAULT_GOAL := help
-.PHONY: help env build db reset-db test test-fast lint format module synthea-jar generate etl post-etl cohort attrition corpus corpus-verify chunks index gt-validate gt-validate-final gt-dataset-id
+.PHONY: help env build db reset-db test test-fast lint format module synthea-jar generate etl post-etl cohort attrition corpus corpus-verify chunks index gt-validate gt-validate-final gt-dataset-id llm-up llm-down ask eval-retrieval
 
 help: ## List the targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
@@ -91,3 +91,20 @@ gt-dataset-id: ## Print the id of the current Synthea dataset (for cohort answer
 
 index: ## Embed the chunks into ChromaDB (data/processed/chroma); the first run downloads the embedding model
 	$(APP) env HOME=/app/data/processed python -m oncology_assistant.index build
+
+# --- RAG beta (local LLM through Ollama, ADR-0004). Native, not in Docker: it needs the GPU. ---
+ENGINES := $(CURDIR)/data/raw/engines
+OLLAMA_ENV := OLLAMA_HOST=127.0.0.1:11500 OLLAMA_MODELS=$(ENGINES)/ollama-models
+
+llm-up: ## Start the local LLM server (Ollama, port 11500) in the background
+	@curl -sf 127.0.0.1:11500/api/tags >/dev/null && echo "already running" || \
+		(env $(OLLAMA_ENV) nohup $(ENGINES)/ollama-0.40.4/bin/ollama serve > $(ENGINES)/ollama.log 2>&1 & sleep 5; echo started)
+
+llm-down: ## Stop the local LLM server
+	-pkill -f "ollama serve"
+
+ask: ## Ask the RAG a question: make ask Q="Which CLDN18.2 result ... NCT07103668?"
+	env HOME=$(CURDIR)/data/processed $(or $(PY),.venv/bin/python) -m oncology_assistant.rag "$(Q)" --passages
+
+eval-retrieval: ## recall@k of the R questions (dev split; use SPLIT=test only for the final run)
+	env HOME=$(CURDIR)/data/processed $(or $(PY),.venv/bin/python) -m oncology_assistant.eval_retrieval --split $(or $(SPLIT),dev)
