@@ -12,14 +12,20 @@ from __future__ import annotations
 
 import argparse
 import logging
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
 from oncology_assistant.chunking import STRATEGIES
 from oncology_assistant.ground_truth import GROUND_TRUTH_PATH, RetrievalRecord, parse_records
 from oncology_assistant.index import INDEX_DIR, Embedder
-from oncology_assistant.rag import quote_in_passage, retrieve
+from oncology_assistant.rag import (
+    REWRITE_SCHEMA,
+    ollama_llm,
+    quote_in_passage,
+    retrieve,
+    rewrite_query,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -53,10 +59,12 @@ def evaluate(
     embedder: Embedder | None = None,
     index_path: Path = INDEX_DIR,
     hybrid: bool = True,
+    rewrites: Mapping[str, str] | None = None,
 ) -> list[QuestionResult]:
     """Recall of every question for one strategy and cut-off ``k``."""
     results = []
     for record in records:
+        extra = [rewrites[record.id]] if rewrites and record.id in rewrites else []
         hits = retrieve(
             record.question,
             k=k,
@@ -64,6 +72,7 @@ def evaluate(
             embedder=embedder,
             path=index_path,
             hybrid=hybrid,
+            extra_queries=extra,
         )
         found = sum(
             any(quote_in_passage(hit["text"], cite.quote) for hit in hits)
@@ -83,6 +92,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--split", choices=("dev", "test"), default="dev")
     parser.add_argument("-k", type=int, nargs="+", default=[1, 3, 5, 10])
+    parser.add_argument("--rewrite", action="store_true", help="rewrite each question with the LLM")
     parser.add_argument(
         "--model",
         help="Ollama embedding model with its own index (see embedders.py); omit or 'default' for the ONNX MiniLM",
@@ -95,13 +105,27 @@ def main(argv: list[str] | None = None) -> int:
         from oncology_assistant.embedders import index_dir_for, ollama_embedder
 
         embedder, index_path = ollama_embedder(args.model), index_dir_for(args.model)
-    print(f"R questions in {args.split}: {len(records)}; embedder: {args.model or 'default'}")
+    rewrites = None
+    if args.rewrite:
+        rewriter = ollama_llm(schema=REWRITE_SCHEMA)
+        rewrites = {r.id: rewrite_query(r.question, rewriter) for r in records}
+        for qid, text in rewrites.items():
+            print(f"  {qid} -> {text}")
+    print(
+        f"R questions in {args.split}: {len(records)}; embedder: {args.model or 'default'}; rewrite: {args.rewrite}"
+    )
     for strategy in STRATEGIES:
         for hybrid in (False, True):
             label = f"{strategy}/{'hybrid' if hybrid else 'vector'}"
             for k in args.k:
                 results = evaluate(
-                    records, strategy, k, embedder=embedder, index_path=index_path, hybrid=hybrid
+                    records,
+                    strategy,
+                    k,
+                    embedder=embedder,
+                    index_path=index_path,
+                    hybrid=hybrid,
+                    rewrites=rewrites,
                 )
                 missed = [r.question_id for r in results if r.found < r.total]
                 print(

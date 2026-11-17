@@ -32,7 +32,7 @@ from typing import Any
 from oncology_assistant.chunking import STRATEGIES
 from oncology_assistant.embedders import OLLAMA_URL, index_dir_for, ollama_embedder
 from oncology_assistant.ground_truth import normalize
-from oncology_assistant.hybrid import hybrid_query
+from oncology_assistant.hybrid import fuse, hybrid_query
 from oncology_assistant.index import INDEX_DIR, Embedder, query
 
 logger = logging.getLogger(__name__)
@@ -73,6 +73,22 @@ ANSWER_SCHEMA: dict[str, Any] = {
     "required": ["answer", "citations"],
 }
 
+REWRITE_PROMPT = (
+    "Rewrite the user's question as a search query over the eligibility criteria of gastric cancer "
+    "clinical trials. Rules: keep every trial identifier (NCT########) and every number exactly; "
+    "expand abbreviations and name the biomarker in the wording the criteria use (for example "
+    "'Her2' -> 'HER2-positive (human epidermal growth factor receptor 2), IHC 3+ or ISH'; "
+    "'CLDN18.2' -> 'Claudin 18.2 (CLDN18.2) expression, % of tumor cells, membranous staining'; "
+    "'PD-L1' -> 'PD-L1 combined positive score (CPS)'); mention 'inclusion' or 'exclusion' if the "
+    "question implies it. Do not answer the question. Output a single short query in English."
+)
+
+REWRITE_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "properties": {"query": {"type": "string"}},
+    "required": ["query"],
+}
+
 Message = dict[str, str]
 Llm = Callable[[list[Message]], str]
 
@@ -95,6 +111,8 @@ class Answer:
     answer: str
     citations: list[Citation] = field(default_factory=list)
     passages: list[dict[str, Any]] = field(default_factory=list)
+    search_query: str | None = None  # the rewritten query, if the question was rewritten
+    retried: bool = False  # True if a second try replaced answer with unverified quotes
 
     @property
     def grounded(self) -> bool:
@@ -118,12 +136,14 @@ def retrieve(
     path: Path | None = None,
     hybrid: bool = True,
     model: str = EMBEDDER,
+    extra_queries: Sequence[str] = (),
 ) -> list[dict[str, Any]]:
     """The chunks closest to the question, restricted to the trials it names (if any).
 
     When the question names several trials, each one gets its own ``k`` nearest chunks, so a
     comparison always has evidence from every trial (a single search would let one trial crowd the
-    others out). Results are ordered best first.
+    others out). ``extra_queries`` (for example a rewritten question) are searched the same way and
+    fused with the original by rank. Results are ordered best first.
     """
     if strategy not in STRATEGIES:
         raise ValueError(f"unknown strategy {strategy!r}; use one of {STRATEGIES}")
@@ -133,14 +153,39 @@ def retrieve(
     search = hybrid_query if hybrid else query
     where = trial_filter(question)
     trials = where["doc_id"].get("$in") if where and isinstance(where["doc_id"], dict) else None
-    if not trials:
-        return search(strategy, question, k=k, where=where, path=path, embedder=embedder)
-    hits: list[dict[str, Any]] = []
-    for trial in trials:
-        hits += search(
-            strategy, question, k=k, where={"doc_id": trial}, path=path, embedder=embedder
-        )
-    return sorted(hits, key=lambda hit: hit["distance"])
+
+    def search_one(text: str) -> list[dict[str, Any]]:
+        if not trials:
+            return search(strategy, text, k=k, where=where, path=path, embedder=embedder)
+        hits: list[dict[str, Any]] = []
+        for trial in trials:
+            hits += search(
+                strategy, text, k=k, where={"doc_id": trial}, path=path, embedder=embedder
+            )
+        return sorted(hits, key=lambda hit: hit["distance"])
+
+    rankings = [search_one(text) for text in (question, *extra_queries)]
+    if len(rankings) == 1:
+        return rankings[0]
+    return fuse(rankings, len(rankings[0]))
+
+
+def rewrite_query(question: str, rewriter: Llm) -> str:
+    """A search query for the question, written by the LLM; the question itself if that fails."""
+    try:
+        text = str(
+            json.loads(
+                rewriter(
+                    [
+                        {"role": "system", "content": REWRITE_PROMPT},
+                        {"role": "user", "content": question},
+                    ]
+                )
+            )["query"]
+        ).strip()
+    except (ValueError, KeyError, TypeError, RuntimeError):
+        return question
+    return text or question
 
 
 def build_messages(question: str, passages: Sequence[dict[str, Any]]) -> list[Message]:
@@ -159,7 +204,12 @@ def build_messages(question: str, passages: Sequence[dict[str, Any]]) -> list[Me
     ]
 
 
-def ollama_llm(model: str = MODEL, url: str = OLLAMA_URL, timeout: int = 300) -> Llm:
+def ollama_llm(
+    model: str = MODEL,
+    url: str = OLLAMA_URL,
+    timeout: int = 300,
+    schema: dict[str, Any] = ANSWER_SCHEMA,
+) -> Llm:
     """An ``Llm`` that calls Ollama's OpenAI-compatible endpoint with a JSON schema (ADR-0004)."""
 
     def call(messages: list[Message]) -> str:
@@ -171,7 +221,7 @@ def ollama_llm(model: str = MODEL, url: str = OLLAMA_URL, timeout: int = 300) ->
             "reasoning_effort": "none",
             "response_format": {
                 "type": "json_schema",
-                "json_schema": {"name": "answer", "strict": True, "schema": ANSWER_SCHEMA},
+                "json_schema": {"name": "answer", "strict": True, "schema": schema},
             },
         }
         request = urllib.request.Request(
@@ -221,6 +271,22 @@ def parse_answer(raw: str, question: str, passages: Sequence[dict[str, Any]]) ->
     return Answer(question, answer, citations, list(passages))
 
 
+def _unverified(result: Answer) -> list[Citation]:
+    return [c for c in result.citations if not c.verified]
+
+
+def _retry_messages(messages: list[Message], raw: str, bad: list[Citation]) -> list[Message]:
+    """The conversation plus a request to fix the quotes that are not literal."""
+    listed = "\n".join(f'- passage {c.passage}: "{c.quote}"' for c in bad)
+    note = (
+        "These quotes are NOT exact copies of the passage they cite:\n"
+        f"{listed}\n"
+        "Answer again in the same JSON format. Copy each quote EXACTLY, character by character, "
+        "from its passage, or drop the citation if you cannot."
+    )
+    return [*messages, {"role": "assistant", "content": raw}, {"role": "user", "content": note}]
+
+
 def ask(
     question: str,
     k: int = 6,
@@ -229,13 +295,43 @@ def ask(
     embedder: Embedder | None = None,
     path: Path | None = None,
     model: str = EMBEDDER,
+    rewrite: bool = False,
+    rewriter: Llm | None = None,
+    retry: bool = True,
 ) -> Answer:
-    """Retrieve, generate and verify. The whole pipeline for one question."""
-    passages = retrieve(question, k=k, strategy=strategy, embedder=embedder, path=path, model=model)
+    """Retrieve, generate and verify. The whole pipeline for one question.
+
+    ``rewrite``: the LLM first turns the question into a search query (kept next to the original).
+    ``retry``: if some citation is not literal, the model gets one more try with the failed quotes
+    pointed out; the second answer is kept only if it has fewer unverified citations.
+    """
+    extra: list[str] = []
+    if rewrite:
+        rewritten = rewrite_query(question, rewriter or ollama_llm(schema=REWRITE_SCHEMA))
+        extra = [rewritten] if rewritten != question else []
+    passages = retrieve(
+        question,
+        k=k,
+        strategy=strategy,
+        embedder=embedder,
+        path=path,
+        model=model,
+        extra_queries=extra,
+    )
     if not passages:
         return Answer(question, NOT_FOUND)
-    raw = (llm or ollama_llm())(build_messages(question, passages))
-    return parse_answer(raw, question, passages)
+    llm = llm or ollama_llm()
+    messages = build_messages(question, passages)
+    raw = llm(messages)
+    result = parse_answer(raw, question, passages)
+    result.search_query = extra[0] if extra else None
+    bad = _unverified(result)
+    if retry and bad:
+        second = parse_answer(llm(_retry_messages(messages, raw, bad)), question, passages)
+        if second.citations and len(_unverified(second)) < len(bad):
+            second.search_query, second.retried = result.search_query, True
+            return second
+    return result
 
 
 def format_answer(result: Answer, show_passages: bool = False) -> str:
@@ -250,7 +346,11 @@ def format_answer(result: Answer, show_passages: bool = False) -> str:
             lines.append("  Warning: at least one quote is not literal; do not trust this answer.")
     elif result.answer != NOT_FOUND:
         lines.append("Warning: the answer has no citations; do not trust it.")
+    if result.retried:
+        lines.append("(a citation was corrected on a second try)")
     if show_passages:
+        if result.search_query:
+            lines += ["", f"Search query (rewritten): {result.search_query}"]
         lines += ["", "Retrieved passages:"]
         for n, hit in enumerate(result.passages, start=1):
             meta = hit["metadata"]
@@ -265,9 +365,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("-k", type=int, default=6, help="passages given to the model")
     parser.add_argument("--strategy", choices=STRATEGIES, default="structural")
     parser.add_argument("--passages", action="store_true", help="also list the retrieved passages")
+    parser.add_argument(
+        "--no-rewrite", action="store_true", help="search with the question as written"
+    )
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(message)s")
-    print(format_answer(ask(args.question, args.k, args.strategy), args.passages))
+    result = ask(args.question, args.k, args.strategy, rewrite=not args.no_rewrite)
+    print(format_answer(result, args.passages))
     return 0
 
 
