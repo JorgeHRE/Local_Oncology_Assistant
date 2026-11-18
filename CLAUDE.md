@@ -279,7 +279,7 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
 
 *(actualizar después de cada sesión de trabajo)*
 
-- **Última actualización:** 2026-11-17 — ground truth completo (40/40), RAG y asistente funcionando, evaluaciones y corrida única sobre `test` hechas, protocolo v2 con las cuatro decisiones, documentación de cumplimiento (uso de IA, política de uso, limitaciones, README). Antes (2026-11-04): población regenerada (1 360 pacientes) con CLDN18.2 33 % y ciclos por esquema; antes: módulo gástrico, población de 1 340 pacientes generada y
+- **Última actualización:** 2026-11-18 — licencia Apache-2.0 (`LICENSE`, `NOTICE`), ruta rápida del README probada en un clon limpio y demo ensayada dos veces en la máquina del autor (4 preguntas, ~2–3 s cada una con el modelo caliente). Antes (2026-11-17): ground truth completo (40/40), RAG y asistente funcionando, evaluaciones y corrida única sobre `test` hechas, protocolo v2 con las cuatro decisiones, documentación de cumplimiento (uso de IA, política de uso, limitaciones, README). Antes (2026-11-04): población regenerada (1 360 pacientes) con CLDN18.2 33 % y ciclos por esquema; antes: módulo gástrico, población de 1 340 pacientes generada y
   cargada en OMOP con el ETL completo; flujo reproducible con Docker y `make` (PR #1 y #2).
 - **Hito actual del curso:** Sesiones 10 y 18 completadas; el trabajo está en la fase de **entrega** (Sesión 30:
   repositorio final, viernes 20 por la noche o sábado 21 temprano) y **presentación** (Sesión 31: 12 min + 5).
@@ -365,8 +365,9 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
   demografía, así que el módulo no puede reponderarlos (mediana de edad ~54 y 50 % mujeres, no ~65 ni
   2:1). Además `-a` debe ser ≥ 36 (ver `synthea/README.md`).
 - **Pendiente antes de la entrega (en orden):**
-  1. Ensayar la demostración dos veces (material personal en `presentacion/`, ignorado por git).
-  2. Opcionales: interfaz web mínima, ejemplos negativos en el prompt de extracción (`evaluable` es la debilidad
+  1. ~~Ensayar la demostración dos veces~~ (hecho el 2026-11-18; material personal en `presentacion/`, ignorado por git).
+  2. Entregar el repositorio final (viernes 20 por la noche o sábado 21 temprano).
+  3. Opcionales: interfaz web mínima, ejemplos negativos en el prompt de extracción (`evaluable` es la debilidad
      medida), enrutado en español, `.pytest_cache`/`.ruff_cache` en `.gitignore`.
 - **Pendiente metodológico (declarado en `docs/LIMITACIONES.md`, no cabe antes de la entrega):** re-anotación a
   ciegas de 10 preguntas (≥ una semana después) y κ de Cohen; recálculo independiente con pandas de siete
@@ -382,7 +383,7 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
 | 10 | Propuesta de 1 página (✅ hecho) |
 | 18 | Cohorte definida, implementada y con tabla de atrición (✅ hecho) |
 | 24 | Avance intermedio: revisión de 15 min con el profesor |
-| 30 | Entrega del repositorio final ← **estamos aquí** (viernes 20 por la noche o sábado 21 temprano) |
+| 30 | Entrega del repositorio final ← **en curso** (viernes 20 por la noche o sábado 21 temprano); al 2026-11-18 solo falta entregar |
 | 31 | Presentación de 12 min + 5 de preguntas |
 
 ---
@@ -398,4 +399,5 @@ atendido hasta que `docs/protocolo.md` incluya esas cuatro decisiones justificad
 
 **Actualización (2026-11-17):** `docs/protocolo.md` (versión 2, §7) incluye ya las cuatro decisiones: LLM
 (ADR-0005, qwen3:8b), motor (ADR-0004, Ollama), ground truth (ADR-0003, 40 preguntas hechas) y evaluación
-(ADR-0002, con las capas medidas en desarrollo). Falta la corrida única sobre `test` y la revisión del profesor.
+(ADR-0002, con las capas medidas en desarrollo). La corrida única sobre `test` ya se hizo el 2026-11-17
+(`eval/results/test_2026-11-17.md`). Falta la revisión del profesor.
