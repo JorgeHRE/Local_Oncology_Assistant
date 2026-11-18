@@ -14,7 +14,7 @@ APP := docker compose --profile dev run --rm app
 PSQL := docker compose exec -T db sh -c 'psql -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -v ON_ERROR_STOP=1'
 
 .DEFAULT_GOAL := help
-.PHONY: help env build db reset-db test test-fast lint format module synthea-jar generate etl post-etl cohort attrition corpus corpus-verify chunks index gt-validate gt-validate-final gt-dataset-id llm-up llm-down ask ask-text eval-retrieval index-embed
+.PHONY: help env build db reset-db test test-fast lint format module synthea-jar generate etl post-etl cohort attrition corpus corpus-verify chunks index gt-validate gt-validate-final gt-dataset-id venv ollama-install llm-pull llm-up llm-down ask ask-text eval-retrieval index-embed
 
 help: ## List the targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
@@ -96,9 +96,26 @@ index: ## Embed the chunks into ChromaDB (data/processed/chroma); the first run 
 ENGINES := $(CURDIR)/data/raw/engines
 OLLAMA_ENV := OLLAMA_HOST=127.0.0.1:11500 OLLAMA_MODELS=$(ENGINES)/ollama-models
 
+OLLAMA_VERSION := 0.40.4
+OLLAMA_TARBALL_URL := https://github.com/ollama/ollama/releases/download/v$(OLLAMA_VERSION)/ollama-linux-amd64.tar.zst
+OLLAMA_TARBALL_SHA256 := 15f31e9576d15a481e099b4145dba6e9f8c1f295927d6b8895300ae30ed3740a
+
+venv: ## Python environment (.venv) for the native tools: assistant and evaluations
+	python3 -m venv .venv
+	.venv/bin/pip install -e ".[db,dev]"
+
+ollama-install: ## Download Ollama 0.40.4 (Linux amd64; SHA-256 checked, needs zstd) into data/raw/engines
+	mkdir -p $(ENGINES)/dl $(ENGINES)/ollama-$(OLLAMA_VERSION)
+	test -f $(ENGINES)/dl/ollama.tar.zst || curl -fL -o $(ENGINES)/dl/ollama.tar.zst $(OLLAMA_TARBALL_URL)
+	echo "$(OLLAMA_TARBALL_SHA256)  $(ENGINES)/dl/ollama.tar.zst" | sha256sum -c -
+	tar --zstd -xf $(ENGINES)/dl/ollama.tar.zst -C $(ENGINES)/ollama-$(OLLAMA_VERSION)
+
+llm-pull: llm-up ## Download the assistant's models (qwen3:8b, bge-m3); MODELS="a b" to choose others
+	for m in $(or $(MODELS),qwen3:8b bge-m3); do env $(OLLAMA_ENV) $(ENGINES)/ollama-$(OLLAMA_VERSION)/bin/ollama pull $$m || exit 1; done
+
 llm-up: ## Start the local LLM server (Ollama, port 11500) in the background
 	@curl -sf 127.0.0.1:11500/api/tags >/dev/null && echo "already running" || \
-		(env $(OLLAMA_ENV) nohup $(ENGINES)/ollama-0.40.4/bin/ollama serve > $(ENGINES)/ollama.log 2>&1 & sleep 5; echo started)
+		(env $(OLLAMA_ENV) nohup $(ENGINES)/ollama-$(OLLAMA_VERSION)/bin/ollama serve > $(ENGINES)/ollama.log 2>&1 & sleep 5; echo started)
 
 llm-down: ## Stop the local LLM server
 	-pkill -f "ollama serve"
