@@ -144,7 +144,7 @@ Cuando crees un archivo o carpeta de esta lista, actualiza este árbol quitando 
 ## 5. Checklist de requisitos mínimos del curso (todas las modalidades)
 
 - [x] Historial de commits real: 50 commits (sin merges) y 30 PR entre 2026-09-17 y 2026-11-17
-- [x] `README.md` que permita a un tercero reproducir el trabajo (**falta probarlo en una máquina limpia**)
+- [x] `README.md` que permita a un tercero reproducir el trabajo (ruta rápida probada en un clon limpio el 2026-11-18; la ruta completa no se ha vuelto a probar desde cero)
 - [x] Entorno containerizado (`Dockerfile` o `compose.yml`)
 - [x] Al menos una definición de cohorte en SQL sobre OMOP, documentada (`docs/cohorte-zolbetuximab.md`; 8 cohortes en `sql/`)
 - [x] Pruebas automáticas con pytest y CI en GitHub Actions (160 tests; ruff + pytest en Python 3.10 y 3.12)
@@ -152,7 +152,7 @@ Cuando crees un archivo o carpeta de esta lista, actualiza este árbol quitando 
 - [x] Sección de limitaciones escrita honestamente (`docs/LIMITACIONES.md`, completada el 2026-11-17)
 - [x] Declaración de uso de asistentes de IA (`docs/USO_DE_IA.md`): Gemini y Claude Code, con el reparto de tareas y las licencias
 - [x] Cero credenciales y cero datos identificables en el repositorio (revisado el 2026-11-17; solo el correo personal figura como autor de los commits)
-- [ ] **Licencia del propio proyecto**: el repositorio no tiene `LICENSE` (decisión del autor pendiente)
+- [x] **Licencia del propio proyecto**: Apache-2.0 (`LICENSE`, `NOTICE`; decidida el 2026-11-18)
 
 **Extra de Modalidad D:**
 - [x] Evaluación cuantitativa con set etiquetado propio (40 preguntas; corrida única sobre `test`: `eval/results/test_2026-11-17.md`)
@@ -365,10 +365,8 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
   demografía, así que el módulo no puede reponderarlos (mediana de edad ~54 y 50 % mujeres, no ~65 ni
   2:1). Además `-a` debe ser ≥ 36 (ver `synthea/README.md`).
 - **Pendiente antes de la entrega (en orden):**
-  1. Licencia del propio proyecto (decisión del autor) y `LICENSE`.
-  2. Probar el README en una carpeta limpia (ruta rápida de 6 comandos) y corregir lo que falle.
-  3. Ensayar la demostración dos veces (material personal en `presentacion/`, ignorado por git).
-  4. Opcionales: interfaz web mínima, ejemplos negativos en el prompt de extracción (`evaluable` es la debilidad
+  1. Ensayar la demostración dos veces (material personal en `presentacion/`, ignorado por git).
+  2. Opcionales: interfaz web mínima, ejemplos negativos en el prompt de extracción (`evaluable` es la debilidad
      medida), enrutado en español, `.pytest_cache`/`.ruff_cache` en `.gitignore`.
 - **Pendiente metodológico (declarado en `docs/LIMITACIONES.md`, no cabe antes de la entrega):** re-anotación a
   ciegas de 10 preguntas (≥ una semana después) y κ de Cohen; recálculo independiente con pandas de siete
