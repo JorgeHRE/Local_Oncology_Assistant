@@ -24,3 +24,6 @@ chroma_db/
 # OS
 .DS_Store
 Thumbs.db
+
+# Material personal de la presentación (no se versiona)
+presentacion/
