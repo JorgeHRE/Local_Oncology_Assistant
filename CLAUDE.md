@@ -143,26 +143,25 @@ Cuando crees un archivo o carpeta de esta lista, actualiza este árbol quitando 
 
 ## 5. Checklist de requisitos mínimos del curso (todas las modalidades)
 
-- [ ] Historial de commits real (no un commit gigante al final) — **actualmente en riesgo: solo 2
-      commits hasta ahora.** Insiste en commits pequeños y frecuentes desde ya.
-- [x] `README.md` que permita a un tercero reproducir el trabajo
+- [x] Historial de commits real: 50 commits (sin merges) y 30 PR entre 2026-09-17 y 2026-11-17
+- [x] `README.md` que permita a un tercero reproducir el trabajo (**falta probarlo en una máquina limpia**)
 - [x] Entorno containerizado (`Dockerfile` o `compose.yml`)
-- [x] Al menos una definición de cohorte en SQL sobre OMOP, documentada (`docs/cohorte-zolbetuximab.md`)
-- [ ] Pruebas automáticas con pytest y CI en GitHub Actions
-- [ ] Diccionario de datos / documentación de variables (`docs/features.md`)
-- [ ] Sección de limitaciones escrita honestamente (`docs/LIMITACIONES.md`)
-- [ ] Declaración de uso de asistentes de IA (`docs/USO_DE_IA.md`) — mencionar Gemini (fase de
-      planeación) y Claude/Claude Code (implementación)
-- [ ] Cero credenciales y cero datos identificables en el repositorio
+- [x] Al menos una definición de cohorte en SQL sobre OMOP, documentada (`docs/cohorte-zolbetuximab.md`; 8 cohortes en `sql/`)
+- [x] Pruebas automáticas con pytest y CI en GitHub Actions (160 tests; ruff + pytest en Python 3.10 y 3.12)
+- [x] Diccionario de datos / documentación de variables (`docs/features.md`)
+- [x] Sección de limitaciones escrita honestamente (`docs/LIMITACIONES.md`, completada el 2026-11-17)
+- [x] Declaración de uso de asistentes de IA (`docs/USO_DE_IA.md`): Gemini y Claude Code, con el reparto de tareas y las licencias
+- [x] Cero credenciales y cero datos identificables en el repositorio (revisado el 2026-11-17; solo el correo personal figura como autor de los commits)
+- [ ] **Licencia del propio proyecto**: el repositorio no tiene `LICENSE` (decisión del autor pendiente)
 
 **Extra de Modalidad D:**
-- [ ] Evaluación cuantitativa con set etiquetado propio (ver sección 2.3 y 6)
-- [ ] Política de uso — para qué sí y para qué no debe usarse este asistente clínicamente, límites
+- [x] Evaluación cuantitativa con set etiquetado propio (40 preguntas; corrida única sobre `test`: `eval/results/test_2026-11-17.md`)
+- [x] Política de uso — para qué sí y para qué no debe usarse este asistente clínicamente, límites
       de responsabilidad (`docs/POLITICA_DE_USO.md`)
 
 ---
 
-## 6. Decisiones técnicas pendientes (usar Architecture Decision Records)
+## 6. Decisiones técnicas (Architecture Decision Records)
 
 En la industria, las decisiones de arquitectura con trade-offs reales se documentan como **ADRs**
 (Architecture Decision Records): un archivo corto por decisión, con contexto, opciones
@@ -173,23 +172,23 @@ evaluación) — así que vamos a resolver ese feedback *mediante* esta práctic
 Cuando trabajemos cualquiera de estas decisiones, crea un archivo en `docs/adr/NNNN-titulo.md`
 (formato corto: contexto → opciones → decisión → consecuencias) antes de implementar:
 
-1. **ADR pendiente:** qué LLM usar para extracción/NL2SQL (candidatos a evaluar: modelo
-   generalista instruction-tuned reciente vs. modelo biomédico especializado — pesar la
-   capacidad de seguir formato estructurado vs. conocimiento clínico interno, dado que el RAG ya
-   aporta el conocimiento de dominio).
+1. **ADR-0005 (Aceptado, 2026-11-17):** LLM **qwen3:8b**, elegido por el autor tras comparar gemma3:12b y
+   medgemma:4b en desarrollo (respuesta y extracción): `docs/adr/0005-modelo-de-lenguaje.md`.
 2. **ADR-0004 (Propuesto):** motor de inferencia local: Ollama por defecto, llama.cpp como
    alternativa, cliente OpenAI-compatible, vLLM/SGLang diferidos con criterio de reevaluación:
    `docs/adr/0004-motor-de-inferencia.md`.
 3. **ADR-0003 (Propuesto):** metodología de ground truth (40 preguntas, 12 desarrollo / 28 prueba;
    nivel b con SQL y recálculo independiente; re-anotación propia):
-   `docs/adr/0003-metodologia-de-ground-truth.md`.
+   `docs/adr/0003-metodologia-de-ground-truth.md`. **Hecho** (40/40, validado).
 4. **ADR-0002 (Propuesto):** estrategia de evaluación por capas (retrieval, extracción, SQL, cohorte,
    fidelidad RAG) y qué corre en CI: `docs/adr/0002-estrategia-de-evaluacion.md`.
+5. **ADR-0006 (Propuesto):** chunking estructural (un fragmento por criterio); **ADR-0007 (Propuesto):**
+   embeddings bge-m3, búsqueda híbrida y reformulación de la pregunta.
 
-Orden acordado para decidirlos: evaluación (0002) → ground truth (0003) → motor (0004) → LLM (0005).
-La evaluación va primero porque las métricas son lo que permite comparar motor y modelo.
+Orden que se siguió: evaluación (0002) → ground truth (0003) → motor (0004) → LLM (0005), más chunking (0006) y
+embeddings (0007). Todos los ADR están redactados; los marcados "Propuesto" esperan la revisión del profesor.
 
-No avances la implementación de estas piezas sin haber cerrado el ADR correspondiente conmigo.
+Una decisión nueva con trade-offs reales sigue necesitando su ADR antes de implementarse.
 
 ---
 
@@ -280,10 +279,10 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
 
 *(actualizar después de cada sesión de trabajo)*
 
-- **Última actualización:** 2026-11-04 — población regenerada (1 360 pacientes) con CLDN18.2 33 % y ciclos por esquema; antes: módulo gástrico, población de 1 340 pacientes generada y
+- **Última actualización:** 2026-11-17 — ground truth completo (40/40), RAG y asistente funcionando, evaluaciones y corrida única sobre `test` hechas, protocolo v2 con las cuatro decisiones, documentación de cumplimiento (uso de IA, política de uso, limitaciones, README). Antes (2026-11-04): población regenerada (1 360 pacientes) con CLDN18.2 33 % y ciclos por esquema; antes: módulo gástrico, población de 1 340 pacientes generada y
   cargada en OMOP con el ETL completo; flujo reproducible con Docker y `make` (PR #1 y #2).
-- **Hito actual del curso:** Sesión 10 completada (protocolo subido) → trabajando hacia Sesión 18
-  (cohorte definida, implementada, con tabla de atrición).
+- **Hito actual del curso:** Sesiones 10 y 18 completadas; el trabajo está en la fase de **entrega** (Sesión 30:
+  repositorio final, viernes 20 por la noche o sábado 21 temprano) y **presentación** (Sesión 31: 12 min + 5).
 - **Completado:**
   - Estructura básica, `pyproject.toml`, `.gitignore`, `docs/protocolo.md`.
   - Paquete renombrado a `oncology_assistant`.
@@ -365,12 +364,16 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
 - **Hallazgo del 2026-10-14:** Synthea fija edad y sexo antes de simular y reintenta con la misma
   demografía, así que el módulo no puede reponderarlos (mediana de edad ~54 y 50 % mujeres, no ~65 ni
   2:1). Además `-a` debe ser ≥ 36 (ver `synthea/README.md`).
-- **Decisiones pendientes para la próxima sesión (en orden):**
-  1. `sql/03_features.sql` y cohortes de trastuzumab y nivolumab sobre el mismo tronco. Construir el índice real (`make index`).
-  2. (Hecho 2026-11-04) cambios de `docs/umbrales-vs-corpus.md`; queda CPS ≥ 5 (necesita texto completo de CheckMate 649).
-  3. Acotar versiones de dependencias en `pyproject.toml`.
-  4. ADRs del profesor (LLM, motor, ground truth, evaluación).
-  5. Menor: el repo está anidado en una carpeta padre vacía — ¿aplanar?
+- **Pendiente antes de la entrega (en orden):**
+  1. Licencia del propio proyecto (decisión del autor) y `LICENSE`.
+  2. Probar el README en una carpeta limpia (ruta rápida de 6 comandos) y corregir lo que falle.
+  3. Ensayar la demostración dos veces (material personal en `presentacion/`, ignorado por git).
+  4. Opcionales: interfaz web mínima, ejemplos negativos en el prompt de extracción (`evaluable` es la debilidad
+     medida), enrutado en español, `.pytest_cache`/`.ruff_cache` en `.gitignore`.
+- **Pendiente metodológico (declarado en `docs/LIMITACIONES.md`, no cabe antes de la entrega):** re-anotación a
+  ciegas de 10 preguntas (≥ una semana después) y κ de Cohen; recálculo independiente con pandas de siete
+  cohortes; juicio de corrección de las respuestas R por el autor; guías NCCN/ESMO; `sql/03_features.sql`.
+- **Menor:** el repo está anidado en una carpeta padre vacía — ¿aplanar?
 
 ---
 
@@ -379,9 +382,9 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
 | Sesión | Hito |
 |---|---|
 | 10 | Propuesta de 1 página (✅ hecho) |
-| 18 | Cohorte definida, implementada y con tabla de atrición ← **estamos aquí** |
+| 18 | Cohorte definida, implementada y con tabla de atrición (✅ hecho) |
 | 24 | Avance intermedio: revisión de 15 min con el profesor |
-| 30 | Entrega del repositorio final |
+| 30 | Entrega del repositorio final ← **estamos aquí** (viernes 20 por la noche o sábado 21 temprano) |
 | 31 | Presentación de 12 min + 5 de preguntas |
 
 ---
