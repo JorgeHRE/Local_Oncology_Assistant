@@ -122,6 +122,9 @@ temperatura 0 y semilla fija. Razones, con los datos de `dev`:
 - El RAG reintenta las citas no literales y las marca como no confiables, lo que compensa sus negativas.
 - El modelo biomédico (medgemma:4b) no aportó ventaja en ninguna de las dos tareas: el conocimiento clínico
   lo aporta la recuperación.
+- **Licencia:** qwen3:8b es Apache-2.0, sin restricciones de uso que trasladar; gemma3:12b y medgemma:4b
+  tienen licencias propias de Google (Gemma Terms of Use y Health AI Developer Foundations), que exigen
+  trasladar restricciones si se redistribuyen o derivan. Revisadas el 2026-11-17 (`docs/USO_DE_IA.md` §3).
 
 **Matices que se aceptan:**
 - En `evaluable` qwen3:8b es peor que gemma3:12b (0,38 frente a 0,54), y ningún modelo llega a la línea base
