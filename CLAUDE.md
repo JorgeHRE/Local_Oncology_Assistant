@@ -130,7 +130,8 @@ Local_Oncology_Assistant/
 │   ├── protocolo.md         # ✅ existe (subido para hito de Sesión 10)
 │   ├── features.md           # ✅ diccionario de datos (módulo gástrico; ampliar con el resto)
 │   ├── MODEL_CARD.md         # ⚠️ no existe aún
-│   ├── LIMITACIONES.md       # ✅ existe; completar conforme avance el proyecto
+│   ├── LIMITACIONES.md       # ✅ completado el 2026-11-17 (datos, corpus, RAG, extracción, evaluación, operación)
+│   ├── POLITICA_DE_USO.md    # ✅ borrador (2026-11-17)
 │   ├── USO_DE_IA.md           # ✅ borrador (2026-11-17); el autor debe confirmarlo (§7)
 │   └── adr/                  # ✅ existe — 0001 a 0004 y 0006 (chunking); ver sección 6
 └── figuras/                 # ⚠️ no existe aún
