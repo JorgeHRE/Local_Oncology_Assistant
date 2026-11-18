@@ -1,0 +1,13 @@
+Local Oncology Assistant (oncology-assistant)
+Copyright 2026 Jorge Hiram Romero Estrada
+
+Este producto incluye código y documentos propios bajo licencia Apache-2.0 (ver LICENSE).
+
+Textos de terceros incluidos en el corpus (no cubiertos por la licencia Apache-2.0 de este proyecto):
+- Data obtained from ClinicalTrials.gov. Courtesy of the U.S. National Library of Medicine.
+  Los registros fueron recortados (NCT ID, título, estado, condiciones y criterios de elegibilidad).
+  NLM y el Gobierno de EE. UU. no respaldan este proyecto. Términos y atribución completos en docs/corpus.md.
+- Resúmenes de PubMed y guías: pueden tener derechos de autor; no se redistribuyen en este repositorio
+  (ver docs/corpus.md).
+
+Las licencias de los modelos y herramientas que usa el sistema están en docs/USO_DE_IA.md (sección 3).
