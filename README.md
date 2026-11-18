@@ -35,8 +35,10 @@ hechos. Resultados y límites en [`docs/protocolo.md`](docs/protocolo.md) §7 y 
 ## Requisitos
 
 - **Linux x86_64** con **Docker** (Compose v2), **make**, **Python ≥ 3.10**, `curl` y `zstd`.
+  En Ubuntu/Debian: `sudo apt install make python3 python3-venv curl zstd` (sin `python3-venv`, `make venv` falla).
 - **GPU NVIDIA con 12 GB de VRAM** (desarrollado en una RTX 5070). El LLM (qwen3:8b, ~5,6 GB) y el modelo
-  de embeddings (bge-m3, ~1,2 GB) caben a la vez. Sin GPU no se ha probado.
+  de embeddings (bge-m3, ~1,2 GB) caben a la vez. Sin GPU (probado en un contenedor Ubuntu 24.04 solo con CPU) la ruta rápida funciona: una
+  respuesta tardó ~38 s y construir el índice ~7 min, en lugar de ~30 s.
 - ~35 GB libres para la base OMOP completa (base 23 GB, vocabulario 3,6 GB, datos de Synthea 3 GB, imágenes
   ~3 GB) y ~8 GB más para los modelos. La RAM solo se probó en la máquina de desarrollo (48 GB): `compose.yml`
   fija `shared_buffers=4GB` y `maintenance_work_mem=2GB`; con menos RAM habría que bajarlos.
@@ -55,7 +57,7 @@ make venv             # .venv con las dependencias (la 1.ª vez descarga paquete
 .venv/bin/python -m oncology_assistant.corpus fetch   # baja los 39 resúmenes de PubMed (las 49 fichas de ClinicalTrials.gov ya están en el repo)
 make ollama-install   # Ollama 0.40.4 en data/raw/engines/ (SHA-256 verificado)
 make llm-pull         # arranca Ollama y baja qwen3:8b (~5 GB) y bge-m3 (~1 GB)
-make index-embed      # embeddings de los fragmentos con bge-m3 -> data/processed/chroma_bge-m3 (~30 s)
+make index-embed      # embeddings de los fragmentos con bge-m3 -> data/processed/chroma_bge-m3 (~30 s con GPU; ~7 min solo con CPU)
 make ask Q="What is the HER2 requirement in trial NCT06123494?"
 ```
 
