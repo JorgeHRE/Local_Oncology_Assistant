@@ -30,8 +30,7 @@ Filters applied (attrition): ...
 
 **Estado (2026-11-17):** corpus, índice, ground truth de 40 preguntas, 8 cohortes, asistente y evaluaciones
 hechos. Resultados y límites en [`docs/protocolo.md`](docs/protocolo.md) §7 y en
-[`eval/results/`](eval/results/). Pendiente: la licencia del proyecto, una interfaz gráfica y la re-anotación a
-ciegas del ground truth.
+[`eval/results/`](eval/results/). Pendiente: una interfaz gráfica y la re-anotación a ciegas del ground truth.
 
 ## Requisitos
 
@@ -184,6 +183,8 @@ tests con marca `db` necesitan el vocabulario de Athena y por eso no corren en C
 
 ## Licencia
 
-**Aún no se ha elegido la licencia del proyecto**: hasta entonces, el código y los datos propios no tienen una
-licencia de reutilización. Las licencias de los modelos y de las herramientas que usa están en
+El código y los documentos propios de este proyecto se publican bajo la **licencia Apache-2.0** (ver
+[`LICENSE`](LICENSE) y [`NOTICE`](NOTICE)). Los textos de terceros incluidos en el corpus (fichas de
+ClinicalTrials.gov y resúmenes de PubMed) **no** pasan a Apache-2.0: conservan sus propios términos, descritos en
+[`docs/corpus.md`](docs/corpus.md). Las licencias de los modelos y de las herramientas que usa están en
 `docs/USO_DE_IA.md` §3.

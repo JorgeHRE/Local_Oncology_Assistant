@@ -159,4 +159,6 @@ Confirmado por el autor (2026-11-17), ya incorporado arriba:
 Aún por confirmar o completar:
 1. **Gemini en la planeación:** fechas y qué salida se incorporó, si se quiere detallar más.
 2. Revisar los términos de los vocabularios de Athena (SNOMED, LOINC, RxNorm), si se quiere cerrar del todo
-   la revisión de licencias, y **decidir la licencia del propio proyecto** (el repositorio no tiene `LICENSE`).
+   la revisión de licencias.
+3. **Licencia del propio proyecto (decidida el 2026-11-18):** Apache-2.0 (`LICENSE`, `NOTICE`). Los textos de
+   terceros del corpus conservan sus términos (`docs/corpus.md`).
