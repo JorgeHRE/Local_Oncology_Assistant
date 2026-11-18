@@ -59,7 +59,8 @@ make index-embed      # embeddings de los fragmentos con bge-m3 -> data/processe
 make ask Q="What is the HER2 requirement in trial NCT06123494?"
 ```
 
-Sin el paso del corpus, el índice solo tendría las 49 fichas del repositorio y las preguntas basadas en los
+`corpus fetch` actualiza la fecha de descarga (`retrieved_at`) en `corpus/manifest.json`, así que git lo mostrará
+modificado; es esperado y no cambia los hashes. Sin el paso del corpus, el índice solo tendría las 49 fichas del repositorio y las preguntas basadas en los
 resúmenes de PubMed no se podrían responder. `make llm-up` / `make llm-down` arrancan y paran el servidor del
 LLM (puerto 11500, en segundo plano). `make ask-text Q="…"` muestra además los fragmentos recuperados.
 
