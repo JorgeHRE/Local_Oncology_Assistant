@@ -9,7 +9,7 @@
 ## 1. Resumen
 
 El proyecto se hizo con dos asistentes de IA: **Gemini** (Google AI Studio) en la planeación, como segunda
-opinión y como apoyo con el formato del ground truth, y **Claude Code** (Anthropic) en la implementación. **El autor decide, revisa y aprueba cada cambio** (cada
+opinión y como apoyo con el formato del ground truth, y **Claude Code** (Anthropic) en la implementación; Gemini escribió además la interfaz web local (§2). **El autor decide, revisa y aprueba cada cambio** (cada
 commit y cada PR se aprueban explícitamente, y los PR se mergean a mano). **El contenido del ground truth (preguntas, respuestas de referencia, criterios y citas), que es la
 referencia con la que se evalúan los modelos, lo redactó el autor leyendo los textos** (ADR-0003). Los
 asistentes intervinieron en las herramientas y, en el caso de Gemini, como **tutor del formato, visor de
@@ -21,7 +21,7 @@ Los modelos de lenguaje que forman parte del sistema (§3) corren en local y no 
 
 | Asistente | Para qué | Evidencia |
 |---|---|---|
-| **Gemini** (Google AI Studio) | (a) Planeación y prototipado como copiloto de código (`CLAUDE.md` §3). (b) **Segunda opinión y lluvia de ideas** (*declarado por el autor*): se le consultó sobre el proyecto y se discutieron con él algunas recomendaciones de Claude Code, para contrastar con otro modelo. (c) **Apoyo con el formato del ground truth** (*declarado por el autor*): para no gastar la cuota de Claude Code, se le pidió que enseñara paso a paso a armar el JSON de las preguntas (qué documento mirar, que `quote` es la cita literal y que la respuesta la redacta el autor). Tuvo acceso al repositorio y **solo mostraba los datos**: pasaba a texto con formato los criterios en JSON de una sola línea para poder revisarlos. **No escribió ni propuso contenido** del ground truth: el autor lo decidió en todos los casos. (d) **Detalle de las licencias de Google** (§3): redactó el resumen de los términos de Gemma y de HAI-DEF, que el autor validó en los enlaces oficiales | No deja rastro en el repositorio |
+| **Gemini** (Google AI Studio) | (a) Planeación y prototipado como copiloto de código (`CLAUDE.md` §3). (b) **Segunda opinión y lluvia de ideas** (*declarado por el autor*): se le consultó sobre el proyecto y se discutieron con él algunas recomendaciones de Claude Code, para contrastar con otro modelo. (c) **Apoyo con el formato del ground truth** (*declarado por el autor*): para no gastar la cuota de Claude Code, se le pidió que enseñara paso a paso a armar el JSON de las preguntas (qué documento mirar, que `quote` es la cita literal y que la respuesta la redacta el autor). Tuvo acceso al repositorio y **solo mostraba los datos**: pasaba a texto con formato los criterios en JSON de una sola línea para poder revisarlos. **No escribió ni propuso contenido** del ground truth: el autor lo decidió en todos los casos. (d) **Detalle de las licencias de Google** (§3): redactó el resumen de los términos de Gemma y de HAI-DEF, que el autor validó en los enlaces oficiales. (e) **Interfaz web local con Streamlit** (*declarado por el autor*, 2026-11-19): escribió `src/oncology_assistant/ui.py`, `tests/test_ui.py`, el extra `[ui]` y `make ui`; el autor la probó y la aprobó (PR #39) | Salvo la interfaz (PR #39), no deja rastro en el repositorio. Los 5 commits del PR #39 no llevan trailer de IA porque Gemini no lo añade: su autoría queda declarada aquí |
 | **Claude Code** (Anthropic; modelos Claude Opus 5.5 y Claude Sonnet 5.5) | Implementación: módulo de Synthea, ETL, corpus, chunking e indexación, validador del ground truth, cohortes SQL (ver §4), asistente RAG, evaluaciones, ADR y documentación. | 48 de los 50 commits (sin contar los merges) llevan `Co-Authored-By: Claude`: 22 con Opus 5.5 y 26 con Sonnet 5.5. Los dos sin trailer son el andamiaje inicial y el protocolo de la Sesión 10 (2026-09-17) |
 
 Los 50 commits aparecen con la cuenta del autor porque los aprueba y los sube él; el trailer indica la
@@ -102,6 +102,7 @@ Lo que implica para este proyecto:
 | Cohortes SQL | Escribió la base de `sql/02_cohorte.sql` (C-007, SPOTLIGHT) y su recálculo con pandas | Escribió el SQL de las otras siete cohortes (`sql/cohort_*.sql`) y sus tests, **sin ayuda de IA** salvo la orientación de Gemini ya descrita (*declarado por el autor*); **revisó manualmente** el de C-007 (*declarado por el autor*) |
 | Asistente RAG y evaluaciones | Escribió el código, los tests y las evaluaciones; ejecutó las mediciones | Aprobó cada commit y PR; el **juicio de corrección** de las respuestas de los modelos es suyo |
 | Documentación y protocolo | Redactó los borradores, ADR y el protocolo v2 | Revisó y aprobó |
+| Interfaz web (Streamlit) | **Gemini** escribió el código y sus pruebas (*declarado por el autor*); Claude Code la revisó después del merge y corrigió la versión mínima de Streamlit | La pidió, la probó (incluidas preguntas fuera del ensayo y con faltas de ortografía) y aprobó el PR. La interfaz solo presenta lo que devuelve `assistant.ask`: no cambia el RAG, las cohortes ni las cifras medidas |
 
 ### Regla del ground truth (ADR-0003) y excepciones
 
