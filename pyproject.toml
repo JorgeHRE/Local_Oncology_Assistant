@@ -28,7 +28,7 @@ dev = [
 ]
 # Local web UI (optional; not needed for CLI or CI).
 ui = [
-    "streamlit>=1.40,<2",
+    "streamlit>=1.44,<2",  # st.badge first appears in 1.44.0
 ]
 
 [tool.pytest.ini_options]
