@@ -1,5 +1,11 @@
 # Everyday commands. Everything runs in Docker; the host only needs Docker (with Compose) and make.
 # `make help` lists the targets.
+#
+# Quick start from a freshly booted PC (web UI):
+#   make db        # 1. Start OMOP PostgreSQL (Docker)
+#   make llm-up    # 2. Start local Ollama server (127.0.0.1:11500)
+#   make ui        # 3. Launch Streamlit UI (http://127.0.0.1:8501)
+# Stop afterwards: Ctrl+C in the UI terminal, then `make llm-down && docker compose stop db`.
 
 SHELL := /bin/bash
 export HOST_UID := $(shell id -u)
