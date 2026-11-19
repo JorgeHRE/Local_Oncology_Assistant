@@ -143,7 +143,7 @@ Cuando crees un archivo o carpeta de esta lista, actualiza este árbol quitando 
 
 ## 5. Checklist de requisitos mínimos del curso (todas las modalidades)
 
-- [x] Historial de commits real: 50 commits (sin merges) y 30 PR entre 2026-09-17 y 2026-11-17
+- [x] Historial de commits real: 62 commits (sin merges) y 37 PR entre 2026-09-17 y 2026-11-18 (cifras al 2026-11-18; crecen con cada cambio)
 - [x] `README.md` que permita a un tercero reproducir el trabajo (ruta rápida probada el 2026-11-18 en un clon limpio y en un contenedor Ubuntu 24.04 solo con CPU, que destapó que faltaba `python3-venv`; la ruta completa y la descarga real de modelos no se han probado desde cero)
 - [x] Entorno containerizado (`Dockerfile` o `compose.yml`)
 - [x] Al menos una definición de cohorte en SQL sobre OMOP, documentada (`docs/cohorte-zolbetuximab.md`; 8 cohortes en `sql/`)
