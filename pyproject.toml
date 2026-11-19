@@ -26,6 +26,10 @@ dev = [
     "pytest>=9,<10",
     "ruff>=0.16,<0.17",
 ]
+# Local web UI (optional; not needed for CLI or CI).
+ui = [
+    "streamlit>=1.40,<2",
+]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
