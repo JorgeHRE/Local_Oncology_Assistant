@@ -14,7 +14,7 @@ APP := docker compose --profile dev run --rm app
 PSQL := docker compose exec -T db sh -c 'psql -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -v ON_ERROR_STOP=1'
 
 .DEFAULT_GOAL := help
-.PHONY: help env build db reset-db test test-fast lint format module synthea-jar generate etl post-etl cohort attrition corpus corpus-verify chunks index gt-validate gt-validate-final gt-dataset-id venv ollama-install llm-pull llm-up llm-down ask ask-text eval-retrieval index-embed
+.PHONY: help env build db reset-db test test-fast lint format module synthea-jar generate etl post-etl cohort attrition corpus corpus-verify chunks index gt-validate gt-validate-final gt-dataset-id venv ollama-install llm-pull llm-up llm-down ask ask-text ui eval-retrieval index-embed
 
 help: ## List the targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
@@ -125,6 +125,9 @@ ask: ## Ask the assistant (texts or cohort): make ask Q="How many patients are e
 
 ask-text: ## Ask only the RAG over the texts, listing the retrieved passages: make ask-text Q="..."
 	env HOME=$(CURDIR)/data/processed $(or $(PY),.venv/bin/python) -m oncology_assistant.rag "$(Q)" --passages
+
+ui: ## Launch the local Streamlit web UI (needs .venv/bin/pip install -e ".[ui]")
+	env HOME=$(CURDIR)/data/processed $(or $(PY),.venv/bin/python) -m streamlit run src/oncology_assistant/ui.py --server.address 127.0.0.1 --browser.gatherUsageStats false --client.toolbarMode minimal --theme.base dark
 
 eval-retrieval: ## recall@k of the R questions (dev; SPLIT=test only for the final run; MODEL=bge-m3)
 	env HOME=$(CURDIR)/data/processed $(or $(PY),.venv/bin/python) -m oncology_assistant.eval_retrieval --split $(or $(SPLIT),dev) --model $(or $(MODEL),bge-m3)
