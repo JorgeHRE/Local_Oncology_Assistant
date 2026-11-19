@@ -130,3 +130,31 @@ def test_example_prompts_cover_both_routes() -> None:
             assert assistant.trials_named(item.question)
         else:
             assert not cohorts.is_cohort_question(item.question)
+
+
+def test_trial_catalog_loads_manifest_and_marks_omop_cohorts() -> None:
+    cohort_ids = ui.cohort_trial_ids()
+    assert len(cohort_ids) == 8
+    assert "NCT03504397" in cohort_ids
+    assert "NCT06177041" in cohort_ids
+
+    catalog = ui.trial_catalog_dataframe()
+    assert len(catalog) == 49
+    assert list(catalog.columns) == ["NCT", "Título", "Cohorte OMOP", "Nota", "Rol"]
+    assert int((catalog["Cohorte OMOP"] == "Sí").sum()) == 8
+    # Trials with OMOP cohorts are sorted first so they are immediately visible.
+    assert catalog.iloc[0]["Cohorte OMOP"] == "Sí"
+
+
+def test_filter_trial_catalog_by_query_and_cohort() -> None:
+    catalog = ui.trial_catalog_dataframe()
+
+    only_cohorts = ui.filter_trial_catalog(catalog, only_with_cohort=True)
+    assert len(only_cohorts) == 8
+    assert set(only_cohorts["Cohorte OMOP"]) == {"Sí"}
+
+    toga = ui.filter_trial_catalog(catalog, query="ToGA")
+    assert "NCT01041404" in set(toga["NCT"])
+
+    by_id = ui.filter_trial_catalog(catalog, query="nct06177041", only_with_cohort=True)
+    assert list(by_id["NCT"]) == ["NCT06177041"]

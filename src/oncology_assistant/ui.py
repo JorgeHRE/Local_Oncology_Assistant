@@ -9,16 +9,23 @@ Launch locally with ``make ui`` (binds to ``127.0.0.1`` with usage stats disable
 
 from __future__ import annotations
 
+import json
 import logging
+import re
 import urllib.error
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
 
-from oncology_assistant import assistant, cohorts, rag
+from oncology_assistant import assistant, cohorts, corpus, rag
+from oncology_assistant.db import REPO_ROOT
 
 logger = logging.getLogger(__name__)
+
+_COHORT_SQL_FILE = re.compile(r"^cohort_(nct\d{8})\.sql$", re.IGNORECASE)
+_CATALOG_COLUMNS = ["NCT", "Título", "Cohorte OMOP", "Nota", "Rol"]
 
 
 @dataclass(frozen=True)
@@ -150,6 +157,77 @@ def format_runtime_error(exc: Exception) -> str:
             "Verifica haber ejecutado `make index-embed`."
         )
     return f"Ocurrió un error al procesar la consulta: {exc}"
+
+
+def cohort_trial_ids(sql_dir: Path | None = None) -> set[str]:
+    """Return the uppercase NCT ids that have an OMOP cohort SQL script in ``sql/``."""
+    directory = sql_dir or (REPO_ROOT / "sql")
+    if not directory.is_dir():
+        return set()
+    ids: set[str] = set()
+    for path in directory.iterdir():
+        match = _COHORT_SQL_FILE.match(path.name)
+        if match:
+            ids.add(match.group(1).upper())
+    if (directory / "02_cohorte.sql").is_file():
+        ids.update(cohorts.LEGACY_PREFIXES.values())
+    return ids
+
+
+def trial_catalog_dataframe(
+    manifest_path: Path | None = None,
+    sql_dir: Path | None = None,
+) -> pd.DataFrame:
+    """Build a searchable table of the ClinicalTrials.gov trials in the corpus manifest."""
+    path = manifest_path or corpus.MANIFEST_PATH
+    if not path.is_file():
+        return pd.DataFrame(columns=_CATALOG_COLUMNS)
+    data = json.loads(path.read_text(encoding="utf-8"))
+    with_cohort = cohort_trial_ids(sql_dir)
+    rows = []
+    for doc in data.get("documents", []):
+        if doc.get("source") != "clinicaltrials.gov":
+            continue
+        nct = str(doc.get("identifier", "")).upper()
+        if not nct:
+            continue
+        rows.append(
+            {
+                "NCT": nct,
+                "Título": str(doc.get("title", "")),
+                "Cohorte OMOP": "Sí" if nct in with_cohort else "Solo RAG",
+                "Nota": str(doc.get("note", "")),
+                "Rol": str(doc.get("role", "")),
+            }
+        )
+    df = pd.DataFrame(rows, columns=_CATALOG_COLUMNS)
+    if df.empty:
+        return df
+    return df.sort_values(
+        by=["Cohorte OMOP", "NCT"],
+        key=lambda col: col.map({"Sí": 0, "Solo RAG": 1}) if col.name == "Cohorte OMOP" else col,
+    ).reset_index(drop=True)
+
+
+def filter_trial_catalog(
+    df: pd.DataFrame,
+    query: str = "",
+    only_with_cohort: bool = False,
+) -> pd.DataFrame:
+    """Filter the trial catalog by cohort availability and free-text substring match."""
+    if df.empty:
+        return df
+    filtered = df[df["Cohorte OMOP"] == "Sí"] if only_with_cohort else df
+    term = query.strip().lower()
+    if not term:
+        return filtered.reset_index(drop=True)
+    mask = (
+        filtered["NCT"].str.lower().str.contains(term, regex=False)
+        | filtered["Título"].str.lower().str.contains(term, regex=False)
+        | filtered["Nota"].str.lower().str.contains(term, regex=False)
+        | filtered["Rol"].str.lower().str.contains(term, regex=False)
+    )
+    return filtered[mask].reset_index(drop=True)
 
 
 def _render_cohort_response(st: Any, response: assistant.Response) -> None:
@@ -307,6 +385,32 @@ def render_app() -> None:
         "Escribe tus consultas **en inglés** (el corpus de ClinicalTrials.gov y el enrutador "
         "de cohortes están validados en inglés). Cada consulta se evalúa de forma independiente."
     )
+
+    catalog = trial_catalog_dataframe()
+    if not catalog.empty:
+        n_cohorts = int((catalog["Cohorte OMOP"] == "Sí").sum())
+        with st.expander(
+            f"📚 Catálogo de ensayos del corpus ({len(catalog)} NCTs · {n_cohorts} con cohorte OMOP)"
+        ):
+            col_search, col_filter = st.columns([3, 1])
+            search_term = col_search.text_input(
+                "Buscar por NCT, biomarcador, fármaco o título",
+                placeholder="Ej. HER2, CLDN18, PD-L1, ToGA, NCT061...",
+                key="catalog_search",
+            )
+            only_cohorts = col_filter.checkbox(
+                f"Solo con cohorte OMOP ({n_cohorts})",
+                value=False,
+                key="catalog_only_cohorts",
+            )
+            filtered = filter_trial_catalog(
+                catalog, query=search_term, only_with_cohort=only_cohorts
+            )
+            st.caption(
+                f"Mostrando {len(filtered)} de {len(catalog)} ensayos clínicos "
+                "(copia cualquier NCT y pégalo en la caja de chat)."
+            )
+            st.dataframe(filtered, use_container_width=True, hide_index=True)
 
     for entry in st.session_state.messages:
         with st.chat_message(entry["role"]):
