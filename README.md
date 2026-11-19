@@ -28,9 +28,9 @@ Filters applied (attrition): ...
   vistas SQL de cohorte, con su tabla de atrición. El LLM no escribe SQL ni toca los números.
 - Las dos rutas se eligen por palabras clave (en inglés) y el NCT de la pregunta.
 
-**Estado (2026-11-17):** corpus, índice, ground truth de 40 preguntas, 8 cohortes, asistente y evaluaciones
-hechos. Resultados y límites en [`docs/protocolo.md`](docs/protocolo.md) §7 y en
-[`eval/results/`](eval/results/). Pendiente: una interfaz gráfica y la re-anotación a ciegas del ground truth.
+**Estado (2026-11-19):** corpus, índice, ground truth de 40 preguntas, 8 cohortes, asistente (CLI e interfaz
+web local con Streamlit) y evaluaciones hechos. Resultados y límites en [`docs/protocolo.md`](docs/protocolo.md) §7 y en
+[`eval/results/`](eval/results/). Pendiente: la re-anotación a ciegas del ground truth.
 
 ## Requisitos
 
@@ -66,6 +66,17 @@ make ask Q="What is the HER2 requirement in trial NCT06123494?"
 modificado; es esperado y no cambia los hashes. Sin el paso del corpus, el índice solo tendría las 49 fichas del repositorio y las preguntas basadas en los
 resúmenes de PubMed no se podrían responder. `make llm-up` / `make llm-down` arrancan y paran el servidor del
 LLM (puerto 11500, en segundo plano). `make ask-text Q="…"` muestra además los fragmentos recuperados.
+
+### Interfaz web local (opcional, Streamlit)
+
+Para usar el asistente desde el navegador en lugar de la consola (solo en `127.0.0.1`, sin telemetría):
+
+```bash
+.venv/bin/pip install -e ".[ui]"   # instala Streamlit una sola vez (extra opcional)
+make ui                             # abre http://127.0.0.1:8501
+```
+
+La interfaz consume directamente `assistant.ask()`, muestra si cada respuesta vino de una cohorte OMOP (con tabla de atrición) o del RAG (con citas verificadas y fragmentos desplegables) e incluye preguntas de demostración en inglés.
 
 ## Ruta completa: datos sintéticos, OMOP y cohortes
 
@@ -151,7 +162,7 @@ make review-evaluable                   # lista criterios cuyo flag `evaluable` 
 | `etl/` | ETL-Synthea (R, en Docker), índices del CDM y pasos posteriores al ETL |
 | `sql/` | Conjuntos de conceptos, cohorte piloto de zolbetuximab y una cohorte SQL por ensayo (`cohort_*.sql`) |
 | `corpus/` | Selección, manifiesto (SHA-256) y las fichas recortadas de ClinicalTrials.gov |
-| `src/oncology_assistant/` | Paquete: `assistant.py` (enrutado), `rag.py`, `hybrid.py`, `embedders.py`, `cohorts.py`, `chunking.py`, `index.py`, `corpus.py`, `ground_truth.py` y las evaluaciones (`eval_*.py`) |
+| `src/oncology_assistant/` | Paquete: `assistant.py` (enrutado), `ui.py` (interfaz web local con Streamlit), `rag.py`, `hybrid.py`, `embedders.py`, `cohorts.py`, `chunking.py`, `index.py`, `corpus.py`, `ground_truth.py` y las evaluaciones (`eval_*.py`) |
 | `tests/` | pytest; la marca `db` pide la base OMOP cargada |
 | `eval/` | Ground truth, resultados versionados (`results/`) y la prueba de motores (`spike/`) |
 | `docs/` | Protocolo, ADR, diccionario de datos, guía de anotación, limitaciones, política de uso y uso de IA |

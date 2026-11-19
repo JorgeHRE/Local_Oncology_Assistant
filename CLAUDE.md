@@ -121,7 +121,7 @@ Local_Oncology_Assistant/
 │   ├── 01_concept_sets.sql   # ✅ conjuntos de conceptos (esquema `results`)
 │   ├── 02_cohorte.sql        # ✅ cohorte piloto de zolbetuximab + tabla de atrición
 │   └── 03_features.sql       # ⚠️ no existe aún
-├── src/oncology_assistant/  # ✅ db.py, synthea_codes.py, corpus.py, chunking.py, index.py, ground_truth.py, rag.py, hybrid.py, embedders.py, eval_retrieval.py, cohorts.py, assistant.py
+├── src/oncology_assistant/  # ✅ db.py, synthea_codes.py, corpus.py, chunking.py, index.py, ground_truth.py, rag.py, hybrid.py, embedders.py, eval_retrieval.py, cohorts.py, assistant.py, ui.py
 ├── tests/                  # ✅ pytest; marca `db` para tests contra la base OMOP
 ├── synthea/                 # ✅ configuración de Synthea: keep modules, módulo gástrico y su generador
 ├── notebooks/               # exploración únicamente, nunca lógica de producción
@@ -279,7 +279,7 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
 
 *(actualizar después de cada sesión de trabajo)*
 
-- **Última actualización:** 2026-11-18 — licencia Apache-2.0 (`LICENSE`, `NOTICE`), ruta rápida del README probada en un clon limpio y demo ensayada dos veces en la máquina del autor (4 preguntas, ~2–3 s cada una con el modelo caliente). Antes (2026-11-17): ground truth completo (40/40), RAG y asistente funcionando, evaluaciones y corrida única sobre `test` hechas, protocolo v2 con las cuatro decisiones, documentación de cumplimiento (uso de IA, política de uso, limitaciones, README). Antes (2026-11-04): población regenerada (1 360 pacientes) con CLDN18.2 33 % y ciclos por esquema; antes: módulo gástrico, población de 1 340 pacientes generada y
+- **Última actualización:** 2026-11-19 — interfaz web local con Streamlit (`src/oncology_assistant/ui.py`, extra opcional `[ui]`, `make ui` en `127.0.0.1` sin telemetría, y pruebas unitarias en `tests/test_ui.py` que corren en CI sin instalar Streamlit). Antes (2026-11-18): licencia Apache-2.0 (`LICENSE`, `NOTICE`), ruta rápida del README probada en un clon limpio y demo ensayada dos veces en la máquina del autor (4 preguntas, ~2–3 s cada una con el modelo caliente). Antes (2026-11-17): ground truth completo (40/40), RAG y asistente funcionando, evaluaciones y corrida única sobre `test` hechas, protocolo v2 con las cuatro decisiones, documentación de cumplimiento (uso de IA, política de uso, limitaciones, README). Antes (2026-11-04): población regenerada (1 360 pacientes) con CLDN18.2 33 % y ciclos por esquema; antes: módulo gástrico, población de 1 340 pacientes generada y
   cargada en OMOP con el ETL completo; flujo reproducible con Docker y `make` (PR #1 y #2).
 - **Hito actual del curso:** Sesiones 10 y 18 completadas; el trabajo está en la fase de **entrega** (Sesión 30:
   repositorio final, viernes 20 por la noche o sábado 21 temprano) y **presentación** (Sesión 31: 12 min + 5).
@@ -367,7 +367,7 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
 - **Pendiente antes de la entrega (en orden):**
   1. ~~Ensayar la demostración dos veces~~ (hecho el 2026-11-18; material personal en `presentacion/`, ignorado por git).
   2. Entregar el repositorio final (viernes 20 por la noche o sábado 21 temprano).
-  3. Opcionales: interfaz web mínima, ejemplos negativos en el prompt de extracción (`evaluable` es la debilidad
+  3. Opcionales: ~~interfaz web mínima~~ (`ui.py` + `make ui`, 2026-11-19), ejemplos negativos en el prompt de extracción (`evaluable` es la debilidad
      medida), enrutado en español, `.pytest_cache`/`.ruff_cache` en `.gitignore`.
 - **Pendiente metodológico (declarado en `docs/LIMITACIONES.md`, no cabe antes de la entrega):** re-anotación a
   ciegas de 10 preguntas (≥ una semana después) y κ de Cohen; recálculo independiente con pandas de siete
