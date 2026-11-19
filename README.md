@@ -45,7 +45,8 @@ hechos. Resultados y límites en [`docs/protocolo.md`](docs/protocolo.md) §7 y 
 - Una cuenta gratuita en [Athena (OHDSI)](https://athena.ohdsi.org) para el vocabulario (solo si construyes
   la base OMOP; ver abajo).
 
-Todo se probó únicamente en la máquina de desarrollo.
+La ruta completa (Docker, ETL) y la descarga real de los modelos solo se probaron en la máquina de desarrollo. La ruta
+rápida también se probó el 18 de noviembre de 2026 en un clon limpio y en un contenedor Ubuntu 24.04 sin GPU.
 
 ## Ruta rápida: solo el asistente sobre los textos (sin Docker ni base de datos)
 
