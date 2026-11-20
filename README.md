@@ -28,6 +28,17 @@ Filters applied (attrition): ...
   vistas SQL de cohorte, con su tabla de atrición. El LLM no escribe SQL ni toca los números.
 - Las dos rutas se eligen por palabras clave (en inglés) y el NCT de la pregunta.
 
+### Caso de uso: repetir un estudio con otra cohorte
+
+Los criterios de elegibilidad de cada ensayo viven en SQL versionado sobre OMOP (`sql/`), no dentro del modelo de
+lenguaje. Por eso la misma definición de cohorte se puede volver a ejecutar sobre otra población OMOP y comparar los
+resultados, con su tabla de atrición, que dice cuántos pacientes se pierden en cada filtro y por qué. Repetir un
+estudio de viabilidad con cohortes distintas es una tarea habitual en investigación clínica.
+
+Esto es una propiedad de diseño, **no está probada**: solo se ha ejecutado contra la población sintética de
+Synthea, y los *concept sets* (por ejemplo CLDN18.2 ≈ LOINC 105011-1) pueden no coincidir con la codificación de
+datos reales. Ver [`docs/LIMITACIONES.md`](docs/LIMITACIONES.md).
+
 **Estado (2026-11-19):** corpus, índice, ground truth de 40 preguntas, 8 cohortes, asistente (CLI e interfaz
 web local con Streamlit) y evaluaciones hechos. Resultados y límites en [`docs/protocolo.md`](docs/protocolo.md) §7 y en
 [`eval/results/`](eval/results/). Pendiente: la re-anotación a ciegas del ground truth.
