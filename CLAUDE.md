@@ -143,11 +143,11 @@ Cuando crees un archivo o carpeta de esta lista, actualiza este árbol quitando 
 
 ## 5. Checklist de requisitos mínimos del curso (todas las modalidades)
 
-- [x] Historial de commits real: 62 commits (sin merges) y 37 PR entre 2026-09-17 y 2026-11-18 (cifras al 2026-11-18; crecen con cada cambio)
+- [x] Historial de commits real: 71 commits (sin merges) y 41 PR entre 2026-09-17 y 2026-11-20 (cifras al 2026-11-20; crecen con cada cambio)
 - [x] `README.md` que permita a un tercero reproducir el trabajo (ruta rápida probada el 2026-11-18 en un clon limpio y en un contenedor Ubuntu 24.04 solo con CPU, que destapó que faltaba `python3-venv`; la ruta completa y la descarga real de modelos no se han probado desde cero)
 - [x] Entorno containerizado (`Dockerfile` o `compose.yml`)
 - [x] Al menos una definición de cohorte en SQL sobre OMOP, documentada (`docs/cohorte-zolbetuximab.md`; 8 cohortes en `sql/`)
-- [x] Pruebas automáticas con pytest y CI en GitHub Actions (160 tests; ruff + pytest en Python 3.10 y 3.12)
+- [x] Pruebas automáticas con pytest y CI en GitHub Actions (168 tests: 136 corren en CI y 32 de marca `db` necesitan la base; ruff + pytest en Python 3.10 y 3.12)
 - [x] Diccionario de datos / documentación de variables (`docs/features.md`)
 - [x] Sección de limitaciones escrita honestamente (`docs/LIMITACIONES.md`, completada el 2026-11-17)
 - [x] Declaración de uso de asistentes de IA (`docs/USO_DE_IA.md`): Gemini y Claude Code, con el reparto de tareas y las licencias
@@ -279,10 +279,12 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
 
 *(actualizar después de cada sesión de trabajo)*
 
-- **Última actualización:** 2026-11-19 — interfaz web local con Streamlit (`src/oncology_assistant/ui.py`, extra opcional `[ui]`, `make ui` en `127.0.0.1` sin telemetría, y pruebas unitarias en `tests/test_ui.py` que corren en CI sin instalar Streamlit). Antes (2026-11-18): licencia Apache-2.0 (`LICENSE`, `NOTICE`), ruta rápida del README probada en un clon limpio y demo ensayada dos veces en la máquina del autor (4 preguntas, ~2–3 s cada una con el modelo caliente). Antes (2026-11-17): ground truth completo (40/40), RAG y asistente funcionando, evaluaciones y corrida única sobre `test` hechas, protocolo v2 con las cuatro decisiones, documentación de cumplimiento (uso de IA, política de uso, limitaciones, README). Antes (2026-11-04): población regenerada (1 360 pacientes) con CLDN18.2 33 % y ciclos por esquema; antes: módulo gástrico, población de 1 340 pacientes generada y
+- **Última actualización:** 2026-11-20 — un médico investigador del hospital 20 de Noviembre vio el proyecto funcionando y lo valoró de forma **informal** (no es una validación formal; sin nombre en el repo): destacó la generación de cohortes y poder repetir un estudio con cohortes distintas. Se documentó como caso de uso en el `README.md` y se declaró en `docs/LIMITACIONES.md` que esa portabilidad **no está probada** (PR #41). Se abrió la posibilidad de una conversación exploratoria con el jefe de oncología clínica del hospital: cualquier uso con datos reales exigiría aprobación ética y de gobernanza (§7). Antes (2026-11-19): interfaz web local con Streamlit (`src/oncology_assistant/ui.py`, extra opcional `[ui]`, `make ui` en `127.0.0.1` sin telemetría, y pruebas unitarias en `tests/test_ui.py` que corren en CI sin instalar Streamlit). Antes (2026-11-18): licencia Apache-2.0 (`LICENSE`, `NOTICE`), ruta rápida del README probada en un clon limpio y demo ensayada dos veces en la máquina del autor (4 preguntas, ~2–3 s cada una con el modelo caliente). Antes (2026-11-17): ground truth completo (40/40), RAG y asistente funcionando, evaluaciones y corrida única sobre `test` hechas, protocolo v2 con las cuatro decisiones, documentación de cumplimiento (uso de IA, política de uso, limitaciones, README). Antes (2026-11-04): población regenerada (1 360 pacientes) con CLDN18.2 33 % y ciclos por esquema; antes: módulo gástrico, población de 1 340 pacientes generada y
   cargada en OMOP con el ETL completo; flujo reproducible con Docker y `make` (PR #1 y #2).
 - **Hito actual del curso:** Sesiones 10 y 18 completadas; el trabajo está en la fase de **entrega** (Sesión 30:
-  repositorio final, viernes 20 por la noche o sábado 21 temprano) y **presentación** (Sesión 31: 12 min + 5).
+  repositorio final, viernes 20 por la noche o sábado 21 temprano) y **presentación** (Sesión 31: 12 min + 5; al
+  2026-11-20 sin fecha confirmada; el material personal está en `presentacion/`, ignorado por git). Al 2026-11-20,
+  `main` incluye todo el trabajo y el CI pasa; el trabajo restante es entregar y preparar la presentación.
 - **Completado:**
   - Estructura básica, `pyproject.toml`, `.gitignore`, `docs/protocolo.md`.
   - Paquete renombrado a `oncology_assistant`.
@@ -367,6 +369,7 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
 - **Pendiente antes de la entrega (en orden):**
   1. ~~Ensayar la demostración dos veces~~ (hecho el 2026-11-18; material personal en `presentacion/`, ignorado por git).
   2. Entregar el repositorio final (viernes 20 por la noche o sábado 21 temprano).
+  2b. Armar la presentación (12 min + 5; guion en `presentacion/GUION_12MIN.md`).
   3. Opcionales: ~~interfaz web mínima~~ (`ui.py` + `make ui`, 2026-11-19), ejemplos negativos en el prompt de extracción (`evaluable` es la debilidad
      medida), enrutado en español, `.pytest_cache`/`.ruff_cache` en `.gitignore`.
 - **Pendiente metodológico (declarado en `docs/LIMITACIONES.md`, no cabe antes de la entrega):** re-anotación a
@@ -383,8 +386,8 @@ docker compose --profile etl run --rm etl Rscript /etl/create_indices.R   # solo
 | 10 | Propuesta de 1 página (✅ hecho) |
 | 18 | Cohorte definida, implementada y con tabla de atrición (✅ hecho) |
 | 24 | Avance intermedio: revisión de 15 min con el profesor |
-| 30 | Entrega del repositorio final ← **en curso** (viernes 20 por la noche o sábado 21 temprano); al 2026-11-18 solo falta entregar |
-| 31 | Presentación de 12 min + 5 de preguntas |
+| 30 | Entrega del repositorio final ← **en curso** (viernes 20 por la noche o sábado 21 temprano); al 2026-11-20 solo falta entregar |
+| 31 | Presentación de 12 min + 5 de preguntas (fecha por confirmar) |
 
 ---
 
